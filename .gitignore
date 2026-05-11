@@ -1,0 +1,33 @@
+# 機密情報
+secrets.local.md
+*.local.md
+.env
+.env.local
+
+# WP棚卸し（管理画面スクショ・HTML・取得データは公開しない）
+wp-inventory/screenshots/
+wp-inventory/html/
+wp-inventory/data/
+wp-inventory/node_modules/
+wp-inventory/package-lock.json
+
+# バックアップ
+backup_*/
+*.sql
+*.sql.gz
+*.tar.gz
+*.zip
+
+# Node
+node_modules/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# エディタ
+.vscode/
+.idea/
+*.swp
+*.swo
