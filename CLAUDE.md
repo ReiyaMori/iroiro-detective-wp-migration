@@ -244,6 +244,14 @@
 - [x] れーやから追加2点質問送信（FTP期日・SWELL請求方式 / 5/11）
 - [x] 先方より2点回答受領（SWELL請求CW手数料込みOK / FTPは確認中・期日不明 / 5/11夜）
 - [x] **reply-0511-chatwork-2.md 送信完了**（3点優先確認: 移管対象20P/WPアップデート了承/配色2案 + 補足: GA4・CF7・FTP / 5/12送信）
+- [x] **先方確認待ちの先行素材取得完了（5/12）**:
+  - 公開側20P PC/SP全スクショ取得（`wp-inventory/screenshots/public/` 40枚・24MB）
+  - 公開側20P HTMLダンプ（`wp-inventory/html/public/` 20件・1MB）
+  - WXR XMLエクスポート5種（`wp-inventory/data/wxr/` 全コンテンツ1.77MB/固定P/投稿/添付/TablePress・計3.3MB）
+  - 全20P 本文HTMLソース（REST API context=edit 経由・`wp-inventory/data/pages/` 計416KB）
+  - メディアライブラリ306/308件ダウンロード（`wp-inventory/data/media/` 41MB・404は2件のみ）
+  - これらで実用バックアップは確保済。BackWPupによる「テーマ・プラグインファイル＋wp_options等の真のフルバックアップ」は WP本体アップデート直前に実施予定
+- 棚卸し・素材取得スクリプト3本: `inventory.mjs`（管理画面棚卸し）`public-screenshots.mjs`（公開側スクショ）`export-content.mjs`（XML+本文）`download-media.mjs`（メディア）
 - [ ] **trust-supply.com 公開側の確認**（業態・既存デザインの把握）
 - [ ] **WP管理画面ログイン → 既存サイト全棚卸し**:
   - WordPress バージョン / PHP バージョン / SWELL要件（PHP 7.4+ / WP 5.9+）との互換性確認
