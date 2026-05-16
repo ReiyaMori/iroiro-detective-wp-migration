@@ -277,6 +277,7 @@
 - ✅ **完全バックアップ確保**: BackWPup フルアーカイブ `backup_20260516/OTS_full_2026-05-16_0228.zip`（117MB・DB13.4MB SQL＋全ファイル＋WXR）＋ FTP mirror（`backup_20260516/ftp_mirror/`）
 - ✅ **「左読み」確定**: 参考サイト otsdetective のFVが右→左出現アニメ＝標準の日本語縦書き（れーや5/16確認）。プロト `writing-mode: vertical-rl` は正しい・手戻りなし
 - ✅ **reply-0516-chatwork.md 送信完了（5/16・れーや手動送信）**: サーバー情報受領のお礼＋FV原稿全文反映報告＋プロトタイプ比較URL＋確認依頼（①A/B方向性 ②書体印象 ③FV細部）→ **先方A/B選択待ち**
+- ✅ **プロトタイプを提示クオリティへ引き上げ＋再デプロイ（5/16・送信後）**: 「ラフすぎる」懸念対応。Gemini画像生成でFV雰囲気背景を作成（Plan A=和紙クリーム×暖光 fv-a.jpg 41KB / Plan B=墨黒×残照 fv-b.jpg 118KB・`site/proto/assets/`）。①②③丸数字を自作SVGラインアイコン6種に置換。**Plan B のFVをダーク化**（墨背景＋光文字＋金罫）して「Plan A=明るい親しみ／Plan B=重厚な信頼」の対比を明確化＝A/B選択が意味を持つ構成に。**URL不変**（https://reiyamori.github.io/iroiro-detective-wp-migration/ ）のため先方は受領済リンクで自動的に新版を見る＝**reply再送不要**。ライブ実機スクショで両案表示確認済。コミット170b9c6・push済。検証スクリプト `wp-inventory/shot-proto.mjs`/`shot-live.mjs`
 
 ### 5/11受領済（過去分）
 - ✅ **WordPress 管理画面アクセス情報** → trust-supply.com / 認証情報は `secrets.local.md`
