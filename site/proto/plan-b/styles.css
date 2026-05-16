@@ -1,0 +1,664 @@
+/* OTS探偵社 プロトタイプ Plan B — チラシ系オレンジ＋墨黒で重心を下げる（明朝） */
+
+:root {
+  --primary: #D06112;
+  --primary-deep: #972C00;
+  --cream: #FFFBF0;
+  --cream-2: #F5EFE2;
+  --gold: #DEA57D;
+  --gold-soft: #E8C8A8;
+  --sumi: #1F1A17;
+  --sumi-2: #2A2421;
+  --sumi-line: #3A332E;
+  --body: #1A1A1A;
+  --body-sub: #5A5450;
+  --line: #E3D9C5;
+  --paper-shadow: 0 6px 32px rgba(31, 26, 23, 0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "BIZ UDPMincho", "Yu Mincho", "游明朝", "Hiragino Mincho ProN", "ＭＳ Ｐ明朝", serif;
+  font-weight: 400;
+  color: var(--body);
+  background: var(--cream);
+  line-height: 1.95;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "palt";
+}
+
+a { color: inherit; text-decoration: none; }
+
+.serif-display {
+  font-family: "Klee One", "BIZ UDPMincho", "Yu Mincho", serif;
+  font-weight: 600;
+}
+
+/* ===== Header ===== */
+.site-header {
+  background: rgba(255, 251, 240, 0.96);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 18px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.brand {
+  font-family: "Klee One", "BIZ UDPMincho", serif;
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: 0.1em;
+  color: var(--sumi);
+}
+.brand small {
+  display: block;
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  color: var(--primary);
+  margin-top: 4px;
+}
+.nav-list {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+.nav-list a {
+  color: var(--sumi);
+  padding: 8px 0;
+  position: relative;
+  transition: color .2s;
+}
+.nav-list a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
+  background: var(--primary);
+  transform: scaleX(0);
+  transition: transform .2s;
+}
+.nav-list a:hover { color: var(--primary); }
+.nav-list a:hover::after { transform: scaleX(1); }
+.tel-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  transition: background .2s, color .2s;
+}
+.tel-link::before { content: "☎"; font-size: 16px; }
+.tel-link:hover { background: var(--primary); color: #fff; }
+
+/* ===== Hero（縦書きFV／左読み・梅木代表メッセージ） ===== */
+.hero {
+  background:
+    radial-gradient(ellipse at 80% 10%, rgba(208,97,18,0.05) 0%, transparent 60%),
+    var(--cream);
+  padding: 72px 28px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 48px;
+  right: 6vw;
+  width: 1px;
+  height: calc(64vh + 60px);
+  background: var(--gold);
+  opacity: 0.35;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  bottom: 64px;
+  left: 6vw;
+  width: 1px;
+  height: 80px;
+  background: var(--gold);
+  opacity: 0.35;
+}
+.hero-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  position: relative;
+}
+.hero-eyebrow {
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-size: 13px;
+  letter-spacing: 0.4em;
+  color: var(--primary);
+  text-transform: uppercase;
+  margin: 0;
+}
+.hero-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-family: "Klee One", "BIZ UDPMincho", "Yu Mincho", "游明朝", serif;
+  font-feature-settings: "palt";
+  height: clamp(540px, 66vh, 700px);
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+  gap: 52px;
+  padding: 28px 8px;
+}
+.hv-block {
+  line-height: 2.45;
+  letter-spacing: 0.18em;
+  color: var(--sumi);
+  font-weight: 400;
+}
+.hv-lead {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--sumi);
+  letter-spacing: 0.22em;
+  line-height: 2.4;
+  position: relative;
+}
+.hv-lead::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -18px;
+  width: 1px;
+  height: 60px;
+  background: var(--primary-deep);
+}
+.hv-call {
+  font-size: 18.5px;
+  color: var(--sumi);
+  line-height: 2.55;
+}
+.hv-close {
+  font-size: 17px;
+  color: var(--body-sub);
+  line-height: 2.55;
+}
+.hv-sign {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 12.5px;
+  letter-spacing: 0.3em;
+  color: var(--body-sub);
+  padding-top: 4px;
+}
+.hv-sign-label {
+  border-right: 1px solid var(--gold);
+  padding-right: 12px;
+  line-height: 2.2;
+  font-family: "BIZ UDPMincho", serif;
+}
+.hv-sign-name {
+  font-size: 19px;
+  color: var(--sumi);
+  font-weight: 600;
+  letter-spacing: 0.45em;
+  font-family: "Klee One", "BIZ UDPMincho", serif;
+}
+.hero-cta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 36px;
+  font-weight: 600;
+  font-size: 15.5px;
+  letter-spacing: 0.08em;
+  transition: transform .15s, background .2s, color .2s;
+  cursor: pointer;
+  font-family: "BIZ UDPMincho", serif;
+}
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  border: 1px solid var(--primary);
+}
+.btn-primary:hover { background: var(--primary-deep); border-color: var(--primary-deep); }
+.btn-outline {
+  border: 1px solid var(--sumi);
+  color: var(--sumi);
+  background: transparent;
+}
+.btn-outline:hover { background: var(--sumi); color: var(--cream); }
+
+.hero-visual {
+  background:
+    linear-gradient(135deg, var(--sumi) 0%, var(--sumi-2) 100%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-size: 13px;
+  letter-spacing: 0.2em;
+}
+.hero-visual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 20px, rgba(222,165,125,0.04) 20px 21px);
+}
+.hero-visual::after {
+  content: "FV ビジュアル枠（写真差し替え予定）";
+  position: relative;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+/* ===== Section ===== */
+.section {
+  padding: 120px 28px;
+}
+.section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.section-head {
+  text-align: center;
+  margin-bottom: 70px;
+}
+.section-label {
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-size: 13px;
+  letter-spacing: 0.4em;
+  color: var(--primary);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+.section-title {
+  font-family: "Klee One", "BIZ UDPMincho", serif;
+  font-size: 38px;
+  font-weight: 600;
+  color: var(--sumi);
+  letter-spacing: 0.08em;
+  line-height: 1.55;
+}
+.section-title::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+  margin: 28px auto 0;
+}
+
+/* ===== 想い (墨黒セクション) ===== */
+.message {
+  background: var(--sumi);
+  color: var(--cream);
+  position: relative;
+}
+.message::before, .message::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.message::before { top: 0; }
+.message::after { bottom: 0; }
+.message .section-title { color: var(--cream); }
+.message .section-label { color: var(--gold); }
+.message-body {
+  font-family: "Klee One", "BIZ UDPMincho", serif;
+  font-size: 21px;
+  line-height: 2.4;
+  color: var(--cream);
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  letter-spacing: 0.06em;
+}
+.message-body p + p { margin-top: 1.8em; }
+.message-body strong {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+/* ===== サービス ===== */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+.service-card {
+  background: var(--cream);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 44px 32px;
+  transition: background .2s;
+}
+.service-card:hover {
+  background: var(--cream-2);
+}
+.service-icon {
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-size: 32px;
+  color: var(--primary);
+  margin-bottom: 20px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+.service-card h3 {
+  font-family: "Klee One", "BIZ UDPMincho", serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--sumi);
+  margin-bottom: 16px;
+  letter-spacing: 0.06em;
+}
+.service-card p {
+  font-size: 14.5px;
+  color: var(--body-sub);
+  line-height: 1.95;
+}
+
+/* ===== 選ばれる理由 ===== */
+.reasons {
+  background: var(--cream-2);
+}
+.reasons-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
+.reason-item {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  padding: 8px 0;
+}
+.reason-num {
+  flex-shrink: 0;
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-size: 48px;
+  font-weight: 500;
+  color: var(--primary);
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+.reason-body h3 {
+  font-family: "Klee One", "BIZ UDPMincho", serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--sumi);
+  margin-bottom: 12px;
+  letter-spacing: 0.06em;
+}
+.reason-body p {
+  font-size: 15px;
+  color: var(--body-sub);
+  line-height: 1.95;
+}
+
+/* ===== 流れ ===== */
+.flow-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+.flow-step {
+  padding: 36px 24px;
+  border-right: 1px solid var(--line);
+  text-align: center;
+  position: relative;
+}
+.flow-step:last-child { border-right: none; }
+.flow-step .step-no {
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-size: 14px;
+  letter-spacing: 0.3em;
+  color: var(--primary);
+  margin-bottom: 18px;
+  display: block;
+}
+.flow-step h3 {
+  font-family: "Klee One", "BIZ UDPMincho", serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--sumi);
+  margin-bottom: 14px;
+  letter-spacing: 0.06em;
+}
+.flow-step p {
+  font-size: 13.5px;
+  color: var(--body-sub);
+  line-height: 1.85;
+}
+
+/* ===== 料金 ===== */
+.price {
+  background: var(--cream-2);
+}
+.price-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--cream);
+  border: 1px solid var(--line);
+}
+.price-table th, .price-table td {
+  padding: 22px 28px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  font-size: 15px;
+}
+.price-table th {
+  background: var(--sumi);
+  color: var(--cream);
+  font-weight: 500;
+  font-family: "Klee One", "BIZ UDPMincho", serif;
+  letter-spacing: 0.1em;
+}
+.price-table tr:last-child td { border-bottom: none; }
+.price-table td:last-child {
+  color: var(--primary-deep);
+  font-weight: 600;
+  font-family: "Klee One", "BIZ UDPMincho", serif;
+}
+.price-note {
+  text-align: center;
+  color: var(--body-sub);
+  font-size: 13.5px;
+  margin-top: 20px;
+}
+
+/* ===== CTA ===== */
+.cta {
+  background: var(--sumi);
+  color: var(--cream);
+  text-align: center;
+}
+.cta::before, .cta::after {
+  content: "";
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.cta .section-title { color: var(--cream); }
+.cta .section-label { color: var(--gold); }
+.cta-lead {
+  font-size: 18px;
+  margin: 28px 0 44px;
+  line-height: 2.1;
+  color: var(--cream);
+  opacity: 0.92;
+}
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.cta-buttons .btn-primary {
+  background: var(--primary);
+  color: var(--cream);
+  border-color: var(--primary);
+}
+.cta-buttons .btn-outline {
+  border-color: var(--cream);
+  color: var(--cream);
+  background: transparent;
+}
+.cta-buttons .btn-outline:hover { background: var(--cream); color: var(--sumi); }
+
+/* ===== Footer ===== */
+.site-footer {
+  background: var(--sumi-2);
+  color: var(--cream);
+  padding: 70px 28px 28px;
+  text-align: center;
+}
+.footer-brand {
+  font-family: "Klee One", "BIZ UDPMincho", serif;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  letter-spacing: 0.1em;
+  color: var(--cream);
+}
+.footer-text {
+  font-size: 13.5px;
+  opacity: 0.85;
+  line-height: 2.1;
+}
+.footer-copy {
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: 1px solid var(--sumi-line);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  opacity: 0.6;
+}
+
+/* ===== Subpage ===== */
+.subhero {
+  background: var(--cream-2);
+  padding: 90px 28px 70px;
+  border-bottom: 1px solid var(--line);
+}
+.subhero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.breadcrumb {
+  font-size: 13px;
+  color: var(--body-sub);
+  margin-bottom: 24px;
+  letter-spacing: 0.06em;
+}
+.breadcrumb a { color: var(--primary); }
+.breadcrumb a:hover { text-decoration: underline; }
+.subhero h1 {
+  font-family: "Klee One", "BIZ UDPMincho", serif;
+  font-size: 40px;
+  font-weight: 600;
+  color: var(--sumi);
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.subhero p {
+  font-size: 16px;
+  color: var(--body-sub);
+  line-height: 1.95;
+}
+
+/* ===== Worries ===== */
+.worries-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+.worries-list li {
+  background: var(--cream);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 22px 28px;
+  list-style: none;
+  font-family: "Klee One", "BIZ UDPMincho", serif;
+  font-weight: 500;
+  color: var(--sumi);
+  letter-spacing: 0.05em;
+  position: relative;
+  padding-left: 56px;
+}
+.worries-list li::before {
+  content: "□";
+  position: absolute;
+  left: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 880px) {
+  .header-inner { flex-wrap: wrap; gap: 12px; padding: 14px 20px; }
+  .nav-list { display: none; }
+  .hero { padding: 52px 18px 64px; }
+  .hero::before, .hero::after { display: none; }
+  .hero-inner { gap: 24px; }
+  .hero-vertical {
+    height: clamp(440px, 62vh, 560px);
+    gap: 32px;
+    padding: 18px 4px;
+  }
+  .hv-lead { font-size: 20px; letter-spacing: 0.16em; line-height: 2.3; }
+  .hv-call { font-size: 15.5px; line-height: 2.35; }
+  .hv-close { font-size: 14.5px; line-height: 2.35; }
+  .hv-sign-name { font-size: 16px; letter-spacing: 0.35em; }
+  .hv-sign-label { font-size: 11px; }
+  .section { padding: 80px 20px; }
+  .section-title { font-size: 28px; }
+  .services-grid { grid-template-columns: 1fr; border-left: none; }
+  .service-card { border-right: none; }
+  .reasons-grid { grid-template-columns: 1fr; gap: 28px; }
+  .flow-steps { grid-template-columns: 1fr 1fr; }
+  .flow-step { border-right: none; border-bottom: 1px solid var(--line); }
+  .worries-list { grid-template-columns: 1fr; border-left: none; }
+  .worries-list li { border-right: none; }
+  .message-body { font-size: 17px; }
+}
