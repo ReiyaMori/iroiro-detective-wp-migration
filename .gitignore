@@ -4,6 +4,10 @@ secrets.local.md
 .env
 .env.local
 
+# 客先素材・往復文（リポジトリがPublicのため公開しない・ローカル保持のみ）
+reference/flyer/
+reply-*.md
+
 # WP棚卸し（管理画面スクショ・HTML・取得データは公開しない）
 wp-inventory/screenshots/
 wp-inventory/html/
