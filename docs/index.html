@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>OTS探偵社 サイト配色プロトタイプ 2案比較</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #D06112;
+  --deep: #972C00;
+  --cream: #FFFBF0;
+  --cream-2: #F5EFE2;
+  --gold: #DEA57D;
+  --sumi: #1F1A17;
+  --body: #1A1A1A;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Zen Maru Gothic", -apple-system, sans-serif;
+  background: var(--cream);
+  color: var(--body);
+  line-height: 1.85;
+  padding: 60px 28px;
+}
+.container { max-width: 1100px; margin: 0 auto; }
+.intro {
+  text-align: center;
+  margin-bottom: 60px;
+}
+.intro h1 {
+  font-size: 32px;
+  color: var(--deep);
+  margin-bottom: 12px;
+  letter-spacing: 0.06em;
+}
+.intro p { color: #555; font-size: 15px; line-height: 2; }
+.proto-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 80px;
+}
+.proto-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #E8DEC8;
+  box-shadow: 0 4px 24px rgba(151,44,0,0.06);
+  display: flex;
+  flex-direction: column;
+}
+.proto-thumb {
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: 0.12em;
+}
+.proto-a .proto-thumb {
+  background: linear-gradient(135deg, #D06112 0%, #B0510F 100%);
+  color: #fff;
+}
+.proto-b .proto-thumb {
+  background: linear-gradient(135deg, #1F1A17 0%, #2A2421 100%);
+  color: #DEA57D;
+  font-family: "Klee One", serif;
+}
+.proto-body { padding: 32px; flex: 1; display: flex; flex-direction: column; }
+.proto-tag {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.proto-body h2 {
+  font-size: 22px;
+  color: var(--deep);
+  margin-bottom: 16px;
+  letter-spacing: 0.04em;
+}
+.proto-meta {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 16px;
+  line-height: 2;
+}
+.proto-meta strong { color: var(--body); font-weight: 700; }
+.proto-pros, .proto-cons {
+  font-size: 13.5px;
+  line-height: 1.95;
+  margin-bottom: 12px;
+}
+.proto-pros { color: var(--deep); }
+.proto-cons { color: #777; }
+.proto-links {
+  margin-top: auto;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 20px;
+}
+.proto-links a {
+  flex: 1;
+  text-align: center;
+  background: var(--primary);
+  color: #fff;
+  padding: 12px 16px;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  transition: background .15s;
+}
+.proto-links a.sub {
+  background: #fff;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+.proto-links a:hover { background: var(--deep); color: #fff; border-color: var(--deep); }
+
+.palette {
+  background: #fff;
+  padding: 40px;
+  border-radius: 16px;
+  margin-bottom: 60px;
+}
+.palette h3 {
+  font-size: 18px;
+  color: var(--deep);
+  margin-bottom: 24px;
+}
+.swatches { display: flex; gap: 16px; flex-wrap: wrap; }
+.swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-family: 'Courier New', monospace;
+}
+.swatch-chip {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  border: 1px solid #E8DEC8;
+}
+.notes {
+  background: #FFF7E8;
+  border-left: 4px solid var(--gold);
+  padding: 24px 28px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 2;
+}
+.notes h3 { color: var(--deep); margin-bottom: 12px; font-size: 16px; }
+.notes ul { padding-left: 20px; }
+.notes li { margin-bottom: 6px; }
+@media (max-width:880px) {
+  .proto-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="intro">
+    <h1>OTS探偵社 サイト配色プロトタイプ 2案比較</h1>
+    <p>
+      チラシ「口コミ投稿のお願い」から抽出したオレンジを軸に、<br>
+      雰囲気と書体方針で2案ご用意しました。トップ＋浮気調査1Pでご確認いただけます。<br>
+      <strong style="color:#972C00">※5/14 更新</strong>：FVは梅木代表ご提供原稿（縦書き・左読み）に差し替えました。
+    </p>
+  </div>
+
+  <div class="proto-grid">
+    <div class="proto-card proto-a">
+      <div class="proto-thumb">Plan A</div>
+      <div class="proto-body">
+        <span class="proto-tag">CHIRASHI-FAITHFUL</span>
+        <h2>チラシ忠実 ・ 明るい親しみ系</h2>
+        <p class="proto-meta">
+          <strong>書体</strong>：Zen Maru Gothic（丸ゴシック）<br>
+          <strong>背景</strong>：クリーム生成り（チラシそのまま）<br>
+          <strong>雰囲気</strong>：温かく、敷居が低い印象
+        </p>
+        <p class="proto-pros">◎ チラシとの一貫性が最高。「話だけでも構わない」訴求と相性◎</p>
+        <p class="proto-cons">△ 探偵社らしい「信頼・重み」がやや弱い可能性</p>
+        <div class="proto-links">
+          <a href="plan-a/index.html">トップを見る</a>
+          <a href="plan-a/cheating.html" class="sub">浮気調査P</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="proto-card proto-b">
+      <div class="proto-thumb">Plan B</div>
+      <div class="proto-body">
+        <span class="proto-tag">SUMI + ORANGE</span>
+        <h2>墨黒で重心を下げる ・ 信頼重視</h2>
+        <p class="proto-meta">
+          <strong>書体</strong>：Klee One／BIZ UDPMincho（明朝）<br>
+          <strong>背景</strong>：クリーム＋墨ダークセクション（想い・CTAなど）<br>
+          <strong>雰囲気</strong>：和モダンで重厚、信頼感あり
+        </p>
+        <p class="proto-pros">◎ 探偵社の「重み・誠実」とチラシの「親しみ」を両立</p>
+        <p class="proto-cons">△ チラシそのままよりやや格調寄り。チラシ単独配布とは少し違う印象</p>
+        <div class="proto-links">
+          <a href="plan-b/index.html">トップを見る</a>
+          <a href="plan-b/cheating.html" class="sub">浮気調査P</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="palette">
+    <h3>共通カラーパレット（チラシ実測 → サイト配色）</h3>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-chip" style="background:#D06112"></div>#D06112<br><span style="color:#888">Primary</span></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#972C00"></div>#972C00<br><span style="color:#888">Deep</span></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#FFFBF0;border:1px solid #ddd"></div>#FFFBF0<br><span style="color:#888">Cream</span></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#F5EFE2"></div>#F5EFE2<br><span style="color:#888">Cream-2</span></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#DEA57D"></div>#DEA57D<br><span style="color:#888">Gold</span></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#1F1A17"></div>#1F1A17<br><span style="color:#888">Sumi (Bのみ)</span></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#1A1A1A"></div>#1A1A1A<br><span style="color:#888">Body</span></div>
+    </div>
+  </div>
+
+  <div class="notes">
+    <h3>確認していただきたいポイント</h3>
+    <ul>
+      <li>大きな方向性として A／B どちらが好みか（折衷案も可）</li>
+      <li>FV原稿（梅木代表ご提供）は<strong>全文</strong>を縦書きで掲載しています。文字組み・配置・余白についてご意見をください</li>
+      <li>FVは A/B とも書体・配色だけ差を付けて、本文・改行位置・署名表記は揃えています</li>
+      <li>料金一例は<strong>仮の数字</strong>です。実際の料金表に置き換える予定</li>
+      <li>本プロトタイプは Web 標準フォントで構築。SWELL 移管時にも同じ書体で再現します</li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
