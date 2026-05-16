@@ -1,0 +1,24 @@
+/*
+    Theme Name: SWELL CHILD
+    Template: swell
+    Theme URI: https://swell-theme.com/
+    Description: SWELL専用子テーマ（株式会社OTS探偵社サイト用カスタマイズ）
+    Author: 森伶也
+    Version: 1.0.0
+    License: GNU General Public License
+    License URI: http://www.gnu.org/licenses/gpl.html
+*/
+
+/* =========================================================
+   OTS探偵社 ブランドカラー（チラシ実測値）
+   ※ A/B 確定後に本実装。現状はCSS変数の定義のみ
+   ========================================================= */
+:root {
+  --ots-primary:  #D06112; /* Primary Orange（ヘッダー帯/CTA/アクセント） */
+  --ots-deep:     #972C00; /* Deep Orange（大見出し） */
+  --ots-cream:    #FFFBF0; /* Cream（背景） */
+  --ots-cream-2:  #F5EFE2; /* Cream-2（セクション区切り） */
+  --ots-gold:     #DEA57D; /* Gold（細罫・装飾） */
+  --ots-sumi:     #1F1A17; /* Sumi（Plan B のダークセクション用） */
+  --ots-body:     #1A1A1A; /* 本文テキスト */
+}
