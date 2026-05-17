@@ -247,43 +247,83 @@ a.is-style-btn_orange {
    --ots-fv-bg を差し替える。HTML雛形は site/proto/plan-a/index.html 参照。
    ========================================================= */
 :root { --ots-fv-bg: url("./assets/fv-a.jpg"); }
+/* ※ FVは固定ページ本文として置くため .post_content 配下に入る。
+   SWELLの .post_content p 等(詳細度0,0,1,1)に負けないよう
+   .post_content .ots-fv で詳細度を上げ、内部タイポをリセットする
+   （ローカル実機で判明した実バグ対応＝承認プロトの色/組みを再現） */
+.post_content .ots-fv,
 .ots-fv {
   background:
-    linear-gradient(180deg, rgba(255,251,240,.38) 0%, rgba(255,251,240,.62) 52%, rgba(248,244,232,.86) 100%),
+    linear-gradient(180deg, rgba(255,251,240,.30) 0%, rgba(255,251,240,.50) 52%, rgba(248,244,232,.78) 100%),
     var(--ots-fv-bg) center / cover no-repeat;
   padding: 84px 28px 92px;
   position: relative;
   overflow: hidden;
 }
-.ots-fv__inner {
+.post_content .ots-fv__inner {
   max-width: 1180px; margin: 0 auto;
   display: flex; flex-direction: column; align-items: center; gap: 36px;
 }
-.ots-fv__eyebrow {
+.post_content .ots-fv__eyebrow {
   display: inline-block;
   background: var(--ots-primary); color: #fff;
   padding: 6px 16px; border-radius: 4px;
   font-size: 13px; font-weight: 600; letter-spacing: .12em;
 }
-.ots-fv__vertical {
+.post_content .ots-fv__vertical {
   writing-mode: vertical-rl;
   text-orientation: mixed;
   font-feature-settings: "palt";
   height: clamp(520px, 64vh, 680px);
   display: flex; flex-direction: row-reverse;   /* 右→左の読み順（左読み確定） */
-  align-items: flex-start; gap: 48px; padding: 24px 8px;
+  align-items: flex-start; gap: 44px; padding: 24px 8px;
 }
-.ots-fv__block {
-  line-height: 2.4; letter-spacing: .18em; font-weight: 400;
-  text-shadow: 0 0 14px rgba(255,251,240,.9), 0 0 4px rgba(255,251,240,.95);
+/* .post_content p 由来の余白/色/行間がFV内に侵入するのを打ち消す */
+.post_content .ots-fv p { margin: 0; padding: 0; }
+.post_content .ots-fv__block {
+  letter-spacing: .18em; font-weight: 400;
+  text-shadow: 0 1px 2px rgba(255,251,240,.85), 0 0 8px rgba(255,251,240,.6);
 }
-.ots-fv__lead  { font-size: 26px; font-weight: 600; color: var(--ots-deep); letter-spacing: .22em; }
-.ots-fv__call  { font-size: 18px; color: var(--ots-body); line-height: 2.5; }
-.ots-fv__close { font-size: 17px; color: #4A4A4A; line-height: 2.5; }
-.ots-fv__sign-name { font-size: 18px; color: var(--ots-deep); font-weight: 600; letter-spacing: .4em; }
+.post_content .ots-fv__lead  { font-size: 26px; font-weight: 600; color: var(--ots-deep); letter-spacing: .22em; line-height: 2.35; }
+.post_content .ots-fv__call  { font-size: 18px; color: var(--ots-body); line-height: 2.5; }
+.post_content .ots-fv__close { font-size: 17px; color: #3A3632; line-height: 2.5; }
+.post_content .ots-fv__sign  { color: #6B6058; }
+.post_content .ots-fv__sign-name { font-size: 18px; color: var(--ots-deep); font-weight: 600; letter-spacing: .4em; }
 @media (max-width: 880px) {
-  .ots-fv { padding: 48px 16px 56px; }
-  .ots-fv__vertical { height: clamp(420px, 60vh, 540px); gap: 28px; }
-  .ots-fv__lead { font-size: 19px; letter-spacing: .16em; }
+  .post_content .ots-fv { padding: 48px 16px 56px; }
+  .post_content .ots-fv__vertical { height: clamp(420px, 60vh, 540px); gap: 26px; }
+  .post_content .ots-fv__lead { font-size: 19px; letter-spacing: .16em; }
   .post_content h3 { font-size: 21px; }
+}
+
+/* =========================================================
+   7. フロントページ：SWELL既定UIの抑止＋FVフルブリード
+   ※ 本番はSWELLカスタマイザーで同等設定（メインビジュアル非表示／
+     フロント1カラム）を行う。ここでのCSS抑止はローカル検証の確定再現用。
+     site/local-staging/README.md「本番への移し方」参照。
+   ========================================================= */
+.home { overflow-x: hidden; }
+.home .p-mainVisual,        /* SWELL既定メインビジュアル（自転車/砂漠の仮画像） */
+.home .p-pickupBanner,      /* ピックアップバナー */
+.home .l-sidebar,           /* フロントはサイドバー無し＝1カラム */
+.home .c-pageTitle,         /* フロントにページタイトル不要 */
+.home .p-postList { display: none !important; }
+.home .l-mainContent,
+.home .l-mainContent__inner,
+.home .l-article,
+.home .post_content {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+/* .ots-fv をコンテンツ枠から飛び出させ全幅化（高さは §6 の padding と
+   .ots-fv__inner の構成で決める＝承認プロト忠実。min-height/flex中央寄せはしない） */
+.ots-fv {
+  position: relative;
+  left: 50%;
+  margin-left: -50vw;
+  width: 100vw;
+  max-width: 100vw;
 }

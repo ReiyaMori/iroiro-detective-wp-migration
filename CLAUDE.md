@@ -304,6 +304,12 @@
   - **確定デザインが2014年製生BizVektor HTMLに子テーマCSSだけで自動適用を実機実証**: `.post_content`計算値=Klee One／h3=色#972C00+左ボーダー5px#D06112／**生`<table class="sta">`→白角丸12px+オレンジヘッダ+ダイヤ箇条書きに自動変換**（creditcheck表2・personalcreditcheck表3で実描画）＝「クラシックHTML×.post_content一括CSS」効率仮説を実証
   - ハマり所（本番無関係のMAMP固有差）: htdocs `AllowOverride None`→pretty permalink 404（WPがcanonicalで`?page_id=`→pretty 301）。ローカルは `wp rewrite structure ''`＋`?page_id=N` 直叩きで検証。本番さくらは mod_rewrite 有効＝pretty正常（移行リスクではない）。詳細は local-staging/README.md
   - `flow`(ID2/非公開) は pages WXR 未収録の可能性→公開要否含め先方確認（既出）。サービスP1カラム化/サイドバー整理/FVブロック設置は実ビルド時SWELL設定（CSS課題ではない）
+- ✅ **5/17 FVトップ実体化＋全20P実機目視レビュー＋実バグ修正ループ**（client deliverable品質基準＝ラフ厳禁の自己検証）:
+  - FVトップを実WP固定ページ化（`.ots-fv*`マークアップ・front page指定）。**プロト単体では出ない実SWELL固有バグを発見・修正**:
+    ① **詳細度負け**: FVは`.post_content`配下に入るため `.ots-fv__call`(0,0,1,0) が SWELL `.post_content p`(0,0,1,1) に負け縦書きが淡色低コントラスト化 → 全`.ots-fv__*`を `.post_content`スコープ化＋FV内pリセット（色は各ブロック別指定）。計算値で lead#972C00/call#1A1A1A/close#3A3632/sign#6B6058 確認＝**本番にも効く恒久修正**
+    ② SWELL既定フロントUI（MV"さぁ始めよう"/Hello world/サイドバー）を子テーマ§7で`.home`抑止＋`.ots-fv`100vwフルブリード化＝承認プロト忠実に。本番はSWELLカスタマイザーで同等（MV非表示/1カラム）が正道（README明記）
+  - 全20P＋FVを desktop/mobile スクショ実機レビュー → **確定デザイン（A案＋教科書体）が全実コンテンツで提示品質再現を確認**。CSS不具合の残りなし。残る非整形（strong多用・securitycamera旧inline画像）は2014コンテンツ構造由来＝テーマ移管スコープ外・書換禁止で原則保持
+  - 検証スクリプト `wp-inventory/shot-local.mjs`（再利用可）。手順/発見/本番手順を `site/local-staging/README.md` に恒久反映
 - ✅ **プロトタイプを提示クオリティへ引き上げ＋再デプロイ（5/16・送信後）**: 「ラフすぎる」懸念対応。Gemini画像生成でFV雰囲気背景を作成（Plan A=和紙クリーム×暖光 fv-a.jpg 41KB / Plan B=墨黒×残照 fv-b.jpg 118KB・`site/proto/assets/`）。①②③丸数字を自作SVGラインアイコン6種に置換。**Plan B のFVをダーク化**（墨背景＋光文字＋金罫）して「Plan A=明るい親しみ／Plan B=重厚な信頼」の対比を明確化＝A/B選択が意味を持つ構成に。**URL不変**（https://reiyamori.github.io/iroiro-detective-wp-migration/ ）のため先方は受領済リンクで自動的に新版を見る＝**reply再送不要**。ライブ実機スクショで両案表示確認済。コミット170b9c6・push済。検証スクリプト `wp-inventory/shot-proto.mjs`/`shot-live.mjs`
 
 ### 5/11受領済（過去分）
