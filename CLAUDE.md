@@ -192,6 +192,21 @@
 - 提案文（受注前）: `/Users/mori/WATAGE/jutaku/proposals/jobs/13010878_detective_wp/proposal.md`
 - tracker.csv 行: `/Users/mori/WATAGE/jutaku/proposals/tracker.csv` 41行目
 - 横断STATUS: `/Users/mori/WATAGE/jutaku/STATUS.md`
+- 参考サイト分析: `reference/analysis.md` ／ 情報設計: `reference/information-architecture.md`
+- **想定修正事項リスト（先回り）**: `reference/anticipated-revisions.md`（参考サイト×傾向×法務から先方修正要望を予測・スコープ判定付き）
+- ローカルSWELLステージング: `site/local-staging/README.md` ／ 移行解析: `site/migration-plan.md`
+
+## ⚠️ 着手前に握るべき齟齬（2026-05-17 ローカル実取込で判明・要先方確認）
+1. **「20P」スコープ vs サイト実態71ページ**: WXR実取込で固定ページは**71件**。合意の「20P」は
+   サービス末端ページのみで、`会社概要`(229)`会社情報`(1295)`お問い合わせ`(250)`よくある質問`(450)
+   `調査料金`(448)`探偵業法`(245)`プライバシーポリシー`(3/240重複)`選ばれる理由`(1290)`事例case1-4等`
+   など骨格・法務ページが20Pに**含まれない**。トンマナは子テーマCSSで全公開ページ自動適用＝
+   見た目刷新は低コストだが、移管範囲（個別検証対象/新規作成・本文書換は別見積）を**次の連絡で再定義必須**
+2. **トップが現状FVのみ**: 承認プロト/参考mockは FV→SERVICES→代表挨拶→WHY US→FLOW→PRICE→CTA。
+   実WPトップ(1908)はFVだけ＝先方が見て「スカスカ」となる前に全構成で実装する
+3. **法務（探偵業法§10）**: フッター/会社概要に**探偵業届出証明書番号**の表示が法令上必須。
+   先方は気づかない可能性大→**こちらから指摘**し番号を支給依頼（reference/anticipated-revisions.md #1）
+   → 詳細・全15項目・先方確認文面・先回り実装リストは `reference/anticipated-revisions.md`
 
 ## 対応済み修正一覧
 
