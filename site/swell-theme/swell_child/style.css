@@ -10,8 +10,11 @@
 */
 
 /* =========================================================
-   OTS探偵社 ブランドカラー（チラシ実測値）
-   ※ A/B 確定後に本実装。現状はCSS変数の定義のみ
+   OTS探偵社 確定デザイントークン
+   2026-05-17 先方ご回答により「A案 ＋ 教科書体」で確定。
+   配色＝チラシ実測値 / 書体＝Klee One（教科書体・functions.php でエンキュー）。
+   ブロック単位の作り込みは SWELL 本体インストール後に
+   実マークアップへ合わせてステージングで実装する（CLAUDE.md Phase 2/3）。
    ========================================================= */
 :root {
   --ots-primary:  #D06112; /* Primary Orange（ヘッダー帯/CTA/アクセント） */
@@ -19,6 +22,22 @@
   --ots-cream:    #FFFBF0; /* Cream（背景） */
   --ots-cream-2:  #F5EFE2; /* Cream-2（セクション区切り） */
   --ots-gold:     #DEA57D; /* Gold（細罫・装飾） */
-  --ots-sumi:     #1F1A17; /* Sumi（Plan B のダークセクション用） */
+  --ots-sumi:     #1F1A17; /* Sumi（濃色セクション用・必要時のみ） */
   --ots-body:     #1A1A1A; /* 本文テキスト */
+  --ots-font:     "Klee One", "Hiragino Mincho ProN", "Yu Mincho", serif; /* 確定書体（教科書体） */
+}
+
+/* ---- ベースタイポグラフィ（確定書体の適用） ---- */
+body,
+.l-content,
+.post_content {
+  font-family: var(--ots-font);
+  color: var(--ots-body);
+}
+
+h1, h2, h3, h4,
+.c-postTitle__ttl,
+.p-postList__title {
+  font-family: var(--ots-font);
+  font-weight: 600;
 }

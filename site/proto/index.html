@@ -2,11 +2,11 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>OTS探偵社 サイト配色プロトタイプ 2案比較</title>
+<title>OTS探偵社 サイト 確定デザインプレビュー（A案・教科書体）</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root {
   --primary: #D06112;
@@ -19,7 +19,7 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: "Zen Maru Gothic", -apple-system, sans-serif;
+  font-family: "Klee One", "Hiragino Mincho ProN", serif;
   background: var(--cream);
   color: var(--body);
   line-height: 1.85;
@@ -57,7 +57,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 28px;
   letter-spacing: 0.12em;
 }
@@ -76,7 +76,7 @@ body {
   font-size: 12px;
   letter-spacing: 0.2em;
   color: var(--primary);
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 8px;
 }
 .proto-body h2 {
@@ -91,7 +91,7 @@ body {
   margin-bottom: 16px;
   line-height: 2;
 }
-.proto-meta strong { color: var(--body); font-weight: 700; }
+.proto-meta strong { color: var(--body); font-weight: 600; }
 .proto-pros, .proto-cons {
   font-size: 13.5px;
   line-height: 1.95;
@@ -115,7 +115,7 @@ body {
   text-decoration: none;
   border-radius: 6px;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.06em;
   transition: background .15s;
 }
@@ -163,6 +163,33 @@ body {
 .notes h3 { color: var(--deep); margin-bottom: 12px; font-size: 16px; }
 .notes ul { padding-left: 20px; }
 .notes li { margin-bottom: 6px; }
+.confirm-banner {
+  background: var(--primary);
+  color: #fff;
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin-bottom: 40px;
+  text-align: center;
+  box-shadow: 0 6px 24px rgba(151,44,0,0.18);
+}
+.confirm-banner .cb-tag {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  background: rgba(255,255,255,0.2);
+  padding: 4px 14px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+.confirm-banner h2 {
+  font-size: 21px;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+.confirm-banner p { font-size: 14px; line-height: 1.95; opacity: 0.95; }
+.proto-card.dropped { opacity: 0.62; }
+.proto-tag.fixed { color: #fff; background: var(--primary); padding: 3px 12px; border-radius: 999px; }
+.proto-tag.ref { color: #888; }
 @media (max-width:880px) {
   .proto-grid { grid-template-columns: 1fr; }
 }
@@ -171,28 +198,38 @@ body {
 <body>
 <div class="container">
 
+  <div class="confirm-banner">
+    <span class="cb-tag">2026 / 5 / 17 確定</span>
+    <h2>A案 ＋ 教科書体 で確定しました</h2>
+    <p>
+      ご回答ありがとうございます。<strong>「A案（チラシ忠実・オレンジ）」を「教科書体」で組み直した確定版</strong>に更新しました。<br>
+      FVの文字サイズ・行間は、いただいた赤枠のイメージのまま据え置いています。<br>
+      この内容で SWELL（本番テーマ）への実装に進みます。
+    </p>
+  </div>
+
   <div class="intro">
-    <h1>OTS探偵社 サイト配色プロトタイプ 2案比較</h1>
+    <h1>OTS探偵社 サイト 確定デザインプレビュー</h1>
     <p>
       チラシ「口コミ投稿のお願い」から抽出したオレンジを軸に、<br>
-      雰囲気と書体方針で2案ご用意しました。トップ＋浮気調査1Pでご確認いただけます。<br>
-      <strong style="color:#972C00">※5/14 更新</strong>：FVは梅木代表ご提供原稿（縦書き・左読み）に差し替えました。
+      書体は<strong style="color:#972C00">教科書体（Klee One）</strong>で確定。トップ＋浮気調査1Pでご確認いただけます。<br>
+      <span style="color:#888">※Plan B は選定の参考用に残してあります（不採用）。</span>
     </p>
   </div>
 
   <div class="proto-grid">
     <div class="proto-card proto-a">
-      <div class="proto-thumb">Plan A</div>
+      <div class="proto-thumb">Plan A ✓ 確定</div>
       <div class="proto-body">
-        <span class="proto-tag">CHIRASHI-FAITHFUL</span>
-        <h2>チラシ忠実 ・ 明るい親しみ系</h2>
+        <span class="proto-tag fixed">採用｜確定デザイン</span>
+        <h2>チラシ忠実 ・ 教科書体 ・ 明るい親しみ系</h2>
         <p class="proto-meta">
-          <strong>書体</strong>：Zen Maru Gothic（丸ゴシック）<br>
+          <strong>書体</strong>：Klee One（教科書体）<br>
           <strong>背景</strong>：クリーム生成り（チラシそのまま）<br>
           <strong>雰囲気</strong>：温かく、敷居が低い印象
         </p>
-        <p class="proto-pros">◎ チラシとの一貫性が最高。「話だけでも構わない」訴求と相性◎</p>
-        <p class="proto-cons">△ 探偵社らしい「信頼・重み」がやや弱い可能性</p>
+        <p class="proto-pros">◎ チラシとの一貫性が高く、教科書体の柔らかさで「話だけでも構わない」訴求と好相性</p>
+        <p class="proto-cons" style="color:#972C00">→ この内容で SWELL 本実装へ進みます</p>
         <div class="proto-links">
           <a href="plan-a/index.html">トップを見る</a>
           <a href="plan-a/cheating.html" class="sub">浮気調査P</a>
@@ -200,10 +237,10 @@ body {
       </div>
     </div>
 
-    <div class="proto-card proto-b">
+    <div class="proto-card proto-b dropped">
       <div class="proto-thumb">Plan B</div>
       <div class="proto-body">
-        <span class="proto-tag">SUMI + ORANGE</span>
+        <span class="proto-tag ref">参考（不採用）</span>
         <h2>墨黒で重心を下げる ・ 信頼重視</h2>
         <p class="proto-meta">
           <strong>書体</strong>：Klee One／BIZ UDPMincho（明朝）<br>
@@ -234,13 +271,13 @@ body {
   </div>
 
   <div class="notes">
-    <h3>確認していただきたいポイント</h3>
+    <h3>確定事項 と これからの進め方</h3>
     <ul>
-      <li>大きな方向性として A／B どちらが好みか（折衷案も可）</li>
-      <li>FV原稿（梅木代表ご提供）は<strong>全文</strong>を縦書きで掲載しています。文字組み・配置・余白についてご意見をください</li>
-      <li>FVは A/B とも書体・配色だけ差を付けて、本文・改行位置・署名表記は揃えています</li>
-      <li>料金一例は<strong>仮の数字</strong>です。実際の料金表に置き換える予定</li>
-      <li>本プロトタイプは Web 標準フォントで構築。SWELL 移管時にも同じ書体で再現します</li>
+      <li><strong>確定</strong>：方向性＝A案／書体＝教科書体（Klee One）／FVの文字サイズ・行間＝ご指定の赤枠イメージのまま</li>
+      <li><strong>次工程</strong>：本確定デザインをもとに SWELL（本番テーマ）へ実装 → バックアップ取得済 → ステージングで全20ページ移行 → 検証 → 本番切替（URL構造は維持）</li>
+      <li>FVの行間・改行位置などの微調整のご希望があれば、SWELL実装中に併せて反映できます</li>
+      <li>料金一例は<strong>仮の数字</strong>です。実際の料金表（または現行サイトの記載）に置き換えます</li>
+      <li>Plan B は選定の参考用に閲覧可能なまま残しています（不採用）</li>
     </ul>
   </div>
 
