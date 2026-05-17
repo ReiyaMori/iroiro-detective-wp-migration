@@ -297,6 +297,13 @@
   - 新たに特定した要対応点（migration-plan.md §3-6）: ①**階層URL保全**＝`/serviceindex/*`・`/company/*` の親ページ（serviceindex/company等）も保持しないと全子URL崩壊（meta.json実測 `parent:1295`・テンプレ`page-parent.php`＝BizVektor固有でSWELLに無い→標準化＋子テーマで代替）②**https化リスク**＝本文中 `http://www.trust-supply.com` 絶対URL **54件**→https化時に混在コンテンツ。ステージングでSearch-Replace一括置換要 ③表は生`<table class="sta">`16個＝子テーマCSS一発で確定料金表デザインに統一できる効率ポイント ④`/flow`(ID2)は現状非公開＝公開要否を先方確認
   - `site/swell-theme/swell_child/style.css` を **design-system 実装**へ拡張（確定Plan A由来）: ヘッダー帯/ページタイトル+パンくず/**.post_content（h3-5・p・strong・ul・a・img・table.sta を一括トンマナ化＝クラシックHTML×子テーマCSSで20P一括）**/ボタン/フッター/**FV authoredブロック用クラス `.ots-fv*`**（れーやがSWELL自由形式で組めば確定プロトと同一描画）。SWELL安定クラス準拠・詳細度の最終調整のみステージング実機で。CSS波括弧57/57バランス検証済
   - FV背景 `fv-a.jpg` を `site/swell-theme/swell_child/assets/` へ同梱（CSS `--ots-fv-bg` が解決）
+- ✅ **5/17 MAMPローカルSWELLステージング構築＋実機実証**（客先本番さくら**非接触**・全ローカル・手順を `site/local-staging/{setup.sh,README.md}` に再現可能化）:
+  - 環境: MAMP（Apache `localhost:8888` / MySQL8.0.44 `127.0.0.1:8889` root/root / php8.3.30 / 既存 `clubakino/wp-cli.phar` v2.12.0）。`/Applications/MAMP/htdocs/ots`・DB `ots_local`・WP6.9.4(ja)
+  - SWELL 2.16.0正規zip導入＋確定子テーマ有効化 → **Klee Oneエンキューが実SWELLで動作**（`ots-klee-one-css` 出力・致命エラーなし・HTTP200）
+  - pages WXR 取込（69→71ページ＝20対象＋親階層）。**階層URL/スラッグ/親子が実インポートで完全一致**（WP-CLI `wp post url` 実測: `/company/atfirst/` parent=1295 ／ `/serviceindex/*` parent=430 ×15 ／ `/otherarea` `/after` `/technic` `/akutoku`）＝migration-plan.md §3 最重要SEOリスク（親P欠落でURL崩壊）を実証クリア
+  - **確定デザインが2014年製生BizVektor HTMLに子テーマCSSだけで自動適用を実機実証**: `.post_content`計算値=Klee One／h3=色#972C00+左ボーダー5px#D06112／**生`<table class="sta">`→白角丸12px+オレンジヘッダ+ダイヤ箇条書きに自動変換**（creditcheck表2・personalcreditcheck表3で実描画）＝「クラシックHTML×.post_content一括CSS」効率仮説を実証
+  - ハマり所（本番無関係のMAMP固有差）: htdocs `AllowOverride None`→pretty permalink 404（WPがcanonicalで`?page_id=`→pretty 301）。ローカルは `wp rewrite structure ''`＋`?page_id=N` 直叩きで検証。本番さくらは mod_rewrite 有効＝pretty正常（移行リスクではない）。詳細は local-staging/README.md
+  - `flow`(ID2/非公開) は pages WXR 未収録の可能性→公開要否含め先方確認（既出）。サービスP1カラム化/サイドバー整理/FVブロック設置は実ビルド時SWELL設定（CSS課題ではない）
 - ✅ **プロトタイプを提示クオリティへ引き上げ＋再デプロイ（5/16・送信後）**: 「ラフすぎる」懸念対応。Gemini画像生成でFV雰囲気背景を作成（Plan A=和紙クリーム×暖光 fv-a.jpg 41KB / Plan B=墨黒×残照 fv-b.jpg 118KB・`site/proto/assets/`）。①②③丸数字を自作SVGラインアイコン6種に置換。**Plan B のFVをダーク化**（墨背景＋光文字＋金罫）して「Plan A=明るい親しみ／Plan B=重厚な信頼」の対比を明確化＝A/B選択が意味を持つ構成に。**URL不変**（https://reiyamori.github.io/iroiro-detective-wp-migration/ ）のため先方は受領済リンクで自動的に新版を見る＝**reply再送不要**。ライブ実機スクショで両案表示確認済。コミット170b9c6・push済。検証スクリプト `wp-inventory/shot-proto.mjs`/`shot-live.mjs`
 
 ### 5/11受領済（過去分）
@@ -372,13 +379,13 @@
 - [x] **「再現精度」=確定Plan Aプロトを先方承認**（5/17 A案＋教科書体で確定）。本文移行はクラシックHTML流用＋子テーマCSS一括（migration-plan.md）
 
 ### Phase 2: テンプレート設計（受領後 約3日）
-- [x] 子テーマ作成（雛形＋design-system実装済 `swell_child/style.css`）。SWELL本体インストールはステージングで実施
+- [x] 子テーマ作成（design-system実装済）＋**MAMPローカルでSWELL2.16.0本体導入・有効化・実機動作実証済**（`site/local-staging/`）
 - [~] 共通パーツ: ヘッダー帯/ページタイトル/フッター/FVは子テーマCSSで先行実装済。SWELL実マークアップへの詳細度調整はステージングで
-- [x] **トンマナ（書体Klee One・配色・余白）を子テーマCSSで実装**（確定Plan A由来・5/17）。波括弧バランス検証済
+- [x] **トンマナ（書体Klee One・配色・余白）を子テーマCSSで実装**（確定Plan A由来・5/17）。**MAMP実機で実コンテンツ描画を実証**（.post_content=Klee One／h3=#972C00+5px#D06112／生table.sta→白角丸料金表に自動変換）
 - [x] トップ・主要1〜2ページのプロトタイプ作成→**先方確認済**（5/17確定）
 
 ### Phase 3: 一括移行（約4〜5日）
-- [ ] 固定ページ本文を移行（**クラシックHTML流用方式**＝ブロック完全変換は不要・VK0件確定・migration-plan.md §1）
+- [~] 固定ページ本文を移行（**クラシックHTML流用方式**＝VK0件確定）。MAMPで20P＋親階層を実取込＆実描画実証済（本番さくらへは同手順で再現＝local-staging/README.md §本番への移し方）
 - [x] TablePress: **本文中[tablepress]0件**＝20P表示に影響なしと実測（migration-plan.md）。他箇所利用の最終確認のみ（優先度低）
 - [ ] 本文中 `http://www.trust-supply.com` 絶対URL54件のhttps一括置換（ステージングでSearch-Replace・migration-plan.md §4）
 - [ ] VKブロックの除去・SWELL代替への置換
@@ -418,7 +425,7 @@
 - 推奨: (b)。CLAUDE.mdはチームメンバー/将来のClaudeが読む前提で保管したいため
 
 ## 更新日:
-- 2026-05-17: **先方A/B回答受領 → 「A案 ＋ 教科書体」でデザイン確定**。宮久保様より①方向性=A ②書体=教科書体 ③FV=赤枠サイズ感/行間で承認、の回答。Plan A を **Klee One（教科書体）** に全置換（font-weight 700→600/500→400・配色/レイアウト/FV比率は据え置き＝赤枠承認で手戻りなし）。比較ページ `site/proto/index.html` を確定通知ページに改修（オレンジ確定バナー/A採用ハイライト/B不採用減光）。SWELL子テーマに確定書体反映（functions.php Klee Oneエンキュー＋preconnect、style.css `--ots-font`トークン＋ベースタイポ）。`docs/` ミラー同期。実機スクショで教科書体レンダリング＆レイアウト破綻なしを目視検証。URL不変（https://reiyamori.github.io/iroiro-detective-wp-migration/ ）＝先方は受領済リンクで確定版を自動表示。**デザイン確定 → 次工程は SWELL本実装**（設計仕様＝site/proto/plan-a）。れーや判断「現repoにpush」→ commit `62b1bcd` push済・GitHub Pagesライブ反映確認済（教科書体版・全P HTTP200）。**reply-0517-chatwork.md れーや手動Chatwork送信完了 → 先方確認待ち**（①教科書体=Klee Oneへの異議有無＝解釈確定の最重要 ②ドメイン有効期限/クレカ ③GA4スコープ）。⚠️**未解決（れーや/別タスク）**: repo private化（#0・現repo進行中・public露出は継続）／SWELLユーザー認証コードを secrets.local.md へ。期日5/20まで残3日
+- 2026-05-17: **先方A/B回答受領 → 「A案 ＋ 教科書体」でデザイン確定**。宮久保様より①方向性=A ②書体=教科書体 ③FV=赤枠サイズ感/行間で承認、の回答。Plan A を **Klee One（教科書体）** に全置換（font-weight 700→600/500→400・配色/レイアウト/FV比率は据え置き＝赤枠承認で手戻りなし）。比較ページ `site/proto/index.html` を確定通知ページに改修（オレンジ確定バナー/A採用ハイライト/B不採用減光）。SWELL子テーマに確定書体反映（functions.php Klee Oneエンキュー＋preconnect、style.css `--ots-font`トークン＋ベースタイポ）。`docs/` ミラー同期。実機スクショで教科書体レンダリング＆レイアウト破綻なしを目視検証。URL不変（https://reiyamori.github.io/iroiro-detective-wp-migration/ ）＝先方は受領済リンクで確定版を自動表示。**デザイン確定 → 次工程は SWELL本実装**（設計仕様＝site/proto/plan-a）。れーや判断「現repoにpush」→ commit `62b1bcd` push済・GitHub Pagesライブ反映確認済（教科書体版・全P HTTP200）。**reply-0517-chatwork.md れーや手動Chatwork送信完了 → 先方確認待ち**（①教科書体=Klee Oneへの異議有無＝解釈確定の最重要 ②ドメイン有効期限/クレカ ③GA4スコープ）。⚠️**未解決（れーや/別タスク）**: repo private化（#0・現repo進行中・public露出は継続）／SWELLユーザー認証コードを secrets.local.md へ。**先方待ち中の前倒し（サーバ非接触）**: ①移行解析`site/migration-plan.md`（20P=ショートコード/VK0=クラシックHTML実測・最大地雷消滅）②子テーマdesign-system実装 ③**MAMPローカルSWELLステージング構築＋実機実証**（`site/local-staging/`に再現手順・確定デザインが生BizVektor HTMLに子テーマCSSで自動適用＋階層URL完全一致を実描画で実証＝SWELL本実装は実質完了に近い）。期日5/20まで残3日
 - 2026-05-16（夜・送信完了）: **SWELL v2.16.0 取得**（森伶也購入・正規パッケージ検証・子テーマ雛形作成・実測要件WP5.6+/PHP7.3+で本番充足＝WPアップデートは必須前提でなくセキュリティ推奨に格下げ）。**配色2案プロトタイプ GitHub Pages 公開**（https://reiyamori.github.io/iroiro-detective-wp-migration/ ・HTTP200確認・publicリポジトリ化だが有料SWELL zipは.gitignore除外）。**完全バックアップ確保**（BackWPup 117MBフルアーカイブ＋FTP mirror）。**「左読み」確定**（参考サイト右→左出現アニメ＝標準縦書き・れーや確認・手戻りなし）。**reply-0516-chatwork.md をれーやが手動Chatwork送信完了**（サーバー情報お礼＋FV全文反映報告＋プロトURL＋A/B確認依頼）→ **先方A/B選択待ち（次の先方アクション）**。要追記: SWELLユーザー認証コードを secrets.local.md へ
 - 2026-05-16: 先方よりFTP・phpMyAdmin・さくらコントロールパネル・ドメイン情報を受領（サーバー設定通知書の写真2枚）。サーバーは**さくらのレンタルサーバ スタンダード**判明。認証情報は `secrets.local.md` に格納。FTPなし前提が解消→ステージング戦略をサブディレクトリ複製版（プランS）に復帰。本番環境テーブル・デプロイ手順・先方待ち更新。ドメインはお名前.com管理で通知書の登録期限が2023-11-01表記（古い通知）→最新有効期限・クレカ有効性を先方確認すべき。**並行タスク**: site/proto/ 一時公開→reply-0514-chatwork.md 送信（A/B選択依頼）は未完のまま継続
 - 2026-05-14: 先方よりFV原稿受領（A案＝先方提供確定・参考サイト otsdetective 文言・梅木代表署名入り・縦書き左読み指定）。プロトタイプ Plan A/B のFVを縦書き（writing-mode: vertical-rl・4ブロック構成）に組み直し完了。reply-0514-chatwork.md ドラフト作成済（送信前）。次は site/proto/ を一時公開→公開URL差し込み→Chatwork送信→**先方A/B選択待ち**へ
