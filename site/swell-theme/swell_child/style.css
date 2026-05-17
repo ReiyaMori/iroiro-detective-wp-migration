@@ -13,8 +13,11 @@
    OTS探偵社 確定デザイントークン
    2026-05-17 先方ご回答により「A案 ＋ 教科書体」で確定。
    配色＝チラシ実測値 / 書体＝Klee One（教科書体・functions.php でエンキュー）。
-   ブロック単位の作り込みは SWELL 本体インストール後に
-   実マークアップへ合わせてステージングで実装する（CLAUDE.md Phase 2/3）。
+   設計システム層（トークン/タイポ/.post_content/ヘッダー/FV/ボタン）は
+   本ファイルで実装済み。SWELL は安定クラス名を持つため大半は本番でそのまま効くが、
+   セレクタ詳細度の最終調整はステージング実機で行う（CLAUDE.md Phase 2/3）。
+   ※ 20固定Pは「ショートコード0/VK0/クラシックHTML」と実測（site/migration-plan.md）。
+     よって本文は .post_content への一括CSSで確定Plan Aトンマナへ寄せる方式が成立する。
    ========================================================= */
 :root {
   --ots-primary:  #D06112; /* Primary Orange（ヘッダー帯/CTA/アクセント） */
@@ -40,4 +43,247 @@ h1, h2, h3, h4,
 .p-postList__title {
   font-family: var(--ots-font);
   font-weight: 600;
+}
+
+/* =========================================================
+   1. ヘッダー帯（確定Plan A: オレンジ帯＋白文字）
+   SWELL安定クラス: .l-header / .c-gnav / .l-header__logo
+   ========================================================= */
+.l-header,
+.p-fixHeader,
+.l-header__inner {
+  background: var(--ots-primary);
+}
+.l-header a,
+.c-gnav a,
+.l-header__logo,
+.c-headerNavMenu a,
+.p-headerBar a { color: #fff; }
+.l-header__logo .c-headTitle,
+.l-header__logo a { color: #fff; font-weight: 600; letter-spacing: .06em; }
+.c-gnav__item > a:hover { opacity: .85; }
+/* 電話CTA（ヘッダー右・確定Plan Aの白ピル）。SWELLヘッダーボタン領域に付与 */
+.l-header .header_tel,
+.l-header .c-headerCta a,
+.l-header .p-headerBtn a {
+  background: #fff;
+  color: var(--ots-primary);
+  border-radius: 999px;
+  font-weight: 600;
+  padding: 10px 18px;
+}
+
+/* =========================================================
+   2. ページタイトル / パンくず（確定Plan A: cream subhero）
+   SWELL安定クラス: .c-pageTitle / .p-breadcrumb
+   ========================================================= */
+.c-pageTitle,
+.l-articleTitle {
+  background: linear-gradient(180deg, rgba(208,97,18,.08) 0%, var(--ots-cream) 100%);
+  border-bottom: 1px solid #E8DEC8;
+}
+.c-pageTitle__title,
+.c-pageTitle .c-pageTitle__ttl {
+  color: var(--ots-deep);
+  font-weight: 600;
+  letter-spacing: .05em;
+}
+.c-pageTitle__title::after {
+  content: "";
+  display: block;
+  width: 60px; height: 3px;
+  background: var(--ots-gold);
+  margin: 18px auto 0;
+  border-radius: 2px;
+}
+.p-breadcrumb a { color: var(--ots-primary); }
+.p-breadcrumb a:hover { text-decoration: underline; }
+
+/* =========================================================
+   3. 本文 .post_content（全20PのクラシックHTMLをここで一括トンマナ化）
+   ※ 旧BizVektorのinline style/旧table属性を子テーマ側で吸収。
+     HTML本文は改変しない（CLAUDE.md: 提供テキストを書き換えない）。
+   ========================================================= */
+.post_content {
+  font-size: 16px;
+  line-height: 1.95;
+  color: var(--ots-body);
+}
+.post_content p { margin: 0 0 1.4em; }
+.post_content strong { color: var(--ots-deep); font-weight: 600; }
+.post_content a { color: var(--ots-primary); text-decoration: underline; text-underline-offset: .15em; }
+.post_content a:hover { color: var(--ots-deep); }
+
+/* 見出し: コンテンツは h3(セクション)/h4(小)/h5(細) を多用 */
+.post_content h3 {
+  font-size: 24px;
+  color: var(--ots-deep);
+  font-weight: 600;
+  letter-spacing: .04em;
+  margin: 2.2em 0 .9em;
+  padding-left: 16px;
+  border-left: 5px solid var(--ots-primary);
+  line-height: 1.5;
+}
+.post_content h4 {
+  font-size: 19px;
+  color: var(--ots-deep);
+  font-weight: 600;
+  margin: 1.8em 0 .7em;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--ots-gold);
+}
+.post_content h5 {
+  font-size: 16.5px;
+  color: var(--ots-primary);
+  font-weight: 600;
+  margin: 1.4em 0 .5em;
+}
+
+/* リスト: 確定Plan Aのオレンジマーカー */
+.post_content ul { list-style: none; padding-left: 0; margin: 0 0 1.4em; }
+.post_content ul > li {
+  position: relative;
+  padding: 4px 0 4px 1.4em;
+}
+.post_content ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: .85em;
+  width: 8px; height: 8px;
+  background: var(--ots-primary);
+  border-radius: 2px;
+  transform: rotate(45deg);
+}
+.post_content ol { padding-left: 1.4em; }
+.post_content ol > li::marker { color: var(--ots-primary); font-weight: 600; }
+
+/* 画像: 旧 width/height 属性を上書きしてレスポンシブ化（消さない） */
+.post_content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+.post_content img.aligncenter { display: block; margin-inline: auto; }
+
+/* 表: 16個ある旧 <table class="sta" border width cellspacing> を
+   確定Plan Aの料金表デザインへ一括変換（最大の効率ポイント）。
+   旧HTML属性(border/cellspacing/width)はCSSで無効化。 */
+.post_content table,
+.post_content table.sta {
+  width: 100% !important;          /* 旧 width="555" 等を無効化 */
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.6em 0;
+  background: #fff;
+  border: 1px solid #E8DEC8;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(151,44,0,.06);
+  font-size: 15px;
+}
+.post_content table th,
+.post_content table td {
+  padding: 16px 18px;            /* 旧 cellpadding="20" を上書き */
+  border: none;
+  border-bottom: 1px solid #EFE7D5;
+  vertical-align: top;
+  text-align: left;
+}
+.post_content table tr:last-child td { border-bottom: none; }
+.post_content table th {
+  background: var(--ots-primary);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+/* 旧 align="center" の料金セル等は中央寄せ維持 */
+.post_content table td[align="center"],
+.post_content table div[align="center"] { text-align: center; }
+.post_content table td:last-child { color: var(--ots-deep); font-weight: 600; }
+/* SP: 横スクロールで崩さない */
+@media (max-width: 768px) {
+  .post_content table,
+  .post_content table.sta { display: block; overflow-x: auto; white-space: nowrap; }
+}
+
+/* =========================================================
+   4. ボタン（確定Plan A: オレンジpill / アウトライン）
+   WP/SWELLボタンブロック・SWELLボタン
+   ========================================================= */
+.wp-block-button__link,
+.swell-block-button a,
+.post_content .c-btn,
+a.is-style-btn_orange {
+  background: var(--ots-primary);
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 600;
+  padding: 15px 30px;
+  border: 2px solid var(--ots-primary);
+  text-decoration: none;
+  transition: transform .15s, box-shadow .15s;
+}
+.wp-block-button__link:hover,
+.swell-block-button a:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(151,44,0,.18); }
+.is-style-outline .wp-block-button__link {
+  background: #fff; color: var(--ots-primary);
+}
+
+/* =========================================================
+   5. フッター（確定Plan A: deep orange 地）
+   ========================================================= */
+.l-footer,
+.p-footer { background: var(--ots-deep); color: #fff; }
+.l-footer a,
+.p-footer a { color: #fff; opacity: .9; }
+.p-footer a:hover { opacity: 1; text-decoration: underline; }
+
+/* =========================================================
+   6. FV（トップ専用・縦書きヒーロー / 梅木代表メッセージ）
+   れーやが SWELL の「自由形式/カスタムHTML or ブロックパターン」で
+   下記クラス構造を組めば確定プロト(site/proto/plan-a)と同一描画になる。
+   背景画像 assets/fv-a.jpg は子テーマ /assets/ かメディアにアップし
+   --ots-fv-bg を差し替える。HTML雛形は site/proto/plan-a/index.html 参照。
+   ========================================================= */
+:root { --ots-fv-bg: url("./assets/fv-a.jpg"); }
+.ots-fv {
+  background:
+    linear-gradient(180deg, rgba(255,251,240,.38) 0%, rgba(255,251,240,.62) 52%, rgba(248,244,232,.86) 100%),
+    var(--ots-fv-bg) center / cover no-repeat;
+  padding: 84px 28px 92px;
+  position: relative;
+  overflow: hidden;
+}
+.ots-fv__inner {
+  max-width: 1180px; margin: 0 auto;
+  display: flex; flex-direction: column; align-items: center; gap: 36px;
+}
+.ots-fv__eyebrow {
+  display: inline-block;
+  background: var(--ots-primary); color: #fff;
+  padding: 6px 16px; border-radius: 4px;
+  font-size: 13px; font-weight: 600; letter-spacing: .12em;
+}
+.ots-fv__vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-feature-settings: "palt";
+  height: clamp(520px, 64vh, 680px);
+  display: flex; flex-direction: row-reverse;   /* 右→左の読み順（左読み確定） */
+  align-items: flex-start; gap: 48px; padding: 24px 8px;
+}
+.ots-fv__block {
+  line-height: 2.4; letter-spacing: .18em; font-weight: 400;
+  text-shadow: 0 0 14px rgba(255,251,240,.9), 0 0 4px rgba(255,251,240,.95);
+}
+.ots-fv__lead  { font-size: 26px; font-weight: 600; color: var(--ots-deep); letter-spacing: .22em; }
+.ots-fv__call  { font-size: 18px; color: var(--ots-body); line-height: 2.5; }
+.ots-fv__close { font-size: 17px; color: #4A4A4A; line-height: 2.5; }
+.ots-fv__sign-name { font-size: 18px; color: var(--ots-deep); font-weight: 600; letter-spacing: .4em; }
+@media (max-width: 880px) {
+  .ots-fv { padding: 48px 16px 56px; }
+  .ots-fv__vertical { height: clamp(420px, 60vh, 540px); gap: 28px; }
+  .ots-fv__lead { font-size: 19px; letter-spacing: .16em; }
+  .post_content h3 { font-size: 21px; }
 }

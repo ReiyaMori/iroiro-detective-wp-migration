@@ -292,6 +292,11 @@
 - → **デザイン確定。次工程は SWELL 本実装**（確定デザイン＝`site/proto/plan-a` が設計仕様）
 - ✅ **5/17 commit/push 完了**（れーや判断「現repoにpush」）: コミット `62b1bcd`・GitHub Pages ライブ反映確認済（plan-a 教科書体版・全ページHTTP200）。#0 repo public化は「現repoで進行」決定・repo private化は別タスクとして継続未解決
 - ✅ **5/17 reply-0517-chatwork.md れーや手動Chatwork送信完了** → **先方確認待ち（ボールは先方）**: ①「教科書体＝Klee One」への異議の有無（解釈確定の最重要ポイント）②お名前.comドメイン最新有効期限・更新クレカ有効性 ③GA4再設置スコープ範囲（PV計測まで／CV設定まで）。先方の異議なし確認が取れ次第 or 並行で SWELL本実装へ
+- ✅ **5/17 先方待ち中の前倒し：移行解析＋SWELL子テーマ design-system 実装**（サーバ非接触・ローカルのみ・手戻りなし）:
+  - `site/migration-plan.md` 作成。**実測の最重要結論**: 20固定Pは **ショートコード0件／VKブロック0件／TablePress[shortcode]0件＝2014年製クラシックHTML**。最大の地雷「VKブロック残置で崩れる」が実質回避＝移行リスク大幅低減・工数見積もり可能に
+  - 新たに特定した要対応点（migration-plan.md §3-6）: ①**階層URL保全**＝`/serviceindex/*`・`/company/*` の親ページ（serviceindex/company等）も保持しないと全子URL崩壊（meta.json実測 `parent:1295`・テンプレ`page-parent.php`＝BizVektor固有でSWELLに無い→標準化＋子テーマで代替）②**https化リスク**＝本文中 `http://www.trust-supply.com` 絶対URL **54件**→https化時に混在コンテンツ。ステージングでSearch-Replace一括置換要 ③表は生`<table class="sta">`16個＝子テーマCSS一発で確定料金表デザインに統一できる効率ポイント ④`/flow`(ID2)は現状非公開＝公開要否を先方確認
+  - `site/swell-theme/swell_child/style.css` を **design-system 実装**へ拡張（確定Plan A由来）: ヘッダー帯/ページタイトル+パンくず/**.post_content（h3-5・p・strong・ul・a・img・table.sta を一括トンマナ化＝クラシックHTML×子テーマCSSで20P一括）**/ボタン/フッター/**FV authoredブロック用クラス `.ots-fv*`**（れーやがSWELL自由形式で組めば確定プロトと同一描画）。SWELL安定クラス準拠・詳細度の最終調整のみステージング実機で。CSS波括弧57/57バランス検証済
+  - FV背景 `fv-a.jpg` を `site/swell-theme/swell_child/assets/` へ同梱（CSS `--ots-fv-bg` が解決）
 - ✅ **プロトタイプを提示クオリティへ引き上げ＋再デプロイ（5/16・送信後）**: 「ラフすぎる」懸念対応。Gemini画像生成でFV雰囲気背景を作成（Plan A=和紙クリーム×暖光 fv-a.jpg 41KB / Plan B=墨黒×残照 fv-b.jpg 118KB・`site/proto/assets/`）。①②③丸数字を自作SVGラインアイコン6種に置換。**Plan B のFVをダーク化**（墨背景＋光文字＋金罫）して「Plan A=明るい親しみ／Plan B=重厚な信頼」の対比を明確化＝A/B選択が意味を持つ構成に。**URL不変**（https://reiyamori.github.io/iroiro-detective-wp-migration/ ）のため先方は受領済リンクで自動的に新版を見る＝**reply再送不要**。ライブ実機スクショで両案表示確認済。コミット170b9c6・push済。検証スクリプト `wp-inventory/shot-proto.mjs`/`shot-live.mjs`
 
 ### 5/11受領済（過去分）
@@ -363,18 +368,19 @@
   - All-in-One WP Migration（または同等）でフルサイトバックアップ取得 → ローカル `backup_YYYYMMDD/` に保存
   - ※容量制限に注意（無料版は512MBまで）。超過時は Updraft Plus + Google Drive 等の代替を検討
 - [ ] ステージング戦略の最終決定（FTP受領可否で分岐）
-- [ ] 削除予定ページのリダイレクト計画作成（旧URL→新URL マッピング表）
-- [ ] 「再現精度」の合意定義: 棚卸し後にプロトタイプ案を提示し承認基準を先方と合意
+- [x] ~~削除予定ページのリダイレクト計画~~ → **N/A**（20P全保持確定・削除なし。階層URL=親ページ保持で対応＝migration-plan.md §3）
+- [x] **「再現精度」=確定Plan Aプロトを先方承認**（5/17 A案＋教科書体で確定）。本文移行はクラシックHTML流用＋子テーマCSS一括（migration-plan.md）
 
 ### Phase 2: テンプレート設計（受領後 約3日）
-- [ ] SWELLテーマインストール＋子テーマ作成
-- [ ] 共通パーツ（ヘッダー・フッター・サイドバー）をSWELLで再構築
-- [ ] 参考デザインに沿ったトンマナ（フォント・配色・余白）を子テーマCSSで実装
-- [ ] トップページ・主要1〜2ページのプロトタイプ作成 → 先方確認
+- [x] 子テーマ作成（雛形＋design-system実装済 `swell_child/style.css`）。SWELL本体インストールはステージングで実施
+- [~] 共通パーツ: ヘッダー帯/ページタイトル/フッター/FVは子テーマCSSで先行実装済。SWELL実マークアップへの詳細度調整はステージングで
+- [x] **トンマナ（書体Klee One・配色・余白）を子テーマCSSで実装**（確定Plan A由来・5/17）。波括弧バランス検証済
+- [x] トップ・主要1〜2ページのプロトタイプ作成→**先方確認済**（5/17確定）
 
 ### Phase 3: 一括移行（約4〜5日）
-- [ ] 残る固定ページの本文をSWELLブロックに変換
-- [ ] TablePressテーブル動作確認
+- [ ] 固定ページ本文を移行（**クラシックHTML流用方式**＝ブロック完全変換は不要・VK0件確定・migration-plan.md §1）
+- [x] TablePress: **本文中[tablepress]0件**＝20P表示に影響なしと実測（migration-plan.md）。他箇所利用の最終確認のみ（優先度低）
+- [ ] 本文中 `http://www.trust-supply.com` 絶対URL54件のhttps一括置換（ステージングでSearch-Replace・migration-plan.md §4）
 - [ ] VKブロックの除去・SWELL代替への置換
 - [ ] メニュー・ウィジェット・カスタマイザー設定移植
 
