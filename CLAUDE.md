@@ -202,8 +202,10 @@
    `調査料金`(448)`探偵業法`(245)`プライバシーポリシー`(3/240重複)`選ばれる理由`(1290)`事例case1-4等`
    など骨格・法務ページが20Pに**含まれない**。トンマナは子テーマCSSで全公開ページ自動適用＝
    見た目刷新は低コストだが、移管範囲（個別検証対象/新規作成・本文書換は別見積）を**次の連絡で再定義必須**
-2. **トップが現状FVのみ**: 承認プロト/参考mockは FV→SERVICES→代表挨拶→WHY US→FLOW→PRICE→CTA。
-   実WPトップ(1908)はFVだけ＝先方が見て「スカスカ」となる前に全構成で実装する
+2. ~~**トップが現状FVのみ**~~ → ✅**2026-05-17 解消**: 実WPトップ(1908)を承認プロト全構成で実装済
+   （`site/local-staging/home-content.html`＋子テーマ§8 `.ots-*`：FV→想い→調査メニュー6→選ばれる理由4
+   →流れ4→料金→CTAオレンジ帯。SWELL h2紺バー装飾リセット・100vwフルブリード・desktop/mobile実機検証済）。
+   料金のみ「現行料金に差替予定」プレースホルダ＝先方の現行料金確定後に反映
 3. **法務（探偵業法§10）**: フッター/会社概要に**探偵業届出証明書番号**の表示が法令上必須。
    先方は気づかない可能性大→**こちらから指摘**し番号を支給依頼（reference/anticipated-revisions.md #1）
    → 詳細・全15項目・先方確認文面・先回り実装リストは `reference/anticipated-revisions.md`
@@ -325,6 +327,13 @@
     ② SWELL既定フロントUI（MV"さぁ始めよう"/Hello world/サイドバー）を子テーマ§7で`.home`抑止＋`.ots-fv`100vwフルブリード化＝承認プロト忠実に。本番はSWELLカスタマイザーで同等（MV非表示/1カラム）が正道（README明記）
   - 全20P＋FVを desktop/mobile スクショ実機レビュー → **確定デザイン（A案＋教科書体）が全実コンテンツで提示品質再現を確認**。CSS不具合の残りなし。残る非整形（strong多用・securitycamera旧inline画像）は2014コンテンツ構造由来＝テーマ移管スコープ外・書換禁止で原則保持
   - 検証スクリプト `wp-inventory/shot-local.mjs`（再利用可）。手順/発見/本番手順を `site/local-staging/README.md` に恒久反映
+- ✅ **5/17 トップページ承認プロト全構成を実WP実装（齟齬2解消）**: `reference/anticipated-revisions.md` で
+  特定した齟齬2（トップがFVのみ）に先回り対応。承認プロト `site/proto/plan-a` のセクションCSSを
+  子テーマ§8に `.ots-*` 名前空間で移植（`.post_content`スコープ・100vwフルブリード・**SWELL既定の
+  `.post_content h2` 紺バー装飾を `::before`含めリセット**＝実機目視で発見した実バグ）。
+  `site/local-staging/home-content.html`（FV→想い→調査メニュー6[実サービスPへ正規pretty link]
+  →選ばれる理由4→流れ4→料金→CTAオレンジ帯）を home(1908) 本文に投入。desktop/mobile実機
+  スクショで承認プロト忠実・提示品質を確認（`home-full*.png`）。料金のみ現行料金差替待ちプレースホルダ
 - ✅ **プロトタイプを提示クオリティへ引き上げ＋再デプロイ（5/16・送信後）**: 「ラフすぎる」懸念対応。Gemini画像生成でFV雰囲気背景を作成（Plan A=和紙クリーム×暖光 fv-a.jpg 41KB / Plan B=墨黒×残照 fv-b.jpg 118KB・`site/proto/assets/`）。①②③丸数字を自作SVGラインアイコン6種に置換。**Plan B のFVをダーク化**（墨背景＋光文字＋金罫）して「Plan A=明るい親しみ／Plan B=重厚な信頼」の対比を明確化＝A/B選択が意味を持つ構成に。**URL不変**（https://reiyamori.github.io/iroiro-detective-wp-migration/ ）のため先方は受領済リンクで自動的に新版を見る＝**reply再送不要**。ライブ実機スクショで両案表示確認済。コミット170b9c6・push済。検証スクリプト `wp-inventory/shot-proto.mjs`/`shot-live.mjs`
 
 ### 5/11受領済（過去分）
@@ -403,7 +412,7 @@
 - [x] 子テーマ作成（design-system実装済）＋**MAMPローカルでSWELL2.16.0本体導入・有効化・実機動作実証済**（`site/local-staging/`）
 - [~] 共通パーツ: ヘッダー帯/ページタイトル/フッター/FVは子テーマCSSで先行実装済。SWELL実マークアップへの詳細度調整はステージングで
 - [x] **トンマナ（書体Klee One・配色・余白）を子テーマCSSで実装**（確定Plan A由来・5/17）。**MAMP実機で実コンテンツ描画を実証**（.post_content=Klee One／h3=#972C00+5px#D06112／生table.sta→白角丸料金表に自動変換）
-- [x] トップ・主要1〜2ページのプロトタイプ作成→**先方確認済**（5/17確定）
+- [x] トップ・主要1〜2ページのプロトタイプ作成→**先方確認済**（5/17確定）→ **実WPトップに全構成実装済**（5/17・home-content.html・desktop/mobile検証）
 
 ### Phase 3: 一括移行（約4〜5日）
 - [~] 固定ページ本文を移行（**クラシックHTML流用方式**＝VK0件確定）。MAMPで20P＋親階層を実取込＆実描画実証済（本番さくらへは同手順で再現＝local-staging/README.md §本番への移し方）

@@ -297,6 +297,167 @@ a.is-style-btn_orange {
 }
 
 /* =========================================================
+   8. トップページ構成（承認プロト site/proto/plan-a 移植）
+   FV→想い→調査メニュー→選ばれる理由→流れ→料金→CTA。
+   home本文は .post_content 配下＝詳細度確保のため全て .post_content
+   スコープ。各セクションは .ots-fv と同じ手法で 100vw フルブリード
+   （生成り⇄白の交互背景帯／CTAオレンジ帯を全幅で再現）。
+   トップ用 .ots-* は §3 の .post_content 一括ルールを上書きする。
+   ========================================================= */
+.post_content .ots-sec {
+  position: relative; left: 50%; margin-left: -50vw;
+  width: 100vw; max-width: 100vw;
+  padding: 96px 28px;
+  background: var(--ots-cream);
+}
+.post_content .ots-sec.-alt { background: var(--ots-cream-2); }
+.post_content .ots-sec__inner { max-width: 1100px; margin: 0 auto; }
+.post_content .ots-sec__head { text-align: center; margin-bottom: 56px; }
+.post_content .ots-sec__label {
+  font-size: 13px; letter-spacing: .3em; color: var(--ots-primary);
+  font-weight: 600; margin: 0 0 12px;
+}
+/* SWELL既定の .post_content h2（紺色の塗りバー装飾＋::before/::after）を
+   完全リセットしてから確定デザイン（深オレンジ文字＋金の下線）を適用 */
+.post_content .ots-sec__title {
+  font-size: 34px; font-weight: 600; color: var(--ots-deep);
+  letter-spacing: .05em; line-height: 1.5;
+  margin: 0; padding: 0;
+  background: none !important; background-color: transparent !important;
+  border: 0 !important; box-shadow: none !important;
+  counter-reset: none;
+}
+.post_content .ots-sec__title::before { content: none !important; display: none !important; }
+.post_content .ots-sec__title::after {
+  content: "" !important; display: block !important;
+  position: static !important;
+  width: 60px !important; height: 3px !important;
+  background: var(--ots-gold) !important;
+  margin: 22px auto 0 !important; padding: 0 !important;
+  border: 0 !important; border-radius: 2px !important;
+  inset: auto !important;
+}
+
+/* 想い */
+.post_content .ots-msg { text-align: center; }
+.post_content .ots-msg p {
+  font-size: 19px; line-height: 2.2; color: var(--ots-body);
+  max-width: 760px; margin: 0 auto;
+}
+.post_content .ots-msg p + p { margin-top: 1.5em; }
+.post_content .ots-msg strong {
+  color: var(--ots-deep); font-weight: 600;
+  background: linear-gradient(transparent 60%, #E8C8A8 60%); padding: 0 2px;
+}
+
+/* グリッド */
+.post_content .ots-grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin: 0; padding: 0; }
+.post_content .ots-grid2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 28px; margin: 0; padding: 0; }
+.post_content .ots-grid3 li, .post_content .ots-grid2 li { list-style: none; padding: 0; }
+.post_content .ots-grid3 li::before, .post_content .ots-grid2 li::before { content: none; }
+
+/* 調査メニュー カード */
+.post_content .ots-card {
+  display: block; background: #fff; border: 1px solid #E8DEC8;
+  border-radius: 12px; padding: 32px 24px; text-decoration: none;
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+.post_content a.ots-card { color: inherit; }
+.post_content .ots-card:hover {
+  transform: translateY(-4px); box-shadow: 0 10px 28px rgba(151,44,0,.10);
+  border-color: var(--ots-gold);
+}
+.post_content .ots-card__icon {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: linear-gradient(145deg,#fff,var(--ots-cream-2));
+  border: 1px solid #E8C8A8; color: var(--ots-primary);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+}
+.post_content .ots-card__icon svg { width: 28px; height: 28px; }
+.post_content .ots-card:hover .ots-card__icon {
+  background: linear-gradient(145deg,var(--ots-primary),#B0510F);
+  border-color: var(--ots-primary); color: #fff;
+}
+.post_content .ots-card h3 { font-size: 18px; font-weight: 600; color: var(--ots-deep); margin: 0 0 10px; padding: 0; border: 0; }
+.post_content .ots-card p { font-size: 14px; color: #4A4A4A; line-height: 1.85; margin: 0; }
+
+/* 選ばれる理由 */
+.post_content .ots-reason {
+  background: #fff; border-radius: 12px; padding: 30px;
+  display: flex; gap: 18px; align-items: flex-start;
+}
+.post_content .ots-reason__num {
+  flex: 0 0 46px; width: 46px; height: 46px; border-radius: 50%;
+  background: var(--ots-primary); color: #fff; font-weight: 600; font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+}
+.post_content .ots-reason h3 { font-size: 18px; font-weight: 600; color: var(--ots-deep); margin: 0 0 8px; padding: 0; border: 0; }
+.post_content .ots-reason p { font-size: 14.5px; color: #4A4A4A; line-height: 1.85; margin: 0; }
+
+/* ご相談の流れ */
+.post_content .ots-flow { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin: 0; padding: 0; }
+.post_content .ots-flow li { list-style: none; padding: 0; }
+.post_content .ots-flow li::before { content: none; }
+.post_content .ots-step {
+  background: #fff; border: 1px solid #E8DEC8; border-radius: 12px;
+  padding: 26px 18px; text-align: center; position: relative; height: 100%;
+}
+.post_content .ots-step:not(:last-child)::after {
+  content: "›"; position: absolute; right: -13px; top: 50%;
+  transform: translateY(-50%); color: var(--ots-primary); font-size: 22px; font-weight: 600;
+}
+.post_content .ots-step__no {
+  display: inline-block; background: var(--ots-primary); color: #fff;
+  padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 600;
+  letter-spacing: .1em; margin-bottom: 12px;
+}
+.post_content .ots-step h3 { font-size: 16px; font-weight: 600; color: var(--ots-deep); margin: 0 0 8px; padding: 0; border: 0; }
+.post_content .ots-step p { font-size: 13px; color: #4A4A4A; line-height: 1.75; margin: 0; }
+
+/* 料金 */
+.post_content table.ots-price {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  background: #fff; border-radius: 12px; overflow: hidden;
+  box-shadow: 0 4px 20px rgba(151,44,0,.06); margin: 0;
+}
+.post_content table.ots-price th, .post_content table.ots-price td {
+  padding: 17px 20px; text-align: left; border: 0; border-bottom: 1px solid #EFE7D5;
+}
+.post_content table.ots-price tr:last-child td { border-bottom: 0; }
+.post_content table.ots-price th { background: var(--ots-primary); color: #fff; font-weight: 600; letter-spacing: .06em; }
+.post_content table.ots-price td:last-child { color: var(--ots-deep); font-weight: 600; }
+.post_content .ots-price-note { text-align: center; color: #4A4A4A; font-size: 13px; margin: 16px 0 0; }
+
+/* CTA帯 */
+.post_content .ots-cta { background: var(--ots-primary); color: #fff; text-align: center; }
+.post_content .ots-cta .ots-sec__title { color: #fff; }
+.post_content .ots-cta .ots-sec__title::after { background: rgba(255,255,255,.6); }
+.post_content .ots-cta__lead { font-size: 18px; line-height: 2; margin: 22px 0 36px; color: #fff; }
+
+/* ボタン */
+.post_content .ots-btns { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+.post_content .ots-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 15px 32px; font-weight: 600; font-size: 16px; border-radius: 8px;
+  text-decoration: none; border: 2px solid transparent; transition: transform .15s, box-shadow .15s;
+}
+.post_content .ots-btn--primary { background: var(--ots-primary); color: #fff; box-shadow: 0 4px 20px rgba(151,44,0,.10); }
+.post_content .ots-btn--primary:hover { transform: translateY(-2px); }
+.post_content .ots-btn--outline { border-color: var(--ots-primary); color: var(--ots-primary); background: #fff; }
+.post_content .ots-cta .ots-btn--primary { background: #fff; color: var(--ots-primary); }
+.post_content .ots-cta .ots-btn--outline { border-color: #fff; color: #fff; background: transparent; }
+.post_content .ots-cta .ots-btn--outline:hover { background: #fff; color: var(--ots-primary); }
+
+@media (max-width: 880px) {
+  .post_content .ots-sec { padding: 64px 18px; }
+  .post_content .ots-sec__title { font-size: 26px; }
+  .post_content .ots-grid3, .post_content .ots-grid2 { grid-template-columns: 1fr; }
+  .post_content .ots-flow { grid-template-columns: 1fr 1fr; }
+  .post_content .ots-step:not(:last-child)::after { display: none; }
+  .post_content .ots-msg p { font-size: 16.5px; }
+}
+
+/* =========================================================
    7. フロントページ：SWELL既定UIの抑止＋FVフルブリード
    ※ 本番はSWELLカスタマイザーで同等設定（メインビジュアル非表示／
      フロント1カラム）を行う。ここでのCSS抑止はローカル検証の確定再現用。
