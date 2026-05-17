@@ -290,6 +290,8 @@
   - `docs/` へミラー（GitHub Pages 配信元・site/proto と完全同期）
   - 実機スクショ検証済（plan-a FV/全体/比較ページ・教科書体レンダリング＆レイアウト破綻なしを目視確認）
 - → **デザイン確定。次工程は SWELL 本実装**（確定デザイン＝`site/proto/plan-a` が設計仕様）
+- ✅ **5/17 commit/push 完了**（れーや判断「現repoにpush」）: コミット `62b1bcd`・GitHub Pages ライブ反映確認済（plan-a 教科書体版・全ページHTTP200）。#0 repo public化は「現repoで進行」決定・repo private化は別タスクとして継続未解決
+- ✅ **5/17 reply-0517-chatwork.md れーや手動Chatwork送信完了** → **先方確認待ち（ボールは先方）**: ①「教科書体＝Klee One」への異議の有無（解釈確定の最重要ポイント）②お名前.comドメイン最新有効期限・更新クレカ有効性 ③GA4再設置スコープ範囲（PV計測まで／CV設定まで）。先方の異議なし確認が取れ次第 or 並行で SWELL本実装へ
 - ✅ **プロトタイプを提示クオリティへ引き上げ＋再デプロイ（5/16・送信後）**: 「ラフすぎる」懸念対応。Gemini画像生成でFV雰囲気背景を作成（Plan A=和紙クリーム×暖光 fv-a.jpg 41KB / Plan B=墨黒×残照 fv-b.jpg 118KB・`site/proto/assets/`）。①②③丸数字を自作SVGラインアイコン6種に置換。**Plan B のFVをダーク化**（墨背景＋光文字＋金罫）して「Plan A=明るい親しみ／Plan B=重厚な信頼」の対比を明確化＝A/B選択が意味を持つ構成に。**URL不変**（https://reiyamori.github.io/iroiro-detective-wp-migration/ ）のため先方は受領済リンクで自動的に新版を見る＝**reply再送不要**。ライブ実機スクショで両案表示確認済。コミット170b9c6・push済。検証スクリプト `wp-inventory/shot-proto.mjs`/`shot-live.mjs`
 
 ### 5/11受領済（過去分）
@@ -338,7 +340,9 @@
 - [x] **完全バックアップ確保**（5/16・BackWPup 117MBフルアーカイブ＋FTP mirror）
 - [x] **reply-0516-chatwork.md 送信完了**（5/16・れーや手動送信・プロトURL＋A/B確認依頼）
 - [x] **先方A/B回答受領（2026-05-17）**: A案 ＋ 教科書体（Klee One）で確定。FV細部は先方ご指定の赤枠サイズ感・行間で承認。→ 確定版プロト更新＋docs再デプロイ＋SWELL子テーマに確定書体反映済
-- [ ] **SWELL本実装着手**（確定デザイン＝`site/proto/plan-a` が設計仕様）: バックアップ確認→WPアップデート（セキュリティ）→さくらサブディレクトリにステージング複製→全20P移行→検証→本番切替（パーマリンク不変）【←現在ここ／次の実装アクション】
+- [x] **5/17 commit/push（62b1bcd）＋ライブ反映確認＋reply-0517 Chatwork送信完了** → 先方確認待ち（教科書体=Klee One異議有無／ドメイン期限・クレカ／GA4スコープ）
+- [ ] **先方確認受領**: 特に「教科書体＝Klee One」への異議の有無（異議なし確定が20P組む前の最重要前提・手戻り防止）【←現在ここ／次の先方アクション】
+- [ ] **SWELL本実装着手**（確定デザイン＝`site/proto/plan-a` が設計仕様）: バックアップ再取得→WPアップデート（セキュリティ）→さくらサブディレクトリにステージング複製→全20P移行→検証→本番切替（パーマリンク不変）【先方異議なし確認後 or 並行で準備着手】
 - [x] **先方確認待ちの先行素材取得完了（5/12）**:
   - 公開側20P PC/SP全スクショ取得（`wp-inventory/screenshots/public/` 40枚・24MB）
   - 公開側20P HTMLダンプ（`wp-inventory/html/public/` 20件・1MB）
@@ -408,7 +412,7 @@
 - 推奨: (b)。CLAUDE.mdはチームメンバー/将来のClaudeが読む前提で保管したいため
 
 ## 更新日:
-- 2026-05-17: **先方A/B回答受領 → 「A案 ＋ 教科書体」でデザイン確定**。宮久保様より①方向性=A ②書体=教科書体 ③FV=赤枠サイズ感/行間で承認、の回答。Plan A を **Klee One（教科書体）** に全置換（font-weight 700→600/500→400・配色/レイアウト/FV比率は据え置き＝赤枠承認で手戻りなし）。比較ページ `site/proto/index.html` を確定通知ページに改修（オレンジ確定バナー/A採用ハイライト/B不採用減光）。SWELL子テーマに確定書体反映（functions.php Klee Oneエンキュー＋preconnect、style.css `--ots-font`トークン＋ベースタイポ）。`docs/` ミラー同期。実機スクショで教科書体レンダリング＆レイアウト破綻なしを目視検証。URL不変（https://reiyamori.github.io/iroiro-detective-wp-migration/ ）＝先方は受領済リンクで確定版を自動表示。**デザイン確定 → 次工程は SWELL本実装**（設計仕様＝site/proto/plan-a）。reply-0517-chatwork.md ドラフト作成。⚠️**未解決**: repo public化による客先情報露出（STATUS #0・れーや判断待ち）／お名前.comドメイン最新有効期限・クレカ有効性／GA4再設置スコープ範囲／SWELLユーザー認証コードを secrets.local.md へ。期日5/20まで残3日
+- 2026-05-17: **先方A/B回答受領 → 「A案 ＋ 教科書体」でデザイン確定**。宮久保様より①方向性=A ②書体=教科書体 ③FV=赤枠サイズ感/行間で承認、の回答。Plan A を **Klee One（教科書体）** に全置換（font-weight 700→600/500→400・配色/レイアウト/FV比率は据え置き＝赤枠承認で手戻りなし）。比較ページ `site/proto/index.html` を確定通知ページに改修（オレンジ確定バナー/A採用ハイライト/B不採用減光）。SWELL子テーマに確定書体反映（functions.php Klee Oneエンキュー＋preconnect、style.css `--ots-font`トークン＋ベースタイポ）。`docs/` ミラー同期。実機スクショで教科書体レンダリング＆レイアウト破綻なしを目視検証。URL不変（https://reiyamori.github.io/iroiro-detective-wp-migration/ ）＝先方は受領済リンクで確定版を自動表示。**デザイン確定 → 次工程は SWELL本実装**（設計仕様＝site/proto/plan-a）。れーや判断「現repoにpush」→ commit `62b1bcd` push済・GitHub Pagesライブ反映確認済（教科書体版・全P HTTP200）。**reply-0517-chatwork.md れーや手動Chatwork送信完了 → 先方確認待ち**（①教科書体=Klee Oneへの異議有無＝解釈確定の最重要 ②ドメイン有効期限/クレカ ③GA4スコープ）。⚠️**未解決（れーや/別タスク）**: repo private化（#0・現repo進行中・public露出は継続）／SWELLユーザー認証コードを secrets.local.md へ。期日5/20まで残3日
 - 2026-05-16（夜・送信完了）: **SWELL v2.16.0 取得**（森伶也購入・正規パッケージ検証・子テーマ雛形作成・実測要件WP5.6+/PHP7.3+で本番充足＝WPアップデートは必須前提でなくセキュリティ推奨に格下げ）。**配色2案プロトタイプ GitHub Pages 公開**（https://reiyamori.github.io/iroiro-detective-wp-migration/ ・HTTP200確認・publicリポジトリ化だが有料SWELL zipは.gitignore除外）。**完全バックアップ確保**（BackWPup 117MBフルアーカイブ＋FTP mirror）。**「左読み」確定**（参考サイト右→左出現アニメ＝標準縦書き・れーや確認・手戻りなし）。**reply-0516-chatwork.md をれーやが手動Chatwork送信完了**（サーバー情報お礼＋FV全文反映報告＋プロトURL＋A/B確認依頼）→ **先方A/B選択待ち（次の先方アクション）**。要追記: SWELLユーザー認証コードを secrets.local.md へ
 - 2026-05-16: 先方よりFTP・phpMyAdmin・さくらコントロールパネル・ドメイン情報を受領（サーバー設定通知書の写真2枚）。サーバーは**さくらのレンタルサーバ スタンダード**判明。認証情報は `secrets.local.md` に格納。FTPなし前提が解消→ステージング戦略をサブディレクトリ複製版（プランS）に復帰。本番環境テーブル・デプロイ手順・先方待ち更新。ドメインはお名前.com管理で通知書の登録期限が2023-11-01表記（古い通知）→最新有効期限・クレカ有効性を先方確認すべき。**並行タスク**: site/proto/ 一時公開→reply-0514-chatwork.md 送信（A/B選択依頼）は未完のまま継続
 - 2026-05-14: 先方よりFV原稿受領（A案＝先方提供確定・参考サイト otsdetective 文言・梅木代表署名入り・縦書き左読み指定）。プロトタイプ Plan A/B のFVを縦書き（writing-mode: vertical-rl・4ブロック構成）に組み直し完了。reply-0514-chatwork.md ドラフト作成済（送信前）。次は site/proto/ を一時公開→公開URL差し込み→Chatwork送信→**先方A/B選択待ち**へ
