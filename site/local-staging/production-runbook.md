@@ -1,16 +1,20 @@
-# さくら本番 SWELL移行 実行手順書（production runbook）
+# さくら本番 SWELL移行 実行手順書（production runbook・**FTPのみ版**）
 
-- 作成: 2026-05-18（ローカル最終リハーサルで全工程を予行し確定）
+- 作成: 2026-05-18（ローカル最終リハで全工程予行）／**改訂: 2026-05-18（SSH不要・FTPのみ版／方式②ベースに再構成）**
 - 対象: trust-supply.com（さくらのレンタルサーバ スタンダード／お名前.comドメイン）
 - ゴール: 既存 BizVektor サイトを **テーマ移管（→SWELL＋確定子テーマ）**。
   パーマリンク不変・実コンテンツ保全・確定デザイン（Plan A＋教科書体）適用。
 - 認証情報: すべて `secrets.local.md`（git管理外）参照。本書には書かない。
 
-> ⚠️ **方式の大前提**：本番は「**既存の稼働サイトをステージングに複製 → 再スキン**」。
-> ローカルリハの WXR 取込は“空のローカルWPに実コンテンツを入れる便宜”であって
-> 本番ではやらない（本番には全71P・画像・スラッグが既に存在）。本書は **クローン方式**。
-> ローカルリハで実証済の事実（子テーマCSSが2014クラシックHTMLに自動適用／
-> footer・headerウィジェットが描画／https置換数とguid除外／全pretty URL）を各ステップに付す。
+> ⚠️ **本書の大前提（改訂）**
+> 1. **SSHは使わない**。FTP＋phpMyAdmin(GUI)＋さくらCP＋WP管理画面＋プラグインのみで完遂する。
+>    SSH/WP-CLIは「速くてクリック数が減る」だけで**必須ではない**（各工程にGUI/FTP代替を明記）。
+> 2. **方式②（最小操作・本番直接）を本線**にする。理由＝**ローカルMAMPリハが既に
+>    ステージング検証として機能済**（確定デザイン/子テーマCSS/2014クラシックHTML挙動を実証）。
+>    本番で未検証なのは「さくら固有：実mod_rewrite・実CF7/AIOSEO・実https」だけ。
+>    重い996MBクローンをFTP往復で作るのは脆弱＝避ける。さくらCPステージング機能が
+>    **使えるなら**それで本番複製検証（より安全）＝C-1。**無ければ**方式②＝C-2。
+> 3. 本番は既存サイト＝**全71Pが既に存在**。WXR取込は不要（ローカルリハ専用の便宜）。
 
 ---
 
@@ -21,128 +25,178 @@
 | デザイン | A案＋教科書体(Klee One)確定 | ✅ 確定（先方無異議ack） |
 | GA4 | スコープ確定（CV計測まで・今回内） | ✅ 確定（5/18） |
 | アカウント情報 | WP管理/FTP/phpMyAdmin/さくらCP/お名前.com | ✅ 受領済（secrets.local.md） |
-| SWELL | v2.16.0 正規zip＋ユーザー認証コード | ✅ zip有 ／ ⚠️ **認証コードを secrets.local.md へ要追記** |
-| 🔴 先方待ち①(非ブロッカー) | ドメイン有効期限・更新クレカ | ⏳ reply-0518で確認中。失効＝全消滅のため**本番切替前に必ず確定** |
-| 🔴 先方待ち②(非ブロッカー) | GA4アカウント所有者（御社Google推奨） | ⏳ reply-0518で確認中。Iフェーズまでに |
+| FTP疎通 | 認証情報の有効性 | ✅ **5/18検証済**（読み取り専用LIST成功・curl exit0） |
+| バックアップ | 5/16 BackWPup zip 完全性 | ✅ **5/18検証済**（破損なし・内包DBダンプ13.4MB＝ロールバック資産有効） |
+| LIVEルート | 本番WP設置パス | ✅ **`~/www/ots/`** 確定（FTPは `www/ots/`）・サイトは日々変化中 |
+| SWELL | v2.16.0 正規zip＋ユーザー認証コード | ✅ zip有 ／ ⚠️ **認証コードを secrets.local.md へ要追記**（れーや・別タスク） |
+| 🟡 さくらCPステージング機能 | バックアップ＆ステージングの有無 | ⏳ **CPで要確認**＝C-1可否を決める（無ければC-2方式②） |
+| 🔴 先方待ち(J前提・必須) | ドメイン有効期限・更新クレカ | ⏳ reply-0518で確認中。失効＝全消滅のため**J前に必ず確定** |
+| 🟠 先方待ち(非ブロッカー) | GA4アカウント所有者（御社Google推奨） | ⏳ reply-0518で確認中。Iフェーズまでに |
 | 🔴 法務(必須) | 探偵業届出証明書番号（探偵業法§10） | ⏳ **こちらから支給依頼**。フッター枠は実装済・番号待ち |
 | 確認 | /flow(相談の流れ)公開要否 | ⏳ 先方確認（ローカルWXRに未収録＝本番実在を要確認） |
 
-- ステージング構築〜Iの検証までは**先方待ちと無関係に着手可**（教科書体・GA4確定済）。
-- **J（本番反映）だけはドメイン有効性確定＋先方合意の時間帯が前提**＝不可逆ポイント。
+- **A〜I（事前アップロード含む）は先方待ち・SSHと無関係に着手可**（非破壊）。
+- **J（本番反映）だけが不可逆ポイント**＝前提は **ドメイン有効性確定＋先方合意の時間帯のみ**
+  （SSH有効化は前提から外れた／さくらCPステージは「あれば使う」任意）。
 
 ---
 
-## A. 事前準備
+## A. 事前準備（FTPのみ／非破壊）
 
-1. SWELL会員マイページの **ユーザー認証コード** を `secrets.local.md` に追記
-   （テーマ更新／納品時ライセンス移譲に必要・CLAUDE.md既出）。
-2. さくらコントロールパネルで **SSH を有効化**（スタンダードはCPから有効化）。
-   WP-CLI を SSH 上で利用可能にする（`curl wp-cli.phar` を ~/bin 等へ。
-   不可なら全DB操作は phpMyAdmin＋search-replaceプラグインで代替＝後述）。
+1. SWELL会員マイページの **ユーザー認証コード** を `secrets.local.md` に追記（れーや・別）。
+2. **さくらコントロールパネルにログイン**し、以下を確認（GUIのみ・設定変更しない）:
+   - 「バックアップ＆ステージング」機能の有無 → **C-1 or C-2 の分岐確定**。
+   - phpMyAdmin の起動可否（CP→データベース→管理ツール）。
+   - PHPバージョン（参考。SWELL要件PHP7.3+は本番7.4.33で充足済＝変更不要）。
+   - ※ **SSH有効化は不要**（本書はSSHを使わない）。
 
 ---
 
-## B. バックアップ多重化（テーマ切替直前・**必須**）
+## B. バックアップ多重化（テーマ操作前・**必須**・全FTP/GUI）
 
-CLAUDE.md「やってはいけないこと: テーマ切替前に必ず全DBバックアップ」を満たす。
-3系統すべて取得してから次へ進む（1つでも失敗したら中断）。
+CLAUDE.md「テーマ切替前に必ず全DBバックアップ」を満たす。3系統取得してから次へ。
+1つでも失敗したら中断。
 
-```bash
-# B-1 DB全エクスポート（phpMyAdmin or SSH）
-#   phpMyAdmin: 全テーブル → エクスポート(SQL, gzip)
-#   SSH(WP-CLI): wp db export ots_prod_$(date +%Y%m%d).sql
-# B-2 ファイル全ミラー（FTP/SSH）: www/ 配下（wp-content/themes,uploads,plugins含む）
-#   既に backup_20260516/ftp_mirror に 1.0GB 取得済 → 切替直前に差分で再取得
-# B-3 BackWPup: テーマ＋プラグイン＋wp_options 含むフルアーカイブ（管理画面から）
-```
+| 系統 | 手段（SSH不要） | 備考 |
+|---|---|---|
+| **B-1 DB全エクスポート** | **phpMyAdmin**：対象DB（secrets.local.md: DB_NAME）選択→「エクスポート」→**カスタム**／全テーブル／形式SQL／圧縮gzip | DB実測 **13.4MB**＝GUI余裕。`ots_prod_YYYYMMDD.sql.gz` でDL |
+| **B-2 ファイル全ミラー** | **FTP**で `www/ots/` 配下を丸ごとDL（wp-content/themes,uploads,plugins含む） | 5/16取得 `backup_20260516/ftp_mirror` 996MB 有→**Jの直前に差分で再取得**（本番は日々変化） |
+| **B-3 BackWPup** | **WP管理画面**→BackWPup→ジョブ実行（テーマ＋プラグイン＋wp_options＋DB＋WXR） | 5/16取得 `OTS_full_*.zip`（112MB・**5/18完全性検証OK・内包SQL13.4MB有効**）が一次。**Jの直前に再取得** |
+
 - 取得物は `backup_YYYYMMDD/`（gitignore・ローカル保持）。
-- ✅ 5/16取得分（BackWPup 117MB＋FTPミラー1.0GB＋WXR/メディア）が一次バックアップ。
-  **WPアップデート直前(D)と本番反映直前(J)で再取得**。
+- ⚠️ **B再取得のタイミング＝「Jの直前」**。本番は稼働中で日々変化（`www/ots/` mtime実測で確認済）
+  ＝5/18時点の再取得は無駄。**WPアップデート(D)の直前**と**本番反映(J)の直前**で取り直す。
 
 ---
 
-## C. ステージング複製（さくら上・本番非破壊）
+## C. 検証方針（**ローカルリハが一次検証＝済**。本番側は下記2択）
 
-- 第一候補: さくら「**バックアップ＆ステージング**」機能でステージング生成。
-- 代替: `www/staging/` 等サブディレクトリへ本番を複製（DBは別接頭辞 or 別DB）。
-  - ファイル: FTP/SSHで `www/` を `www/staging/` へコピー
-  - DB: ダンプ → 新DB へインポート → `staging/wp-config.php` のDB名・
-    `WP_HOME/WP_SITEURL` をステージングURLへ。`wp option update siteurl/home`
-- 以降 D〜I は **ステージング上だけ**で実施。本番には触れない。
+> ✅ **ローカルMAMPリハで実証済（＝本書が依拠する一次ステージング検証）**:
+> 確定デザインが2014クラシックHTML（VK/sc/[tablepress]全0）に子テーマCSSだけで自動適用／
+> `<table class="sta">`→料金表デザイン自動変換／footer・headerウィジェットが site-wide 描画／
+> front固定P＋home-content＋show_on_front=page で承認プロト全構成E2E描画／
+> 階層URL・slug・親子（serviceindex 430・company 1295）一致。
+> → **本番で未検証なのは「さくら固有：実mod_rewrite・実CF7/AIOSEO・実https・実プラグイン相互作用」だけ**。
+
+### C-1（推奨・さくらCPステージング機能が**ある**場合）
+
+1. さくらCP「バックアップ＆ステージング」でステージング環境を生成（GUI操作・本番非破壊）。
+2. ステージング側で D〜I を実施（本番に触れない）。
+3. 検証OK後、CPのステージング→本番反映機能 or 方式②の最小操作で本番化（J）。
+
+### C-2（さくらCPステージング機能が**ない**場合＝方式②・FTPのみ本線）
+
+- **重い996MBクローンは作らない**（FTP往復は脆弱・遅い）。
+- 代わりに **本番へ SWELL親＋確定子テーマを「非有効」で事前アップロード**（E＝非破壊・先行可）。
+- 検証は **ローカルMAMPリハ（済）＋本番のさくら固有確認（I）** で代替。
+- 本番反映(J)は **合意時間帯に最小操作のみ本番で実施**（テーマ有効化＋front/widget＋https）。
+- 根拠＝①ローカルでE2E実証済 ②検証済バックアップ3系統 ③戻しは旧テーマ再有効化1クリック
+  （wp_options温存）。CLAUDE.md「ステージングで検証してから切替」は**ローカルリハがその検証**。
 
 ---
 
-## D. WordパッドPress本体アップデート（セキュリティ・先方了承済5/13）
+## D. WordPress本体アップデート（セキュリティ・先方了承5/13・**WP管理画面GUI**）
 
 > SWELL v2.16.0 実測要件 WP5.6+/PHP7.3+ ＝ 本番 WP5.7.15/PHP7.4.33 は**充足済**。
-> よってWP更新は移管の必須前提ではなく**セキュリティ目的**（移管リスク低減）。
+> WP更新は移管の必須前提ではなく**セキュリティ目的**（リスク低減）。
 
-```bash
-# ステージングで（B再取得後）
-wp core update            # 5.7.15 → 最新6.x
-wp core update-db
-wp plugin list --update=available   # 互換確認。問題プラグインは個別判断
-```
-- 問題が出たら **即 B のバックアップから復元**して原因切り分け（CLAUDE.md手順）。
+- C-1: ステージングで実施。C-2: 本番で実施（D直前にB再取得＝必須）。
+- **WP管理画面 → ダッシュボード → 更新 → 「今すぐ更新」**（5.7.15 → 最新6.x）。
+  - WPがファイル書込権限を求めFTP情報を聞いたら secrets.local.md の値を投入
+    （さくらは通常direct書込可。聞かれた場合のみ）。
+- 更新後、プラグイン一覧で「更新あり」を確認。VK/CF7/AIOSEO/TablePress等は
+  **テーマ移管に影響する更新のみ慎重に**（不要な大量更新は避ける）。
+- 不具合時は **即 B-1/B-2/B-3 から復元**（C-1ならステージングなので本番無傷）。
 
 ---
 
-## E. SWELL＋確定子テーマ導入（**切替えはまだしない**）
+## E. SWELL＋確定子テーマ 事前アップロード（**非有効**・非破壊・先方待ち中に先行可）
 
-```bash
-wp theme install /path/swell-2.16.0-official.zip          # 親（非有効のまま）
-# 子テーマ swell_child/ を wp-content/themes/ へ転送（FTP/SSH）
-#   ・site/swell-theme/swell_child（assets/fv-a.jpg 同梱）をそのまま
-wp theme list   # swell / swell_child が present・active は旧BizVektorのまま
-```
+> ⭐ これが方式②の肝。**有効化はまだしない**＝本番表示は一切変わらない＝いつでも実施可。
+
+1. **WP管理画面 → 外観 → テーマ → 新規追加 → テーマのアップロード**
+   → `site/swell-theme/swell-2.16.0-official.zip`（親・**有効化しない**）。
+2. 子テーマ `site/swell-theme/swell_child/`（`assets/fv-a.jpg` 同梱）を
+   **FTPで `www/ots/wp-content/themes/swell_child/` へ転送**。
+3. WP管理画面 外観→テーマで **swell / swell_child が一覧に出る・有効は旧BizVektorのまま** を確認。
 - ✅ リハ実証: 子テーマ functions.php の Klee One エンキューは実SWELL2.16.0で動作・致命なし。
 - ⚠️ **wp_options のBizVektor設定は消さない**（切り戻し用・CLAUDE.md）。
 
 ---
 
-## F. パーマリンク一致 → コンテンツ（クラシックHTML流用）
+## F. パーマリンク（**変更しない**＝SEO要件）
 
-- 本番は既存サイト＝**全71Pが既に存在**。WXR取込は不要（ローカルリハ専用）。
-- パーマリンク構造は**現状のまま不変**（スラッグ1文字も変えない＝SEO要件）。
-  ステージングで `wp rewrite structure` を**本番と同一**に。`wp rewrite flush`。
+- 本番は既存71Pが存在。WXR取込は不要。
+- パーマリンク構造は**現状のまま不変**（スラッグ1文字も変えない）。
+  Jでテーマ有効化後に **WP管理画面 設定→パーマリンク を「変更を保存」だけ押す**
+  （構造は変えずに rewrite フラッシュのみ）。
 - ✅ リハ実証: 20P＝**ショートコード0/VKブロック0/TablePress[sc]0＝2014クラシックHTML**。
-  ブロック完全変換は不要。本文HTMLは流用（CLAUDE.md「本文を書き換えない」）。
-- ✅ リハ実証: 階層/スラッグ/親子は I の検証表の通り（親 serviceindex(430)/company(1295) 保持必須）。
+  ブロック変換不要・本文HTMLは流用（CLAUDE.md「本文を書き換えない」）。
+- ✅ リハ実証: 親 serviceindex(430)/company(1295) 保持必須（消すと全子URL崩壊）→ Iの検証表。
 
 ---
 
-## G. https 一括置換（混在コンテンツ回避・**guid除外が必須**）
+## G. https 一括置換（**FTPのみ・guid安全**・混在コンテンツ回避）
 
-本文画像が `http://www.trust-supply.com/...` 絶対URL。https化で混在コンテンツになるため
-シリアライズ安全な search-replace で正規化。**ステージングで実施→検証**。
+本文画像が `http://www.trust-supply.com/...` 絶対URL（実測54件）。https化で混在コンテンツに
+なるため正規化。**SSH/WP-CLI不要**。下記の2分割が `wp search-replace --skip-columns=guid`
+をGUIで完全再現する正解（リハのdry-runでguid 39件巻き込みの罠を確定済）。
 
-```bash
-# G-1 まず DRY-RUN（必ず）
-wp search-replace 'http://www.trust-supply.com' 'https://www.trust-supply.com' \
-  --dry-run --all-tables --report-changed-only
-# G-2 本実行（★guid は変更しない＝フィードで既存記事が新規扱いになる事故防止）
-wp search-replace 'http://www.trust-supply.com' 'https://www.trust-supply.com' \
-  --all-tables --skip-columns=guid --report-changed-only
+### G-0 まず件数確認（phpMyAdmin → SQL／dry-run相当）
+
+```sql
+SELECT
+ (SELECT COUNT(*) FROM wp_posts    WHERE post_content LIKE '%http://www.trust-supply.com%') AS post_content,
+ (SELECT COUNT(*) FROM wp_posts    WHERE guid         LIKE '%http://www.trust-supply.com%') AS guid_touch_NG,
+ (SELECT COUNT(*) FROM wp_postmeta WHERE meta_value   LIKE '%http://www.trust-supply.com%') AS postmeta,
+ (SELECT COUNT(*) FROM wp_options  WHERE option_value LIKE '%http://www.trust-supply.com%') AS options;
 ```
-- ✅ **リハで判明した罠（dry-runの成果）**: 無指定だと `wp_posts.guid` も置換対象に入る
-  （リハ実測: post_content 34行 / postmeta 5 / guid 39 / 計78）。**guid は必ず除外**。
-- 実置換は post_content（本文URL）＋ postmeta（AIOSEO等）に限定。
-- WP-CLI不可時の代替: phpMyAdmin で **Search-Replace-DB系プラグイン**
-  （Better Search Replace 等／シリアライズ対応・**GUID列のチェックを外す**）。
-- 念のため `www.` 有無の表記揺れも確認（既存は www 付き運用）。
+- リハ実測の目安：post_content≈34 / guid≈39（**触らない**）/ postmeta≈5。本番で件数を控える。
+
+### G-1 post_content（phpMyAdmin SQL・平REPLACE安全＝guidに触れない）
+
+> `post_content` はシリアライズされない素のHTML＝平REPLACEで安全。`guid` 列は**含めない**
+> ＝WP原則「guidを変えるとフィードで既存記事が新規扱い」を回避（＝`--skip-columns=guid` 相当）。
+
+```sql
+-- 本実行（G-0で件数確認後）
+UPDATE wp_posts
+   SET post_content = REPLACE(post_content,
+       'http://www.trust-supply.com', 'https://www.trust-supply.com');
+-- 念のため www なし表記も（既存は www 付き運用だが揺れ対策）
+UPDATE wp_posts
+   SET post_content = REPLACE(post_content,
+       'http://trust-supply.com', 'https://trust-supply.com');
+```
+
+### G-2 postmeta / options（Better Search Replace・シリアライズ安全）
+
+> postmeta（AIOSEO等）/ options はシリアライズ値があり得る→**シリアライズ対応プラグイン**で。
+> これら2テーブルに **guid 列は存在しない**＝プラグインの列単位除外不可問題は起きない。
+
+1. WP管理画面 → プラグイン → 新規 → **Better Search Replace** をインストール・有効化。
+2. ツール → Better Search Replace:
+   - Search for: `http://www.trust-supply.com`
+   - Replace with: `https://www.trust-supply.com`
+   - Select tables: **`wp_postmeta` と `wp_options` のみ**（★ `wp_posts` は選ばない＝guid巻き込み防止）
+   - ☑ **Run as dry run** で先に件数確認 → 想定通りなら dry run を外して本実行。
+3. （任意）`http://trust-supply.com`（wwwなし）でももう一巡。
+4. 完了後、**プラグインは無効化/削除**（常設不要）。
+
+- ⚠️ **絶対に `wp_posts` を Better Search Replace の対象にしない**（guid列ごと置換され事故）。
+  `wp_posts` は G-1 の phpMyAdmin SQL（post_contentのみ）で処理済。
 
 ---
 
-## H. front page＋FV＋フッター/ヘッダー＋SWELLカスタマイザー
+## H. front／FV／フッター・ヘッダー／SWELLカスタマイザー（全GUI）
 
-リハで自動化＆実証済（`build-front.sh` の工程＝この H に対応）。SWELLウィジェット領域は
-リハで実測した下記IDを使用。
+SWELLウィジェット領域はリハ実測の下記IDを使用。
 
 | 配置 | SWELLウィジェット領域(id) | 入れるHTML |
 |---|---|---|
 | ヘッダー右CTA（24h/電話/無料相談） | **ヘッダー内部** `head_box` | `site/local-staging/header-cta-content.html` |
 | pre-CTA帯＋刷新フッター | **フッター直前** `before_footer` | `site/local-staging/footer-content.html` |
-| （任意）フッター列を分割したい場合 | `footer_box1/2/3` `footer_sp` | footer-content.html を分割 |
+| （任意）フッター列分割時 | `footer_box1/2/3` `footer_sp` | footer-content.html を分割 |
 
 ```text
 H-1 固定ページ「ホーム」を新規作成（slug=home）。本文に
@@ -150,28 +204,22 @@ H-1 固定ページ「ホーム」を新規作成（slug=home）。本文に
 H-2 設定→表示設定：フロントページ=固定ページ「ホーム」（show_on_front=page）。
 H-3 外観→ウィジェット：上表の領域へ「カスタムHTML」ブロックで各HTMLを貼付。
     ※ 探偵業届出証明書番号は footer-content.html 内の1箇所（第□□□号）を
-      先方支給番号に差し替える（探偵業法§10・**未支給なら枠は残し番号待ち明示**）。
+      先方支給番号に差替（探偵業法§10・**未支給なら枠は残し番号待ち明示**）。
 H-4 SWELLカスタマイザー：
     ・ヘッダー：メインビジュアル「表示しない」
     ・フロントページ：1カラム（サイドバー無し）
     ・インナーページ：必要に応じ1カラム（サービスPのSWELL既定サイドバー対策。
-      ローカルリハで既定サイドバーに "Hello world!" が出る＝本番は実ウィジェット/
-      非表示を設定。CSS強制はしない＝先方が連絡導線を入れる余地を残す）
+      CSS強制はしない＝先方が連絡導線を入れる余地を残す）
 ```
-- ✅ リハ実証: front(/) が **ヘッダーCTA→FV縦書き→想い→調査メニュー6→選ばれる理由
-  →流れ→料金→CTA→pre-CTA帯→刷新フッター（届出番号枠）** まで実SWELLでE2E描画。
-  通常ページ・表ページにも footer/header が site-wide 適用。desktop/mobile 提示品質確認済
-  （`backup_20260516/local_shots/rehearsal-*.png`）。
+- ✅ リハ実証: front(/) が ヘッダーCTA→FV縦書き→想い→調査メニュー6→選ばれる理由→流れ
+  →料金→CTA→pre-CTA帯→刷新フッター（届出番号枠）まで実SWELLでE2E描画。
+  通常P・表Pにも footer/header が site-wide 適用。desktop/mobile 提示品質確認済。
 - 料金表は「※現行料金に差し替え予定」プレースホルダ → 先方の現行料金確定後に差替。
 
 ---
 
-## I. 検証（ステージングで全数・本番反映前の関門）
+## I. 検証（本番反映前の関門・curlはローカルから）
 
-```bash
-# I-1 全公開ページ＋親＋front の HTTP 200/301（pretty URL・本番Apacheはmod_rewrite有効）
-#     ローカルはMAMP htaccess未適用でpretty404＝環境差（README）。本番では下記URLが200。
-```
 **curl 200 必須リスト（リハの slug/parent 実測から確定）**:
 
 | 種別 | URL（https://www.trust-supply.com…） | 期待 |
@@ -182,69 +230,96 @@ H-4 SWELLカスタマイザー：
 | 代表挨拶 | `/company/atfirst/` | 200 |
 | 直下4P | `/otherarea/` `/after/` `/technic/` `/akutoku/` | 各200 |
 | 旧URL正規化 | 上記の `http://`／末尾スラッシュ有無 | 301→https正規 |
-| /flow | `/flow/` | ⚠️ **要先方確認**（ローカルWXR未収録＝本番実在/公開要否を確定。非公開なら現状維持） |
+| /flow | `/flow/` | ⚠️ **要先方確認**（本番実在/公開要否。非公開なら現状維持） |
 
-- I-2 PC/SP 目視：FV縦書き・教科書体・表(class="sta")の料金表デザイン・画像・
-  内部リンク・パンくず・フッター届出番号枠・pre-CTA。
+- I-2 PC/SP 目視：FV縦書き・教科書体・表(class="sta")料金表・画像・内部リンク・
+  パンくず・フッター届出番号枠・pre-CTA。
 - I-3 Contact Form 7：実送信→通知メール受信まで（文面・送信先継承）。
-- I-4 GA4：新規プロパティ（**御社Googleアカウントで作成推奨**＝所有権を客に残す。
-  reply-0518で確認中）＋計測タグ設置＋**CF7送信完了をキーイベント＝CV計測**。
-  実送信テストはJ後（本番公開後）に最終確認＝Phase4。
-- I-5 All in One SEO のmeta/XMLサイトマップ継続、Search Console（あれば）。
+- I-4 GA4：新規プロパティ（**御社Googleアカウント推奨**＝所有権を客に残す）＋計測タグ
+  ＋**CF7送信完了をキーイベント＝CV計測**。実送信テストはJ後（Phase4）。
+- I-5 All in One SEO の meta/XMLサイトマップ継続、Search Console（あれば）。
+- ※ C-2（方式②）の場合、I-1/I-3/I-5 の最終確定は **J直後**に本番ドメインで実施（Kと統合）。
+  C-1（ステージング）の場合は反映前にステージングURLで全数。
 
 ---
 
-## J. 本番反映（**不可逆ポイント**・先方合意の時間帯）
+## J. 本番反映（**唯一の不可逆ポイント**・先方合意の時間帯）
 
-> 前提：ドメイン有効期限・更新クレカが有効と確定済（失効＝全消滅）。
-> 先方と切替時間帯を合意（営業影響の少ない時間／問い合わせ取りこぼし配慮）。
+> 前提：**ドメイン有効期限・更新クレカが有効と確定済**（失効＝全消滅）。
+> 先方と切替時間帯を合意（営業影響・問い合わせ取りこぼし最小の時間）。
 
-- J-0 直前に B を再取得（最新DB＋ファイル）。
-- 反映方式（いずれか・ステージング構成で決定）:
-  - 方式①: ステージングで確定の wp_posts/postmeta/wp_options/テーマ を本番へ慎重反映
-  - 方式②: 本番に SWELL＋子テーマを非有効アップロード済の状態にし、
-    深夜に**テーマ有効化＋front/ウィジェット設定**を本番で実施（最小操作）
-- パーマリンク設定は**変更しない**。`wp rewrite flush` のみ。
+```text
+J-0 直前バックアップ再取得（B-1 phpMyAdmin DB + B-2 FTP差分 + B-3 BackWPup）。
+J-1 外観→テーマ：swell_child を「有効化」（旧BizVektorはwp_options温存・削除しない）。
+J-2 H-1〜H-4 を本番で実施（front固定ページ／表示設定／ウィジェット貼付／カスタマイザー）。
+J-3 G を本番で実施（G-1 phpMyAdmin SQL post_content ＋ G-2 BSR postmeta/options）。
+J-4 設定→パーマリンク「変更を保存」（構造不変・rewriteフラッシュのみ）。
+J-5 即 K-1 のcurl全数＋主要P目視（最短で異常検知）。
+```
+
+- C-1（ステージング検証済）の場合：J-1〜J-4をステージング確定状態の本番反映に置換可。
+- パーマリンク設定は**変更しない**。
 
 ---
 
 ## K. 切替後検証＋納品
 
-- K-1 I-1 の全URLを**本番ドメインで** curl 200/301 全数再確認。
-- K-2 PC/SP実機・CF7実送信・GA4リアルタイム計測・CVイベント発火確認。
+- K-1 I-1 の全URLを**本番ドメインで** curl 200/301 全数確認。
+- K-2 PC/SP実機・**CF7実送信→受信**・GA4リアルタイム計測・CVイベント発火確認。
 - K-3 スクショ送付＋CW納品報告＋検収依頼（月内検収希望なら明示）。
 
 ---
 
-## ロールバック（各段階・即復旧）
+## ロールバック（各段階・FTP/GUIのみで即復旧）
 
-| 段階 | 事故 | 復旧 |
+| 段階 | 事故 | 復旧（SSH不要） |
 |---|---|---|
-| D | WP更新で不具合 | B-1/B-2/B-3 から復元（ステージングなので本番無傷） |
-| G | 置換で本文破損 | search-replace前のDBダンプを再インポート |
-| J 方式② | 切替後に致命表示崩れ | 旧テーマ(BizVektor)を `wp theme activate` で即戻し（wp_options温存済） |
-| J | DB反映で破損 | J-0 の直前バックアップから本番DB復元 |
+| D | WP更新で不具合 | C-1=ステージングなので本番無傷／C-2=B-3 BackWPup復元 or B-1 phpMyAdmin import＋B-2 FTP戻し |
+| G-1 | post_content破損 | phpMyAdmin で B-1 のDBダンプを再import（または当該テーブルのみ） |
+| G-2 | postmeta/options破損 | 同上（Better Search Replace は元に戻す機能なし＝DB復元が確実） |
+| J-1 | 切替後に致命表示崩れ | **外観→テーマで BizVektor を再有効化（1クリック・wp_options温存済）** |
+| J | DB反映で広域破損 | J-0 直前バックアップから phpMyAdmin import で本番DB復元 |
+
+> ⚠️ Better Search Replace に「取り消し」は無い。**G実行前のDBダンプ（B-1またはJ-0）を必ず保持**。
+> 復旧の最終手段は常に phpMyAdmin での DB再import（FTPのみで完結）。
 
 ---
 
-## 予行で実証済（このリハで潰した不確実性）
+## 予行で実証済＋5/18検証（潰した不確実性）
 
-1. ✅ setup.sh が **DBドロップ→from-scratch を9秒でクリーン完走**（69P取込・fatal 0）＝再現性。
-2. ✅ 子テーマCSSが 2014クラシックHTML（VK/sc/[tablepress] 全0）に**自動適用**。
+1. ✅ setup.sh が DBドロップ→from-scratch を9秒クリーン完走（69P取込・fatal0）＝再現性。
+2. ✅ 子テーマCSSが 2014クラシックHTML（VK/sc/[tablepress]全0）に**自動適用**。
    `<table class="sta">`→確定料金表デザインへ自動変換を実SWELLで再確認。
-3. ✅ **footer/header を SWELLウィジェット（before_footer/head_box）に入れると
-   全ページ site-wide 描画**＝本番のウィジェット貼付手順が成立。
-4. ✅ front固定ページ＋home-content.html＋show_on_front=page で承認プロト全構成がE2E描画。
-5. ⚠️→✅ **https置換で guid も巻き込む罠を dry-run で検知** → `--skip-columns=guid` 確定。
-6. ✅ 全20P＋親＋front の pretty URL（slug/parent）を確定＝I-1検証表の根拠。
-7. ⚠️ ID2 はローカルでは既定 `sample-page`＝**/flow は pages WXR 未収録**。
-   本番での /flow 実在・公開要否を先方確認（既出・確認#）。
+3. ✅ footer/header を SWELLウィジェット（before_footer/head_box）に入れると全P site-wide 描画。
+4. ✅ front固定P＋home-content＋show_on_front=page で承認プロト全構成がE2E描画。
+5. ⚠️→✅ https置換で guid も巻き込む罠を dry-run で検知 → **G-1/G-2の2分割で回避**（FTPのみ版）。
+6. ✅ 全20P＋親＋front の pretty URL（slug/parent）確定＝I-1検証表の根拠。
+7. ✅ **5/18: 5/16 BackWPup zip 完全性OK**（内包DBダンプ 13.4MB＝ロールバック資産として有効）。
+8. ✅ **5/18: FTP認証情報は有効**（読み取り専用LIST・curl exit0）＝切替日に失効判明する事態を排除。
+9. ✅ **5/18: LIVE WPルート=`~/www/ots/`** 確定・本番は日々変化中＝B再取得は「Jの直前」が正。
+10. ⚠️ ID2はローカルで既定 `sample-page`＝**/flow は pages WXR 未収録**。本番実在/公開要否を先方確認。
 
 ## 残（先方アクション or 別タスク）
 
+- ドメイン有効期限・更新クレカの確定（**Jの唯一の必須前提**・reply-0518で確認中）
 - 探偵業届出証明書番号の支給（法務必須・こちらから依頼）
-- ドメイン有効期限・更新クレカの確定（J前提・reply-0518で確認中）
 - GA4アカウント所有者の選択（reply-0518で確認中）
 - /flow 公開要否・本番実在の確認
 - 現行料金表の確定値（トップ料金プレースホルダ差替）
-- repo private化（#0・別タスク継続）／SWELLユーザー認証コードを secrets.local.md へ
+- さくらCP「バックアップ＆ステージング」機能の有無確認（C-1/C-2分岐・れーやCPログインで可）
+- repo private化（#0・別タスク）／SWELLユーザー認証コードを secrets.local.md へ（れーや・別）
+
+---
+
+## 付録：SSHを使わない判断の根拠（なぜFTPのみで十分か）
+
+| SSH版でやること | FTPのみ代替 | 等価性 |
+|---|---|---|
+| `wp db export` | phpMyAdmin エクスポート | DB13.4MB＝GUIで余裕。完全等価 |
+| `wp core update` | WP管理画面 ダッシュボード→更新 | 完全等価（権限要求時のみFTP情報投入） |
+| `wp theme install` | 管理画面zipアップ＋FTPで子テーマ転送 | 完全等価 |
+| `wp search-replace --skip-columns=guid` | G-1 phpMyAdmin SQL(post_content) ＋ G-2 BSR(postmeta/options) | **完全等価**（guid除外を2分割で再現） |
+| `wp rewrite flush` | 設定→パーマリンク「変更を保存」 | 完全等価 |
+| ステージング | さくらCPステージ機能(あれば) or ローカルMAMPリハ(済)＋方式② | 一次検証はローカルで完了済 |
+
+→ SSHは速度・クリック数の利便のみ。**移管の正しさ・安全性はFTPのみで担保できる**。
