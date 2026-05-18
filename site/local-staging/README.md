@@ -120,3 +120,44 @@ bash site/local-staging/setup.sh
 desktop/mobile 撮影（出力 `backup_20260516/local_shots/`・gitignore）。
 5/17 実機レビュー: 確定デザイン（A案＋教科書体）が全実コンテンツで提示品質再現を確認。
 ```
+
+## 5/18 追加：先回り実装（フッター/ヘッダー/ナビ/可読性）— 本番への置き方
+
+先方待ち不要のローカル先行実装（`reference/anticipated-revisions.md`「先回り着手リスト」を消化）。
+子テーマCSSに実装済＝**本番は SWELL のウィジェット/設定にHTMLを貼るだけ**で適用される。
+
+| 対象 | 子テーマCSS | 本番貼付HTML | 本番の置き場所 |
+|---|---|---|---|
+| pre-CTA帯＋刷新フッター（#1/#12・探偵業届出番号枠） | §5 `.ots-precta*` `.ots-footer*` | `site/local-staging/footer-content.html` | SWELL 外観→ウィジェット「フッター」（カスタムHTML） |
+| ヘッダー24hバッジ＋電話＋無料相談CTA（#5） | §1b `.ots-hcta*` `.ots-hbadge*` | `site/local-staging/header-cta-content.html` | SWELL カスタマイザー→ヘッダー→ヘッダー内固定ボタン/自由記述 |
+| 本文長文の可読フォント＋strong抑制（#7/#8） | §9 `body.ots-readable` `body.ots-quiet-strong` | （CSSのみ・**既定OFF**） | 先方指摘時に body_class 付与で即有効化（functions.php か SWELL設定） |
+| グローバルナビ A/B 2案（#11）・配色対応表（#6） | （表示は確定配色） | — | `site/proto/plan-a/components.html`（先方選択用ビュー） |
+
+- **法務必須**：`.ots-footer__license` ＝探偵業法§10の標識義務。`第□□□号` は先方支給待ち
+  プレースホルダ。番号受領後 footer-content.html の当該1箇所を差替えるだけ。
+- **届出番号は先方支給依頼が必要**（こちらから指摘・`anticipated-revisions.md` §確認#2）。
+- 検証：`cd wp-inventory && node shot-components.mjs` →
+  `backup_20260516/proto_shots/components-{full,sp}.png`（desktop/mobile）。
+  2026-05-18 実機目視：確定デザインで提示品質・レスポンシブ崩れなしを確認済。
+- **先方提示はclient-facing**：components.html の docs 公開 / Chatwork 共有は
+  れーや判断で実施（このセッションでは docs/ 同期・push はしていない）。
+
+## 5/18 追加：本番手順ドリル（さくら作業前のローカル最終リハ）
+
+`setup.sh`（空WP→SWELL＋子テーマ＋WXR）の後に `build-front.sh` を実行すると、
+**本番でやる残り工程**（front固定ページ＋home-content／フッター直前・ヘッダー内部
+ウィジェット配置／https一括置換 dry-run／pretty URL検証リスト）をローカルで予行する。
+
+```bash
+bash site/local-staging/setup.sh && bash site/local-staging/build-front.sh
+node wp-inventory/shot-rehearsal.mjs   # front/通常P/表P を desktop/mobile 撮影
+```
+
+- 2026-05-18 リハ結果：DBドロップ→from-scratch を9秒完走（69P・fatal 0）、
+  子テーマCSSが実SWELLで自動適用、**before_footer/head_box ウィジェットで footer/header
+  が全ページ描画**、front が承認プロト全構成でE2E描画（desktop/mobile 提示品質）。
+- リハで潰した罠：**https置換が guid も巻き込む → `--skip-columns=guid` 必須**。
+  ID2はローカルでは既定 sample-page＝/flow は WXR 未収録（本番実在/公開要否を先方確認）。
+- ⭐ **本番の正式手順＝`site/local-staging/production-runbook.md`**（クローン方式・
+  バックアップ多重化・各段ロールバック・全URL curl検証表・GO/NO-GO・不可逆ポイントJ）。
+  build-front.sh の工程＝runbook の [E]〜[H] に対応。

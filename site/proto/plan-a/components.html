@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>[Proto A 先回り] ヘッダーCTA / ナビA・B / pre-CTA / 刷新フッター / 配色対応</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&display=swap" rel="stylesheet">
+<!-- 本番に自動適用される子テーマCSSをそのまま読み込み＝この見た目が実装の実体 -->
+<link rel="stylesheet" href="../../swell-theme/swell_child/style.css">
+<style>
+  /* このページ専用のレビュー用クローム（本番CSSではない／検証表示のみ） */
+  body { margin: 0; background: #ECE6DA; font-family: "Klee One","Hiragino Mincho ProN",serif; color:#1A1A1A; }
+  .doc { max-width: 1180px; margin: 0 auto; padding: 40px 20px 80px; }
+  .doc h1 { font-size: 22px; color:#972C00; letter-spacing:.04em; margin:0 0 6px; }
+  .doc .meta { font-size: 13px; color:#6b6058; margin:0 0 36px; }
+  .blk { background:#fff; border:1px solid #E0D6C2; border-radius:14px; margin:0 0 34px; overflow:hidden; box-shadow:0 4px 18px rgba(151,44,0,.05); }
+  .blk__ttl { background:#FFFBF0; border-bottom:1px solid #E8DEC8; padding:14px 22px; font-size:15px; font-weight:600; color:#972C00; letter-spacing:.04em; }
+  .blk__ttl small { display:block; font-weight:400; font-size:12px; color:#6b6058; margin-top:3px; letter-spacing:0; }
+  .blk__body { padding:0; }
+  .pad { padding: 26px 22px; }
+  /* ヘッダー帯デモ（本番は SWELL .l-header＝子テーマ §1 で同配色） */
+  .demohead { background:#D06112; color:#fff; padding:16px 26px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; }
+  .demohead .brand { font-weight:600; font-size:19px; letter-spacing:.08em; }
+  .demohead .brand small { display:block; font-size:10.5px; font-weight:400; letter-spacing:.2em; opacity:.85; margin-top:2px; }
+  .navdemo { display:flex; gap:26px; list-style:none; margin:0; padding:0; font-size:14px; font-weight:600; flex-wrap:wrap; }
+  .navdemo a { color:#fff; text-decoration:none; padding:6px 0; border-bottom:2px solid transparent; }
+  .navdemo a:hover { border-color:#fff; }
+  .navrow { display:flex; align-items:center; gap:18px; background:#D06112; color:#fff; padding:14px 26px; flex-wrap:wrap; }
+  .navrow .tag { font-size:12px; font-weight:600; background:rgba(0,0,0,.18); padding:5px 12px; border-radius:999px; letter-spacing:.06em; white-space:nowrap; }
+  .swatch-wrap { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px; }
+  .sw { border:1px solid #E0D6C2; border-radius:10px; overflow:hidden; font-size:12px; }
+  .sw__c { height:64px; }
+  .sw__t { padding:8px 10px; line-height:1.5; }
+  .sw__t b { display:block; font-size:12.5px; }
+  .sw__t span { color:#6b6058; }
+  .note { font-size:12.5px; color:#6b6058; padding:0 22px 22px; line-height:1.8; }
+</style>
+</head>
+<body>
+<div class="doc">
+  <h1>OTS探偵社サイト｜先回り実装プレビュー（確定デザイン Plan A＋教科書体）</h1>
+  <p class="meta">2026-05-18 ローカル先行実装／先方待ち不要・手戻り低。本番は子テーマCSSが全公開ページへ自動適用。料金/届出番号は先方支給待ちプレースホルダ。</p>
+
+  <!-- 1. ヘッダー右クラスタ -->
+  <div class="blk">
+    <div class="blk__ttl">① ヘッダー：24時間バッジ＋電話＋無料相談CTA（#5）
+      <small>本番＝SWELL「ヘッダー」内固定ボタン/自由記述に header-cta-content.html を配置（子テーマ §1b で配色適用）</small></div>
+    <div class="blk__body">
+      <div class="demohead">
+        <div class="brand">株式会社OTS探偵社<small>OTS DETECTIVE AGENCY</small></div>
+        <div class="ots-hcta">
+          <span class="ots-hbadge"><span class="ots-hbadge__main">24時間受付・年中無休</span><span class="ots-hbadge__sub">秘密厳守／話だけでもOK</span></span>
+          <a class="ots-hcta__tel" href="tel:0120556624">0120-556-624</a>
+          <a class="ots-hcta__form" href="#">無料相談</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. グローバルナビ A / B -->
+  <div class="blk">
+    <div class="blk__ttl">② グローバルナビ 2案（#11）— 先方に A / B どちらかを選んでいただく形
+      <small>本番＝WP「メニュー」設定で即切替。下の見た目は確定ヘッダー配色（オレンジ帯＋白文字）</small></div>
+    <div class="blk__body">
+      <div class="navrow">
+        <span class="tag">A案：参考サイト準拠</span>
+        <ul class="navdemo">
+          <li><a href="#">想い</a></li><li><a href="#">調査メニュー</a></li><li><a href="#">選ばれる理由</a></li><li><a href="#">ご相談の流れ</a></li><li><a href="#">料金</a></li><li><a href="#">会社情報</a></li>
+        </ul>
+      </div>
+      <div class="navrow" style="background:#B0510F">
+        <span class="tag">B案：現行7項目踏襲</span>
+        <ul class="navdemo">
+          <li><a href="#">ホーム</a></li><li><a href="#">調査項目一覧</a></li><li><a href="#">調査料金</a></li><li><a href="#">調査技術・機材</a></li><li><a href="#">よくあるご質問</a></li><li><a href="#">スタッフ研修</a></li><li><a href="#">会社情報</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="note">A案＝参考mock準拠でストーリー導線型（想い→メニュー→理由→流れ→料金）。B案＝現行サイトの情報構造を維持しSEO/既存ブックマーク影響を最小化。<strong>どちらもWPメニュー設定のみで即反映可（移管内）</strong>。</p>
+  </div>
+
+  <!-- 3. pre-footer CTA帯 -->
+  <div class="blk">
+    <div class="blk__ttl">③ pre-footer CTA帯（全幅オレンジ・全ページ共通 #12）
+      <small>本番＝SWELL「フッター直前」ウィジェットへ footer-content.html 上段を配置</small></div>
+    <div class="blk__body">
+      <section class="ots-precta">
+        <div class="ots-precta__inner">
+          <p class="ots-precta__lead">ひとりで抱え込まず、まずはお話を聞かせてください</p>
+          <p class="ots-precta__sub">24時間・365日受付／秘密厳守／ご相談だけでも構いません</p>
+          <div class="ots-precta__btns">
+            <a class="ots-precta__tel" href="tel:0120556624"><span class="ots-precta__tel-cap">お電話でのご相談</span><span class="ots-precta__tel-num">0120-556-624</span></a>
+            <a class="ots-precta__form" href="#">フォームから相談する</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- 4. 刷新フッター -->
+  <div class="blk">
+    <div class="blk__ttl">④ 刷新フッター＋探偵業届出証明書番号枠（法務必須 #1・探偵業法§10）
+      <small>届出番号は法令上の必須表示。番号は先方支給待ち＝空欄スロットで明示</small></div>
+    <div class="blk__body">
+      <footer class="ots-footer">
+        <div class="ots-footer__inner">
+          <div>
+            <p class="ots-footer__name">株式会社OTS探偵社</p>
+            <p class="ots-footer__addr">〒860-0846<br>熊本県熊本市中央区新屋敷3丁目12-16 法務ビル2F</p>
+            <p class="ots-footer__tel"><a href="tel:0120556624">0120-556-624</a><span>（24時間受付・年中無休）</span></p>
+            <p class="ots-footer__license">探偵業届出証明書番号：<span class="ots-footer__license-no">第　　　　　　　号</span>（熊本県公安委員会）<br><small style="opacity:.7;font-size:11px">※ 番号を御社よりご支給ください（探偵業法第10条の標識義務）</small></p>
+          </div>
+          <nav class="ots-footer__nav">
+            <p class="ots-footer__navttl">サイトメニュー</p>
+            <ul>
+              <li><a href="#">ホーム</a></li>
+              <li><a href="#">調査メニュー</a></li>
+              <li><a href="#">調査料金</a></li>
+              <li><a href="#">よくあるご質問</a></li>
+              <li><a href="#">会社情報</a></li>
+              <li><a href="#">お問い合わせ</a></li>
+            </ul>
+          </nav>
+          <nav class="ots-footer__nav">
+            <p class="ots-footer__navttl">ご利用にあたって</p>
+            <ul>
+              <li><a href="#">プライバシーポリシー</a></li>
+              <li><a href="#">探偵業法に基づく表示</a></li>
+            </ul>
+          </nav>
+        </div>
+        <p class="ots-footer__copy">© 株式会社OTS探偵社 All Rights Reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- 5. 配色対応表 -->
+  <div class="blk">
+    <div class="blk__ttl">⑤ チラシ実測色 → サイト適用色 対応表（#6・先方先回り説明用）
+      <small>「メインカラー＝チラシ準拠」のご要望に対し、サイトの各色がチラシ実測値そのままであることを可視化</small></div>
+    <div class="blk__body pad">
+      <div class="swatch-wrap">
+        <div class="sw"><div class="sw__c" style="background:#D06112"></div><div class="sw__t"><b>#D06112</b><span>Primary Orange<br>ヘッダー帯/CTA/アクセント</span></div></div>
+        <div class="sw"><div class="sw__c" style="background:#972C00"></div><div class="sw__t"><b>#972C00</b><span>Deep Orange<br>大見出し/フッター地</span></div></div>
+        <div class="sw"><div class="sw__c" style="background:#FFFBF0;border-bottom:1px solid #E8DEC8"></div><div class="sw__t"><b>#FFFBF0</b><span>Cream<br>背景</span></div></div>
+        <div class="sw"><div class="sw__c" style="background:#DEA57D"></div><div class="sw__t"><b>#DEA57D</b><span>Gold<br>細罫・装飾</span></div></div>
+        <div class="sw"><div class="sw__c" style="background:#1A1A1A"></div><div class="sw__t"><b>#1A1A1A</b><span>Body<br>本文テキスト</span></div></div>
+      </div>
+    </div>
+    <p class="note">いずれもチラシ <code>ots_review_flyer_v3</code> の Pixel 実測値（reference/flyer/palette.md）。サイトのCSSトークンに同値を採用済＝<strong>チラシとサイトでブランドカラーが一致</strong>。</p>
+  </div>
+
+</div>
+</body>
+</html>

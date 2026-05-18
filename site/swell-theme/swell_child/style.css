@@ -73,6 +73,42 @@ h1, h2, h3, h4,
   padding: 10px 18px;
 }
 
+/* ---- 1b. ヘッダー右クラスタ：24時間バッジ＋電話＋無料相談CTA（#5）----
+   本番は SWELL「ヘッダー」→ ヘッダー内に固定するボタン / 自由記述ウィジェットへ
+   site/local-staging/header-cta-content.html を貼る。クラスは .post_content 非依存。 */
+.ots-hcta {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.ots-hbadge {
+  display: inline-flex; flex-direction: column; align-items: flex-end;
+  line-height: 1.25; color: #fff;
+}
+.ots-hbadge__main { font-size: 13px; font-weight: 600; letter-spacing: .06em; }
+.ots-hbadge__sub  { font-size: 11px; opacity: .9; letter-spacing: .04em; }
+.ots-hcta__tel {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #fff; color: var(--ots-primary);
+  padding: 9px 18px; border-radius: 999px;
+  font-weight: 600; font-size: 17px; letter-spacing: .02em;
+  text-decoration: none;
+}
+.ots-hcta__tel::before { content: "\260E"; font-size: 15px; }
+.ots-hcta__form {
+  display: inline-flex; align-items: center;
+  background: var(--ots-deep); color: #fff;
+  padding: 10px 20px; border-radius: 999px;
+  font-weight: 600; font-size: 14px;
+  border: 1px solid rgba(255,255,255,.55);
+  text-decoration: none; transition: background .15s, transform .15s;
+}
+.ots-hcta__form:hover { background: #7d2400; transform: translateY(-1px); }
+@media (max-width: 880px) {
+  .ots-hcta { gap: 10px; }
+  .ots-hbadge { display: none; }
+  .ots-hcta__tel { font-size: 15px; padding: 8px 14px; }
+  .ots-hcta__form { font-size: 13px; padding: 8px 14px; }
+}
+
 /* =========================================================
    2. ページタイトル / パンくず（確定Plan A: cream subhero）
    SWELL安定クラス: .c-pageTitle / .p-breadcrumb
@@ -231,13 +267,84 @@ a.is-style-btn_orange {
 }
 
 /* =========================================================
-   5. フッター（確定Plan A: deep orange 地）
+   5. フッター刷新＋探偵業届出番号枠＋pre-footer CTA帯（#1 / #12）
+   - 探偵業法§10：探偵業届出証明書番号の表示が法令上必須。
+     .ots-footer__license が必須表示枠。番号は先方支給（プレースホルダ）。
+   - 本番配置：SWELL「フッター」ウィジェット（or フッター直前ウィジェット）へ
+     site/local-staging/footer-content.html を貼る。クラスは .post_content 非依存。
+   - SWELL既定フッター（.l-footer/.p-footer）は下記をフォールバックとして残す。
    ========================================================= */
 .l-footer,
 .p-footer { background: var(--ots-deep); color: #fff; }
 .l-footer a,
 .p-footer a { color: #fff; opacity: .9; }
 .p-footer a:hover { opacity: 1; text-decoration: underline; }
+
+/* ---- pre-footer CTA帯（全幅オレンジ・フッター直前・全ページ共通 #12）---- */
+.ots-precta { background: var(--ots-primary); color: #fff; text-align: center; padding: 60px 24px; }
+.ots-precta__inner { max-width: 880px; margin: 0 auto; }
+.ots-precta__lead { font-size: 26px; font-weight: 600; letter-spacing: .04em; margin: 0 0 10px; line-height: 1.6; }
+.ots-precta__sub  { font-size: 14px; opacity: .92; margin: 0 0 28px; letter-spacing: .03em; }
+.ots-precta__btns { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+.ots-precta__tel {
+  display: inline-flex; flex-direction: column; align-items: center;
+  background: #fff; color: var(--ots-primary);
+  padding: 12px 30px; border-radius: 10px; text-decoration: none;
+  box-shadow: 0 6px 20px rgba(125,36,0,.22);
+}
+.ots-precta__tel-cap { font-size: 12px; font-weight: 600; letter-spacing: .08em; }
+.ots-precta__tel-num { font-size: 26px; font-weight: 600; letter-spacing: .02em; }
+.ots-precta__form {
+  display: inline-flex; align-items: center;
+  border: 2px solid #fff; color: #fff; background: transparent;
+  padding: 0 30px; border-radius: 10px; font-weight: 600; font-size: 16px;
+  text-decoration: none; transition: background .15s, color .15s;
+}
+.ots-precta__form:hover { background: #fff; color: var(--ots-primary); }
+
+/* ---- 本体フッター（会社情報＋届出番号＋サイトリンク＋法務リンク）---- */
+.ots-footer { background: var(--ots-deep); color: #fff; padding: 64px 24px 28px; }
+.ots-footer a { color: #fff; opacity: .9; text-decoration: none; }
+.ots-footer a:hover { opacity: 1; text-decoration: underline; }
+.ots-footer__inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 40px;
+}
+.ots-footer__name { font-size: 21px; font-weight: 600; letter-spacing: .08em; margin: 0 0 16px; }
+.ots-footer__addr { font-size: 13.5px; line-height: 2; opacity: .9; margin: 0 0 12px; }
+.ots-footer__tel  { font-size: 15px; margin: 0 0 16px; }
+.ots-footer__tel a { font-size: 20px; font-weight: 600; }
+.ots-footer__tel span { font-size: 12.5px; opacity: .85; margin-left: 8px; }
+/* 探偵業法§10 必須表示。番号は先方支給待ちのため空欄スロットを明示 */
+.ots-footer__license {
+  font-size: 13px; line-height: 1.9; margin: 16px 0 0;
+  padding: 12px 16px; border: 1px solid rgba(255,255,255,.35);
+  border-radius: 6px; background: rgba(0,0,0,.12);
+}
+.ots-footer__license-no {
+  font-weight: 600; letter-spacing: .12em;
+  border-bottom: 1px dashed rgba(255,255,255,.6); padding: 0 .4em;
+}
+.ots-footer__navttl {
+  font-size: 13px; font-weight: 600; letter-spacing: .1em;
+  opacity: .75; margin: 0 0 14px; padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255,255,255,.18);
+}
+.ots-footer__nav ul { list-style: none; margin: 0; padding: 0; }
+.ots-footer__nav li { margin: 0 0 11px; font-size: 14px; }
+.ots-footer__copy {
+  text-align: center; font-size: 12px; opacity: .65;
+  margin: 44px 0 0; padding-top: 22px;
+  border-top: 1px solid rgba(255,255,255,.18);
+}
+@media (max-width: 880px) {
+  .ots-precta { padding: 44px 18px; }
+  .ots-precta__lead { font-size: 20px; }
+  .ots-precta__btns { flex-direction: column; align-items: stretch; }
+  .ots-precta__form { padding: 14px 0; justify-content: center; }
+  .ots-footer { padding: 48px 20px 24px; }
+  .ots-footer__inner { grid-template-columns: 1fr; gap: 30px; }
+}
 
 /* =========================================================
    6. FV（トップ専用・縦書きヒーロー / 梅木代表メッセージ）
@@ -487,4 +594,39 @@ a.is-style-btn_orange {
   margin-left: -50vw;
   width: 100vw;
   max-width: 100vw;
+}
+
+/* =========================================================
+   9. opt-in：長文ページの可読フォント＆strong抑制（#7 / #8）
+   ★デフォルトOFF。確定デザイン（教科書体・深オレンジ強調）は変更しない。
+   先方が「悪徳業者P等の長文が読みにくい」「強調がうるさい」と言った時に
+   “即”適用できるよう用意。本文HTMLは書き換えない＝CSSのみ（CLAUDE.md準拠）。
+
+   有効化（どちらか／両方）:
+   (a) 長文可読化: <body> に class "ots-readable" を付与
+       → 本番は SWELL 設定で body_class 追加 or 子テーマ functions.php で
+         特定スラッグ（akutoku 等）に body_class フィルタ。見出しは教科書体維持、
+         本文長文のみ可読明朝（BIZ UDPMincho / Noto Serif JP）に。
+   (b) 強調抑制: <body> に class "ots-quiet-strong"
+       → strong を「太字＋やや沈めた色」に。色うるささを低減（本文は不変）。
+   ※ 個別ページのみ適用したい場合は body セレクタを .page-id-XXX 等に置換。
+   ========================================================= */
+body.ots-readable .post_content,
+body.ots-readable .post_content p,
+body.ots-readable .post_content li,
+body.ots-readable .post_content td {
+  font-family: "BIZ UDPMincho", "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  line-height: 2.05;
+  letter-spacing: .02em;
+}
+/* 見出しは確定書体（教科書体 Klee One）を維持＝ブランド一貫 */
+body.ots-readable .post_content h2,
+body.ots-readable .post_content h3,
+body.ots-readable .post_content h4,
+body.ots-readable .post_content h5 { font-family: var(--ots-font); }
+
+body.ots-quiet-strong .post_content strong {
+  color: #5a3a28;          /* 深オレンジ #972C00 → 落ち着いた焦茶へ沈める */
+  font-weight: 700;
+  background: none;
 }
