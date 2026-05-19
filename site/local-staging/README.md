@@ -133,9 +133,9 @@ desktop/mobile 撮影（出力 `backup_20260516/local_shots/`・gitignore）。
 | 本文長文の可読フォント＋strong抑制（#7/#8） | §9 `body.ots-readable` `body.ots-quiet-strong` | （CSSのみ・**既定OFF**） | 先方指摘時に body_class 付与で即有効化（functions.php か SWELL設定） |
 | グローバルナビ A/B 2案（#11）・配色対応表（#6） | （表示は確定配色） | — | `site/proto/plan-a/components.html`（先方選択用ビュー） |
 
-- **法務必須**：`.ots-footer__license` ＝探偵業法§10の標識義務。`第□□□号` は先方支給待ち
-  プレースホルダ。番号受領後 footer-content.html の当該1箇所を差替えるだけ。
-- **届出番号は先方支給依頼が必要**（こちらから指摘・`anticipated-revisions.md` §確認#2）。
+- **法務必須**：`.ots-footer__license` ＝探偵業法§10の標識義務。
+  ✅ **2026-05-19 先方支給＝第93090018号（熊本県公安委員会）を footer-content.html /
+  components.html に反映済**（出典：公印画像 S__392888326.jpg）。差替作業は完了。
 - 検証：`cd wp-inventory && node shot-components.mjs` →
   `backup_20260516/proto_shots/components-{full,sp}.png`（desktop/mobile）。
   2026-05-18 実機目視：確定デザインで提示品質・レスポンシブ崩れなしを確認済。
