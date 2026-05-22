@@ -649,3 +649,59 @@ body.ots-quiet-strong .post_content strong {
 .l-header .c-iconList, .l-fixHeader .c-iconList { display: none !important; }
 /* ヘッダーロゴ：短縮社名が2行折返しするのを防ぐ（1行固定） */
 .l-header__logo .c-headLogo__link, .l-fixHeader .c-headLogo__link { white-space: nowrap; font-size: 19px; line-height: 1.3; }
+
+/* =========================================================
+   2026-05-22 再実装(カンプ準拠) §A ヘッダー白化＋公式ロゴ
+   ========================================================= */
+.l-header, .l-header__bar, .l-fixHeader, .l-fixHeader__bar { background-color: #fff !important; }
+.l-header__bar, .l-fixHeader__bar { box-shadow: 0 1px 0 rgba(26,26,25,.07); }
+/* ナビ文字を濃色に（白ヘッダー上で視認） */
+.l-header .c-gnav a, .l-header__gnav a, .l-fixHeader .c-gnav a,
+.c-gnav__link, .l-header .c-gnavMenu a { color: var(--ots-body) !important; }
+.c-gnav__link:hover, .l-header .c-gnav a:hover { color: var(--ots-primary) !important; }
+/* 公式ロゴ画像 */
+.c-headLogo__link img.ots-logo-img { height: 46px; width: auto; display: block; }
+@media (max-width: 880px){ .c-headLogo__link img.ots-logo-img { height: 38px; } }
+/* 電話ボタン：白ヘッダー上で視認＝白地+オレンジ枠+オレンジ文字 */
+.ots-hcta__tel { background: #fff !important; color: var(--ots-primary) !important; border: 1.5px solid var(--ots-primary); }
+.ots-hcta__form { background: var(--ots-deep) !important; color: #fff !important; }
+/* ヘッダー色はSWELLが .l-header__inner に適用＝ここを白化（オレンジ除去） */
+.l-header__inner, .l-fixHeader__inner { background-color: #fff !important; }
+
+/* =========================================================
+   2026-05-22 再実装 §B FV縦書きを自然フロー化（れーや指摘修正）
+   flex(align-items:flex-start)だと各ブロックが短い列に分裂し横に広がる→
+   display:block の自然な縦書きフローで均一な高い列・右→左にcontain。
+   ========================================================= */
+.post_content .ots-fv__vertical {
+  display: block !important;
+  height: clamp(440px, 58vh, 560px) !important;
+  gap: 0 !important;
+}
+.post_content .ots-fv__block { margin: 0 0 0 40px; display: block; }
+@media (max-width: 880px){
+  .post_content .ots-fv__vertical { height: clamp(420px, 56vh, 520px) !important; }
+  .post_content .ots-fv__block { margin: 0 0 0 26px; }
+}
+/* §B-mobile: display:blockの自然フローはデスクトップ限定。モバイルはflex(短い列)で画面内に収める
+   （長い縦書きメッセージは狭い画面でblockだと列が溢れて冒頭が見切れるため） */
+@media (max-width: 880px){
+  .post_content .ots-fv__vertical {
+    display: flex !important; flex-direction: row-reverse; align-items: flex-start;
+    flex-wrap: wrap; gap: 8px 18px; height: auto !important; max-height: 64vh;
+  }
+  .post_content .ots-fv__block { margin: 0 !important; }
+}
+/* §B-mobile2: 長い縦書きメッセージはモバイルでは横書きに（読み順破綻・見切れ回避）。
+   デスクトップは縦書き維持。これが長文FVの標準的レスポンシブ解。 */
+@media (max-width: 880px){
+  .post_content .ots-fv__vertical {
+    writing-mode: horizontal-tb !important; display: block !important;
+    height: auto !important; max-height: none !important; text-align: center; padding: 6px 6px;
+  }
+  .post_content .ots-fv__block { margin: 0 0 16px 0 !important; }
+  .post_content .ots-fv__lead  { font-size: 18px !important; line-height: 1.95 !important; letter-spacing: .06em !important; }
+  .post_content .ots-fv__call,
+  .post_content .ots-fv__close { font-size: 14.5px !important; line-height: 1.95 !important; }
+  .post_content .ots-fv__sign  { display: block; }
+}

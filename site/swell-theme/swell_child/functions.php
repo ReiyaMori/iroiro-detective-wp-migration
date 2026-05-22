@@ -99,9 +99,11 @@ add_action( 'wp_footer', function () {
 		document.querySelectorAll('.l-header__inner, .l-fixHeader__inner').forEach(function(c){
 			if (c && !c.querySelector('.ots-hcta')) { c.insertAdjacentHTML('beforeend', html); }
 		});
-		// ヘッダーロゴの表示名を短縮（plan-aの社名ロゴに合わせる。SEO<title>はAIOSEO管理で別管理）
+		// ヘッダーロゴを会社の公式ロゴ画像に置換（探偵犬マスコット＋株式会社OTS探偵社・2019最新）
 		document.querySelectorAll('.c-headLogo__link').forEach(function(a){
-			if (/熊本市の探偵/.test(a.textContent)) { a.textContent = '株式会社OTS探偵社'; }
+			if (!a.querySelector('img.ots-logo-img')) {
+				a.innerHTML = '<img class="ots-logo-img" src="/wp-content/themes/swell_child/assets/ots-logo.png" alt="株式会社OTS探偵社">';
+			}
 		});
 	}
 	if (document.readyState !== 'loading') { inject(); }
