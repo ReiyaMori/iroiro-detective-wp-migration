@@ -705,3 +705,11 @@ body.ots-quiet-strong .post_content strong {
   .post_content .ots-fv__close { font-size: 14.5px !important; line-height: 1.95 !important; }
   .post_content .ots-fv__sign  { display: block; }
 }
+
+/* =========================================================
+   2026-05-22 再実装 §C 調査メニューカードをカンプ準拠で中央揃え
+   ========================================================= */
+.post_content .ots-card { text-align: center; }
+.post_content .ots-card__icon { margin-left: auto; margin-right: auto; width: 64px; height: 64px; }
+.post_content .ots-card__icon svg { width: 30px; height: 30px; }
+.post_content .ots-card h3 { margin-top: 4px; }
