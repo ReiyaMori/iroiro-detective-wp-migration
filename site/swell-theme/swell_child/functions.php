@@ -54,3 +54,59 @@ add_action( 'wp_footer', function () {
 		echo file_get_contents( $f ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }, 5 );
+
+// GA4 計測タグ（測定ID G-R4QNT2LK2X・2026-05-22 設置）。既存GA計測が停止していたため再設置。
+add_action( 'wp_head', function () {
+	?>
+<!-- Google tag (gtag.js) - GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-R4QNT2LK2X"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-R4QNT2LK2X');
+</script>
+	<?php
+}, 2 );
+
+// Contact Form 7 送信完了を GA4 イベント(generate_lead)として送信＝問い合わせ完了のCV計測。
+// ※ GA4管理画面側で generate_lead を「キーイベント」に指定すること。
+add_action( 'wp_footer', function () {
+	?>
+<script>
+document.addEventListener('wpcf7mailsent', function (e) {
+	if (typeof gtag === 'function') {
+		gtag('event', 'generate_lead', {
+			event_category: 'contact',
+			event_label: 'cf7_submit',
+			form_id: (e.detail && e.detail.contactFormId) ? e.detail.contactFormId : ''
+		});
+	}
+}, false);
+</script>
+	<?php
+}, 20 );
+
+// ヘッダー右クラスタ（24時間バッジ＋電話0120＋無料相談CTA）を SWELL ヘッダーへ注入。
+// SWELLヘッダーバー内に注入できるPHPフックが無いため、JSで .l-header__inner / .l-fixHeader__inner へ挿入。
+// 配色は子テーマ §1b（.ots-hcta 系）が適用。承認デザイン plan-a のヘッダー右に合わせる。
+add_action( 'wp_footer', function () {
+	?>
+<script>
+(function(){
+	var html = '<div class="ots-hcta"><a class="ots-hcta__tel" href="tel:0120556624">0120-556-624</a><a class="ots-hcta__form" href="/contact">無料相談</a></div>';
+	function inject(){
+		document.querySelectorAll('.l-header__inner, .l-fixHeader__inner').forEach(function(c){
+			if (c && !c.querySelector('.ots-hcta')) { c.insertAdjacentHTML('beforeend', html); }
+		});
+		// ヘッダーロゴの表示名を短縮（plan-aの社名ロゴに合わせる。SEO<title>はAIOSEO管理で別管理）
+		document.querySelectorAll('.c-headLogo__link').forEach(function(a){
+			if (/熊本市の探偵/.test(a.textContent)) { a.textContent = '株式会社OTS探偵社'; }
+		});
+	}
+	if (document.readyState !== 'loading') { inject(); }
+	else { document.addEventListener('DOMContentLoaded', inject); }
+})();
+</script>
+	<?php
+}, 21 );

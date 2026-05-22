@@ -353,7 +353,7 @@ a.is-style-btn_orange {
    背景画像 assets/fv-a.jpg は子テーマ /assets/ かメディアにアップし
    --ots-fv-bg を差し替える。HTML雛形は site/proto/plan-a/index.html 参照。
    ========================================================= */
-:root { --ots-fv-bg: url("./assets/fv-a.jpg"); }
+:root { --ots-fv-bg: url("./assets/fv-bg.jpg"); }
 /* ※ FVは固定ページ本文として置くため .post_content 配下に入る。
    SWELLの .post_content p 等(詳細度0,0,1,1)に負けないよう
    .post_content .ots-fv で詳細度を上げ、内部タイポをリセットする
@@ -636,3 +636,16 @@ body.ots-quiet-strong .post_content strong {
    （子テーマ functions.php の wp_footer で .ots-footer を出力）
    ========================================================= */
 #footer.l-footer { display: none !important; }
+
+/* =========================================================
+   2026-05-22 デザイン修正：SWELLメインビジュアル(MV)を非表示
+   トップのヒーローは .ots-fv（home-content）が正。SWELL既定MVスライダー
+   （p-mainVisual＋swiper-pagination＝余計なドット）を出さない。
+   ========================================================= */
+.p-mainVisual { display: none !important; }
+/* SWELL 投稿スライダー(記事スライダー)も非表示＝トップに不要（dotの正体） */
+.p-postSlider { display: none !important; }
+/* ヘッダーの検索/RSS等の既定アイコンを非表示（承認デザインplan-aに合わせる・右は電話/CTAクラスタ） */
+.l-header .c-iconList, .l-fixHeader .c-iconList { display: none !important; }
+/* ヘッダーロゴ：短縮社名が2行折返しするのを防ぐ（1行固定） */
+.l-header__logo .c-headLogo__link, .l-fixHeader .c-headLogo__link { white-space: nowrap; font-size: 19px; line-height: 1.3; }
