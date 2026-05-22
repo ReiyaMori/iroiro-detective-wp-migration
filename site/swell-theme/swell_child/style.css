@@ -747,3 +747,30 @@ body.ots-quiet-strong .post_content strong {
   .post_content .ots-fv { padding: 36px 18px 44px; }
   .post_content .ots-fv__lead { letter-spacing: .04em !important; }
 }
+
+/* =========================================================
+   2026-05-23 §F FV作り替え（スマホカンプ準拠）
+   短いキャッチ見出し＋CTA・濃いめ和室背景×白文字。長い梅木文は「想い」セクションへ移動。
+   ========================================================= */
+:root { --ots-fv-bg-dark: url("./assets/fv-bg-dark.jpg"); }
+.post_content .ots-fv {
+  background: linear-gradient(90deg, rgba(54,28,12,.66) 0%, rgba(54,28,12,.42) 50%, rgba(54,28,12,.18) 100%), var(--ots-fv-bg-dark) center/cover no-repeat !important;
+  padding: 92px 28px 96px !important;
+}
+.post_content .ots-fv__inner { align-items: flex-start !important; text-align: left; max-width: 1100px; }
+.post_content .ots-fv__headline { color: #fff !important; font-size: 42px; font-weight: 600; line-height: 1.65; letter-spacing: .04em; margin: 20px 0 0; padding: 0; border: 0; background: none !important; text-shadow: 0 2px 16px rgba(30,14,4,.5); }
+.post_content .ots-fv__sub { color: rgba(255,255,255,.94) !important; font-size: 16px; line-height: 2; margin: 22px 0 0; max-width: 560px; text-shadow: 0 1px 10px rgba(30,14,4,.5); }
+.post_content .ots-fv__cta { justify-content: flex-start !important; }
+/* 代表からのご挨拶（梅木メッセージ・想いセクション） */
+.post_content .ots-message { max-width: 760px; margin: 0 auto; }
+.post_content .ots-message p { font-size: 16.5px; line-height: 2.15; color: var(--ots-body); margin: 0 0 18px; }
+.post_content .ots-message__sign { text-align: right; color: #6B6058; margin-top: 10px !important; }
+.post_content .ots-message__name { font-size: 19px; color: var(--ots-deep); font-weight: 600; letter-spacing: .12em; }
+@media (max-width: 880px){
+  .post_content .ots-fv { background: linear-gradient(180deg, rgba(44,22,8,.5) 0%, rgba(44,22,8,.42) 55%, rgba(44,22,8,.64) 100%), var(--ots-fv-bg-dark) center/cover no-repeat !important; padding: 52px 22px 48px !important; }
+  .post_content .ots-fv__inner { align-items: center !important; text-align: center; }
+  .post_content .ots-fv__headline { font-size: 27px; line-height: 1.7; }
+  .post_content .ots-fv__sub { font-size: 14.5px; line-height: 1.95; }
+  .post_content .ots-fv__cta { justify-content: stretch !important; align-items: stretch; }
+  .post_content .ots-message p { font-size: 15px; line-height: 2; }
+}
