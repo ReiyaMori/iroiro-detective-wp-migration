@@ -630,3 +630,9 @@ body.ots-quiet-strong .post_content strong {
   font-weight: 700;
   background: none;
 }
+
+/* =========================================================
+   2026-05-22 本番移管時追加：OTS専用フッターでSWELL既定フッターを置換
+   （子テーマ functions.php の wp_footer で .ots-footer を出力）
+   ========================================================= */
+#footer.l-footer { display: none !important; }
