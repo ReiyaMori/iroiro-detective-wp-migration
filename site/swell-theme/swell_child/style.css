@@ -713,3 +713,37 @@ body.ots-quiet-strong .post_content strong {
 .post_content .ots-card__icon { margin-left: auto; margin-right: auto; width: 64px; height: 64px; }
 .post_content .ots-card__icon svg { width: 30px; height: 30px; }
 .post_content .ots-card h3 { margin-top: 4px; }
+
+/* =========================================================
+   2026-05-23 §D バグ修正（れーや指摘）
+   ========================================================= */
+/* ①SPヘッダー：電話/無料相談クラスタを非表示（ヘッダー圧迫解消。モバイルはハンバーガー＋FV/フッターのCTAで代替） */
+@media (max-width: 880px){ .ots-hcta { display: none !important; } }
+/* ②調査メニューの円アイコンが白カードに溶けて空ボタンに見える→薄オレンジ地で視認化 */
+.post_content .ots-card__icon { background: #FBEAD9 !important; border-color: #EFC9A6 !important; }
+/* ③料金表：SPで横スクロール可能に（はみ出し対策） */
+@media (max-width: 880px){
+  .post_content table.ots-price { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; }
+}
+/* ④選ばれる理由：白ブロックがcream上で浮いてプレーン→枠+影でカード感、番号バッジを立体化 */
+.post_content .ots-reason { border: 1px solid #EFE3CE; box-shadow: 0 6px 18px rgba(151,44,0,.06); padding: 28px 26px; transition: transform .2s, box-shadow .2s; }
+.post_content .ots-reason:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(151,44,0,.1); }
+.post_content .ots-reason__num { background: linear-gradient(145deg, var(--ots-primary), #B0510F) !important; box-shadow: 0 4px 10px rgba(208,97,18,.28); }
+
+/* =========================================================
+   2026-05-23 §E FV CTAボタン（カンプ準拠）＋モバイルFV改善
+   ========================================================= */
+.post_content .ots-fv__cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 44px; position: relative; z-index: 2; }
+.post_content .ots-fv__btn { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; border-radius: 999px; padding: 13px 34px; font-weight: 600; line-height: 1.3; transition: transform .2s, box-shadow .2s; }
+.post_content .ots-fv__btn--tel { background: #fff; color: var(--ots-primary); box-shadow: 0 6px 18px rgba(151,44,0,.12); border: 1px solid #F0D8C0; }
+.post_content .ots-fv__btn--tel .ots-fv__btn-cap { font-size: 12px; letter-spacing: .04em; opacity: .85; }
+.post_content .ots-fv__btn--tel .ots-fv__btn-num { font-size: 21px; letter-spacing: .02em; }
+.post_content .ots-fv__btn--form { background: var(--ots-deep); color: #fff; padding: 17px 36px; font-size: 16px; box-shadow: 0 6px 18px rgba(151,44,0,.2); }
+.post_content .ots-fv__btn:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(151,44,0,.22); }
+@media (max-width: 880px){
+  .post_content .ots-fv__cta { flex-direction: column; gap: 12px; margin-top: 26px; align-items: stretch; }
+  .post_content .ots-fv__btn { width: 100%; padding: 14px 20px; }
+  /* モバイルFVの可読性：本文の行間/字間を整え、背景スクリムをやや強めて文字を立てる */
+  .post_content .ots-fv { padding: 36px 18px 44px; }
+  .post_content .ots-fv__lead { letter-spacing: .04em !important; }
+}
