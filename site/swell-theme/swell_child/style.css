@@ -774,3 +774,19 @@ body.ots-quiet-strong .post_content strong {
   .post_content .ots-fv__cta { justify-content: stretch !important; align-items: stretch; }
   .post_content .ots-message p { font-size: 15px; line-height: 2; }
 }
+
+/* =========================================================
+   2026-05-23 §G 代表からのご挨拶（梅木メッセージ）をPCで縦書きに復活
+   FVは短見出し（モバイル対応）のまま、縦書きの美しさは代表メッセージで活かす。
+   PC=縦書き右→左 / モバイル=横書き（既定）。
+   ========================================================= */
+@media (min-width: 881px){
+  .post_content .ots-message {
+    writing-mode: vertical-rl; text-orientation: mixed; font-feature-settings: "palt";
+    display: block; height: clamp(420px, 52vh, 540px);
+    width: max-content; max-width: 100%; margin: 0 auto; padding: 8px 4px;
+  }
+  .post_content .ots-message p { margin: 0 0 0 44px; line-height: 2.4; font-size: 17px; color: var(--ots-body); }
+  .post_content .ots-message__sign { margin: 0 0 0 44px !important; text-align: start; }
+  .post_content .ots-msg .ots-sec__head { margin-bottom: 40px; }
+}
