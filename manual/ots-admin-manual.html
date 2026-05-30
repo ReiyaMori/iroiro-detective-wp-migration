@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>株式会社OTS探偵社 ウェブサイト 運用・編集マニュアル</title>
+<style>
+  :root{
+    --orange:#E87309; --deep:#972C00; --cream:#FFFBF0; --cream2:#F5EFE2;
+    --gold:#DEA57D; --body:#1F1A17; --line:#E8DEC8; --muted:#6B6058;
+  }
+  *{box-sizing:border-box;}
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{
+    font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+    color:var(--body); line-height:1.85; font-size:10.5pt; margin:0;
+  }
+  /* ---- ページ送り ---- */
+  .page{ page-break-after:always; }
+  h1,h2,h3{ line-height:1.4; }
+  h2{ page-break-before:always; }
+  h2:first-of-type{ page-break-before:avoid; }
+  h2,h3,figure,.callout,table{ page-break-inside:avoid; }
+
+  /* ---- 表紙 ---- */
+  .cover{ min-height:252mm; display:flex; flex-direction:column; justify-content:center;
+    background:linear-gradient(160deg,#fff 0%,var(--cream) 55%,var(--cream2) 100%);
+    padding:0 6mm; }
+  .cover .badge{ display:inline-block; align-self:flex-start; background:var(--orange); color:#fff;
+    padding:5px 16px; border-radius:4px; font-size:11pt; font-weight:700; letter-spacing:.1em; }
+  .cover h1{ font-size:30pt; color:var(--deep); margin:22px 0 6px; letter-spacing:.02em; }
+  .cover .sub{ font-size:14pt; color:var(--body); margin:0 0 36px; }
+  .cover .meta{ font-size:10.5pt; color:var(--muted); line-height:2; border-top:2px solid var(--gold);
+    padding-top:18px; max-width:420px; }
+  .cover .note{ margin-top:30px; font-size:9.5pt; color:var(--muted); }
+
+  /* ---- 見出し ---- */
+  h2{ font-size:18pt; color:#fff; background:var(--deep); margin:0 0 20px;
+    padding:10px 16px; border-radius:6px; letter-spacing:.03em; }
+  h2 .pt{ font-size:10pt; opacity:.8; font-weight:400; }
+  h3{ font-size:13pt; color:var(--deep); border-left:5px solid var(--orange);
+    padding-left:12px; margin:26px 0 10px; }
+  h4{ font-size:11.5pt; color:var(--deep); margin:18px 0 6px; }
+  p{ margin:0 0 10px; }
+  a{ color:var(--orange); }
+  code{ font-family:"SFMono-Regular",Menlo,Consolas,monospace; font-size:9pt;
+    background:#F3ECDD; padding:1px 5px; border-radius:3px; color:#7a3410; }
+
+  /* ---- 手順リスト ---- */
+  ol.steps{ counter-reset:st; list-style:none; padding-left:0; margin:10px 0; }
+  ol.steps>li{ counter-increment:st; position:relative; padding:6px 0 6px 38px; margin:0 0 4px; }
+  ol.steps>li::before{ content:counter(st); position:absolute; left:0; top:5px;
+    width:24px; height:24px; background:var(--orange); color:#fff; border-radius:50%;
+    text-align:center; line-height:24px; font-size:10pt; font-weight:700; }
+  ul.plain{ margin:6px 0 12px; padding-left:1.3em; }
+  ul.plain li{ margin:2px 0; }
+
+  /* ---- コールアウト ---- */
+  .callout{ border-radius:8px; padding:12px 16px 12px 16px; margin:14px 0; font-size:9.8pt;
+    border-left:6px solid; }
+  .callout p{ margin:0 0 6px; } .callout p:last-child{ margin:0; }
+  .callout .ttl{ font-weight:700; display:block; margin-bottom:4px; }
+  .can{ background:#EAF6EC; border-color:#3a9d54; }
+  .can .ttl{ color:#247a3b; }
+  .warn{ background:#FFF6E6; border-color:#E8A23A; }
+  .warn .ttl{ color:#b9791a; }
+  .stop{ background:#FCEDEC; border-color:#d0463a; }
+  .stop .ttl{ color:#b0352a; }
+  .tip{ background:#EAF1FA; border-color:#3f6fb0; }
+  .tip .ttl{ color:#2f5790; }
+
+  /* ---- 図 ---- */
+  figure{ margin:14px 0; }
+  figure img{ width:100%; border:1px solid var(--line); border-radius:6px;
+    box-shadow:0 2px 10px rgba(151,44,0,.08); }
+  figcaption{ font-size:9pt; color:var(--muted); margin-top:6px; text-align:center; }
+
+  /* ---- 表 ---- */
+  table{ width:100%; border-collapse:collapse; margin:12px 0; font-size:9.5pt; }
+  th,td{ border:1px solid var(--line); padding:7px 10px; text-align:left; vertical-align:top; }
+  th{ background:var(--orange); color:#fff; font-weight:700; }
+  tbody tr:nth-child(even){ background:var(--cream); }
+  td.ok{ color:#247a3b; font-weight:700; text-align:center; white-space:nowrap; }
+  td.ng{ color:#b0352a; font-weight:700; text-align:center; white-space:nowrap; }
+
+  /* ---- コードブロック ---- */
+  pre{ background:#1d1a17; color:#f3ede2; border-radius:8px; padding:12px 14px;
+    font-family:"SFMono-Regular",Menlo,Consolas,monospace; font-size:8.4pt; line-height:1.6;
+    white-space:pre-wrap; word-break:break-word; margin:10px 0; overflow:hidden; }
+  pre .c{ color:#9fb38f; } /* comment */
+  pre .k{ color:#e8995a; } /* keyword/selector */
+  pre .s{ color:#9ec3e0; } /* string */
+
+  /* ---- 目次 ---- */
+  .toc{ font-size:10.5pt; }
+  .toc h2{ /* keep as styled heading */ }
+  .toc .grp{ font-weight:700; color:var(--deep); margin:16px 0 6px; font-size:12pt; border-bottom:2px solid var(--gold); padding-bottom:4px;}
+  .toc ol{ list-style:none; padding-left:0; margin:0 0 8px; }
+  .toc li{ display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px dotted #ddd; }
+  .toc li span:first-child::before{ content:"▸ "; color:var(--orange); }
+
+  .lead{ background:var(--cream); border:1px solid var(--line); border-radius:8px; padding:14px 18px; margin:14px 0; }
+  .small{ font-size:9pt; color:var(--muted); }
+  .kv{ width:100%; }
+  .kv th{ width:34%; background:var(--cream2); color:var(--deep); }
+</style>
+</head>
+<body>
+
+<!-- ===================== 表紙 ===================== -->
+<section class="cover page">
+  <span class="badge">運用・編集マニュアル</span>
+  <h1>株式会社OTS探偵社<br>ウェブサイト 運用・編集マニュアル</h1>
+  <p class="sub">管理画面のかんたん編集（Part A）＋ テーマ・コード構造の詳細（Part B）</p>
+  <div class="meta">
+    対象サイト：trust-supply.com（WordPress / テーマ：SWELL）<br>
+    Part A：日常の文章・画像・料金などの編集（どなたでも）<br>
+    Part B：テーマ・CSS・テンプレート構造（HTML/CSS が分かる方向け）<br>
+    Version 1.0 ／ 2026年5月 ／ 制作：森 伶也
+  </div>
+  <p class="note">※ このマニュアルは編集作業のためのものです。ログインID・パスワード等の認証情報は、安全のため本書には記載していません（別途お渡しします）。</p>
+</section>
+
+<!-- ===================== 目次 ===================== -->
+<section class="page toc">
+  <h2>目次</h2>
+
+  <div class="grp">Part A ｜ 管理画面のかんたん編集</div>
+  <ol>
+    <li><span>0. はじめに（編集してよい箇所・ご相談いただきたい箇所）</span><span>A-0</span></li>
+    <li><span>1. 管理画面にログインする</span><span>A-1</span></li>
+    <li><span>2. ページの文章を修正する（固定ページ）</span><span>A-2</span></li>
+    <li><span>3. トップページの編集について</span><span>A-3</span></li>
+    <li><span>4. 料金表を修正する（TablePress）</span><span>A-4</span></li>
+    <li><span>5. 画像を差し替える（メディア）</span><span>A-5</span></li>
+    <li><span>6. メニュー（ナビゲーション）を変更する</span><span>A-6</span></li>
+    <li><span>7. お問い合わせの通知先メールを変える（Contact Form 7）</span><span>A-7</span></li>
+    <li><span>8. 触ってはいけないこと（重要）</span><span>A-8</span></li>
+    <li><span>9. 困ったとき</span><span>A-9</span></li>
+  </ol>
+
+  <div class="grp">Part B ｜ テーマ・コード構造（HTML/CSS が分かる方向け）</div>
+  <ol>
+    <li><span>B-0. 全体アーキテクチャ（SWELL 親テーマ ＋ 子テーマ）</span><span>B-0</span></li>
+    <li><span>B-1. ファイル構成</span><span>B-1</span></li>
+    <li><span>B-2. style.css の構造（デザイントークン＋セクション地図）</span><span>B-2</span></li>
+    <li><span>B-3. 配色・書体の変更方法</span><span>B-3</span></li>
+    <li><span>B-4. functions.php のフック一覧</span><span>B-4</span></li>
+    <li><span>B-5. トップページの仕組み</span><span>B-5</span></li>
+    <li><span>B-6. ファーストビュー（FV）の構造</span><span>B-6</span></li>
+    <li><span>B-7. ヘッダーの仕組み</span><span>B-7</span></li>
+    <li><span>B-8. フッターの仕組み</span><span>B-8</span></li>
+    <li><span>B-9. レスポンシブ方針</span><span>B-9</span></li>
+    <li><span>B-10. GA4・お問い合わせ計測の連携</span><span>B-10</span></li>
+    <li><span>B-11. 本番サーバーへの反映方法（FTP）</span><span>B-11</span></li>
+    <li><span>B-12. よくある変更レシピ</span><span>B-12</span></li>
+    <li><span>B-13. 編集時の注意点</span><span>B-13</span></li>
+  </ol>
+</section>
+
+<!-- ===================== PART A ===================== -->
+
+<!-- A-0 はじめに -->
+<section>
+  <h2>Part A ｜ 0. はじめに <span class="pt">A-0</span></h2>
+  <p>このマニュアルは、株式会社OTS探偵社さまのウェブサイト（WordPress）を、なるべくご自身で編集していただけるようにまとめたものです。Part A は専門知識がなくても操作できる範囲、Part B は HTML/CSS が分かる方がテーマ本体まで編集するための技術解説です。</p>
+
+  <div class="callout tip">
+    <span class="ttl">💡 まずはここだけ</span>
+    <p>「文章を直す」「料金を直す」「画像を変える」だけなら <b>Part A の 1〜5</b> を読めば十分です。デザインや色・レイアウトに関わる部分（トップページの構造・フッター・テーマの色など）は、崩れやすいため <b>Part B</b> をご確認のうえ慎重に行ってください。</p>
+  </div>
+
+  <h3>編集してよい箇所・ご相談いただきたい箇所（早見表）</h3>
+  <table>
+    <thead><tr><th style="width:46%">編集したい内容</th><th>ご自身で<br>編集OK</th><th>慎重に／<br>ご相談推奨</th><th>該当章</th></tr></thead>
+    <tbody>
+      <tr><td>固定ページ（各サービス紹介・会社情報など）の文章</td><td class="ok">○</td><td></td><td>A-2</td></tr>
+      <tr><td>料金表の数値・項目</td><td class="ok">○</td><td></td><td>A-4</td></tr>
+      <tr><td>ページ内の写真・画像の差し替え</td><td class="ok">○</td><td></td><td>A-5</td></tr>
+      <tr><td>メニュー（ナビ）の項目・並び順</td><td class="ok">○</td><td></td><td>A-6</td></tr>
+      <tr><td>お問い合わせの通知先メールアドレス</td><td class="ok">○</td><td></td><td>A-7</td></tr>
+      <tr><td>トップページのデザイン構造（ファーストビュー等）の文章・体裁</td><td></td><td class="ng">要注意</td><td>A-3 / B-5,6</td></tr>
+      <tr><td>フッターの会社情報・探偵業届出番号</td><td></td><td class="ng">要注意</td><td>B-8</td></tr>
+      <tr><td>サイト全体の色・フォント・余白（テーマ／CSS）</td><td></td><td class="ng">要注意</td><td>B-2,3</td></tr>
+      <tr><td>プラグインの追加・削除・有効/無効</td><td></td><td class="ng">ご相談</td><td>A-8</td></tr>
+      <tr><td>パーマリンク（URL）設定／テーマの切替</td><td></td><td class="ng">触らない</td><td>A-8</td></tr>
+    </tbody>
+  </table>
+  <p class="small">※「要注意」「ご相談」の項目は、操作を誤るとページ全体の表示が崩れたり、検索順位（SEO）に影響したりする可能性があります。</p>
+</section>
+
+<!-- A-1 ログイン -->
+<section>
+  <h2>Part A ｜ 1. 管理画面にログインする <span class="pt">A-1</span></h2>
+  <ol class="steps">
+    <li>ブラウザ（Chrome等）で <code>https://trust-supply.com/wp-login.php</code> を開きます。</li>
+    <li>ユーザー名・パスワード（別途お渡しした情報）を入力し、「ログイン」をクリックします。</li>
+    <li>ログインに成功すると「ダッシュボード」が表示されます。左側の黒いメニューが、すべての操作の入り口です。</li>
+  </ol>
+  <figure><img src="screenshots/login.png" alt="ログイン画面"><figcaption>▲ ログイン画面（trust-supply.com/wp-login.php）</figcaption></figure>
+  <figure><img src="screenshots/dashboard.png" alt="ダッシュボード"><figcaption>▲ ログイン後のダッシュボード。左の黒いメニューから各機能へ移動します</figcaption></figure>
+  <div class="callout tip"><span class="ttl">💡 ヒント</span><p>編集中はこまめに保存（更新）しましょう。作業を終えたら、右上のユーザー名 →「ログアウト」で安全に終了できます。</p></div>
+</section>
+
+<!-- A-2 固定ページ -->
+<section>
+  <h2>Part A ｜ 2. ページの文章を修正する（固定ページ） <span class="pt">A-2</span></h2>
+  <p>各サービスの紹介ページや会社情報などは「固定ページ」として管理されています。文章の修正はここから行います。</p>
+  <ol class="steps">
+    <li>左メニューの「固定ページ」→「固定ページ一覧」をクリック。</li>
+    <li>修正したいページ名にカーソルを合わせ、下に出る「編集」をクリック。</li>
+    <li>編集画面で、直したい文章をクリックして書き換えます（Word のような感覚です）。</li>
+    <li>右上の「プレビュー」で表示を確認してから、青い「更新」ボタンで保存します。</li>
+  </ol>
+  <figure><img src="screenshots/pages_list.png" alt="固定ページ一覧"><figcaption>▲「固定ページ一覧」。ページ名にカーソルを合わせると「編集」が表示されます</figcaption></figure>
+  <figure><img src="screenshots/page_edit.png" alt="ページ編集画面"><figcaption>▲ 編集画面。本文をクリックして文章を直し、右上「更新」で保存します</figcaption></figure>
+  <div class="callout warn"><span class="ttl">⚠️ 注意</span><p>見出しの色やオレンジの線などの<b>見た目はテーマが自動で付けています</b>。文章だけを書き換えれば、デザインはそのまま保たれます。書式（色・サイズ）を手動で変えると、サイト全体の統一感が崩れる場合があります。</p></div>
+  <div class="callout can"><span class="ttl">○ できること</span><p>誤字の修正、文章の追記・差し替え、段落の追加など。保存後すぐにサイトへ反映されます（反映されない時は A-9 のキャッシュ対処を参照）。</p></div>
+</section>
+
+<!-- A-3 トップページ -->
+<section>
+  <h2>Part A ｜ 3. トップページの編集について <span class="pt">A-3</span></h2>
+  <p>トップページ（ホーム）は、ファーストビューの縦書きメッセージ・調査メニュー・選ばれる理由・料金など、<b>専用にデザインされた特別な作り</b>になっています。固定ページ「ホーム」の本文に専用のHTML（部品）が入っており、テーマのCSSと組み合わさって表示されています。</p>
+  <div class="callout warn">
+    <span class="ttl">⚠️ トップの文章・体裁を変えたいときは</span>
+    <p>HTML/CSS の知識がない場合は、トップページの編集は<b>慎重に行ってください</b>。誤って部品（タグ）を消すと、その区画が表示されなくなることがあります。元に戻せるよう、編集前の本文（HTML）を控えておくと安全です。</p>
+    <p>HTML/CSS が分かる方は、<b>Part B-5・B-6</b> に構造を詳しく記載しています。そちらをご覧ください。</p>
+  </div>
+  <p>なお「料金の数字を直したい」は A-4（TablePress）でご自身で編集できます。「ファーストビューの文言を変えたい」など構造に関わる部分は、Part B-6 の構造解説をご覧ください。</p>
+</section>
+
+<!-- A-4 TablePress -->
+<section>
+  <h2>Part A ｜ 4. 料金表を修正する（TablePress） <span class="pt">A-4</span></h2>
+  <p>料金などの表は「TablePress」というプラグインで管理されています。表計算ソフトのように、セル単位で編集できます。</p>
+  <ol class="steps">
+    <li>左メニューの「TablePress」をクリックし、表の一覧から該当する表の「編集」を開きます。</li>
+    <li>セルをクリックして、数値や文言を書き換えます。</li>
+    <li>画面下（または上）の「変更を保存」をクリックします。</li>
+  </ol>
+  <figure><img src="screenshots/tablepress.png" alt="TablePress 一覧"><figcaption>▲ TablePress の表一覧。編集したい表を開きます</figcaption></figure>
+  <figure><img src="screenshots/tablepress_edit.png" alt="TablePress 編集"><figcaption>▲ 表の編集画面。セルをクリックして直接編集 →「変更を保存」</figcaption></figure>
+  <div class="callout warn"><span class="ttl">⚠️ 注意</span><p>同じ表が複数のページに表示されている場合があります。表を直すと、その表を使っている<b>すべてのページに反映</b>されます。料金改定の際は、ページ本文側にも金額の記載がないかご確認ください。</p></div>
+</section>
+
+<!-- A-5 メディア -->
+<section>
+  <h2>Part A ｜ 5. 画像を差し替える（メディア） <span class="pt">A-5</span></h2>
+  <h4>方法①：ページ編集中に差し替える（おすすめ）</h4>
+  <ol class="steps">
+    <li>ページ編集画面（A-2）で、差し替えたい画像をクリックします。</li>
+    <li>ツールバーの「置換」から新しい画像を選び（またはアップロードし）、「更新」で保存します。</li>
+  </ol>
+  <h4>方法②：先に画像を登録しておく</h4>
+  <ol class="steps">
+    <li>左メニュー「メディア」→「新規追加」で画像をアップロードします。</li>
+    <li>ページ編集時に「メディアライブラリ」から選択します。</li>
+  </ol>
+  <figure><img src="screenshots/media.png" alt="メディアライブラリ"><figcaption>▲ メディアライブラリ。アップロード済みの画像を一覧・管理できます</figcaption></figure>
+  <div class="callout stop"><span class="ttl">🚫 やらないこと</span><p>メディアの画像を<b>「完全に削除」しない</b>でください。その画像が他のページで使われている場合、そのページの画像が表示されなくなります（リンク切れ）。差し替えたい時は「削除」ではなく上記の「置換」または新規アップロードを使ってください。</p></div>
+</section>
+
+<!-- A-6 メニュー -->
+<section>
+  <h2>Part A ｜ 6. メニュー（ナビゲーション）を変更する <span class="pt">A-6</span></h2>
+  <p>画面上部のナビゲーションや、フッターのリンク一覧は「メニュー」で管理されています。</p>
+  <ol class="steps">
+    <li>左メニュー「外観」→「メニュー」を開きます。</li>
+    <li>上部の「編集するメニューを選択」で、編集したいメニュー（ヘッダー用／フッター用）を選びます。</li>
+    <li>左の「メニュー項目を追加」から固定ページ等を追加、または項目をドラッグで並べ替えます。</li>
+    <li>「メニューを保存」をクリックします。</li>
+  </ol>
+  <figure><img src="screenshots/menus.png" alt="メニュー編集"><figcaption>▲ メニュー編集画面。項目の追加・並べ替え・削除ができます</figcaption></figure>
+  <div class="callout tip"><span class="ttl">💡 ヒント</span><p>メニューから項目を「削除」しても、ページ自体は消えません（メニューに表示されなくなるだけ）。ページごと消したい時は A-2 の固定ページ側で行います。</p></div>
+  <div class="callout warn"><span class="ttl">⚠️ 注意</span><p>フッターの会社情報・届出番号は<b>メニューではなくテーマ側で表示</b>しています（B-8参照）。メニュー編集では変更できません。</p></div>
+</section>
+
+<!-- A-7 CF7 -->
+<section>
+  <h2>Part A ｜ 7. お問い合わせの通知先メールを変える（Contact Form 7） <span class="pt">A-7</span></h2>
+  <p>お問い合わせフォームの送信内容が届くメールアドレスは「Contact Form 7」で設定します。</p>
+  <ol class="steps">
+    <li>左メニュー「お問い合わせ」を開き、対象のフォーム名をクリックします。</li>
+    <li>上部のタブから「メール」を選びます。</li>
+    <li>「送信先」欄のメールアドレスを変更します（複数指定はカンマ区切り）。</li>
+    <li>「保存」をクリックします。</li>
+  </ol>
+  <figure><img src="screenshots/cf7_list.png" alt="Contact Form 7"><figcaption>▲ お問い合わせフォーム一覧。フォーム名を開き「メール」タブで通知先を設定します</figcaption></figure>
+  <div class="callout stop"><span class="ttl">🚫 触らないこと</span><p>フォーム本文に書かれた <code>[your-name]</code> <code>[your-email]</code> のような<b>角カッコのタグは消さない</b>でください。お客様の入力内容が届かなくなります。変えるのは原則「送信先」メールアドレスのみにしてください。</p></div>
+  <div class="callout tip"><span class="ttl">💡 補足</span><p>送信完了は GA4（アクセス解析）で「お問い合わせ完了」として計測されています（B-10参照）。フォームの項目自体を変えると計測がずれる場合があるため、項目変更は慎重に行ってください。</p></div>
+</section>
+
+<!-- A-8 やってはいけない -->
+<section>
+  <h2>Part A ｜ 8. 触ってはいけないこと（重要） <span class="pt">A-8</span></h2>
+  <p>以下は、操作を誤るとサイト全体が表示されなくなったり、検索順位や問い合わせに影響する可能性がある箇所です。<b>変更したい場合は、必ず事前にバックアップを取り、慎重に行ってください。</b></p>
+  <table>
+    <thead><tr><th style="width:42%">場所</th><th>理由</th></tr></thead>
+    <tbody>
+      <tr><td>「外観」→「テーマ」の切替・削除</td><td>デザインがすべて失われます。現在のテーマは「SWELL CHILD（子テーマ）」が正です。</td></tr>
+      <tr><td>「外観」→「テーマファイルエディター」<br>「カスタマイズ」内のコード/追加CSS</td><td>サイト全体のデザインを制御しています。誤編集で全ページが崩れる恐れ。</td></tr>
+      <tr><td>「設定」→「表示設定」<br>「設定」→「パーマリンク」</td><td>トップページ指定やURL構造が変わると、全ページのURLが変化し、SEO・外部リンク・ブックマークが無効になります。</td></tr>
+      <tr><td>「プラグイン」の削除・有効/無効の切替</td><td>SWELL／TablePress／Contact Form 7／SEO 等は表示・フォーム・計測に必須です。</td></tr>
+      <tr><td>フッターの会社情報・<b>探偵業届出証明書番号</b></td><td>探偵業法 第10条の表示義務に関わる項目です（B-8）。</td></tr>
+      <tr><td>WordPress本体・テーマ・プラグインの「更新」通知</td><td>更新自体は重要ですが、まれに表示崩れが出ます。実行前に一報いただけると安全です。</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- A-9 困ったとき -->
+<section>
+  <h2>Part A ｜ 9. 困ったとき <span class="pt">A-9</span></h2>
+  <table>
+    <thead><tr><th style="width:42%">症状</th><th>対処</th></tr></thead>
+    <tbody>
+      <tr><td>保存したのにサイトに反映されない</td><td>表示の一時保存（キャッシュ）が原因のことが多いです。数分待つ、またはブラウザを「スーパーリロード」（Mac: ⌘+Shift+R／Win: Ctrl+F5）してください。</td></tr>
+      <tr><td>編集後に画面が崩れた／真っ白</td><td>直前の操作を取り消します（編集画面なら ⌘/Ctrl+Z）。保存していなければ、保存せず画面を離れれば元に戻ります。</td></tr>
+      <tr><td>誤ってページや画像を消した</td><td>慌てず、まずは「ゴミ箱」を確認します（固定ページ・メディアともゴミ箱から復元できます）。バックアップからの復旧も可能です。</td></tr>
+    </tbody>
+  </table>
+  <div class="callout tip"><span class="ttl">💡 安全のコツ</span><p>判断に迷う操作は、<b>行う前に必ずバックアップ</b>（さくらのバックアップ＆ステージング、または BackWPup）を取得してから進めてください。重要な変更の前には、現在の状態を控えておくと安心です。</p></div>
+</section>
+
+<!-- ===================== PART B ===================== -->
+
+<!-- B-0 -->
+<section>
+  <h2>Part B ｜ 0. 全体アーキテクチャ <span class="pt">B-0</span></h2>
+  <p>ここから先は、HTML/CSS（および WordPress テーマ）の知識がある方が、テーマ本体まで編集するための技術解説です。</p>
+  <h3>テーマ構成：SWELL（親）＋ SWELL CHILD（子テーマ）</h3>
+  <p>本サイトは有料テーマ <b>SWELL</b> を親テーマとし、その上に <b>子テーマ「SWELL CHILD」</b>（ディレクトリ名 <code>swell_child</code>）を作成して、サイト固有のデザイン・機能を実装しています。SWELL 本体はアップデートで上書きされるため、カスタマイズはすべて子テーマ側に置く「子テーマ方式」を採用しています（＝SWELLを更新してもカスタマイズは消えません）。</p>
+  <table>
+    <thead><tr><th>レイヤー</th><th>役割</th></tr></thead>
+    <tbody>
+      <tr><td>SWELL（親テーマ）</td><td>WordPressテーマの土台。ヘッダー/フッター/投稿テンプレート/ブロック等の基本機能。直接編集しない。</td></tr>
+      <tr><td>SWELL CHILD（子テーマ）</td><td>本サイト固有の配色・書体・レイアウト・トップページ・フッター・計測タグ等。<b>編集対象はここ</b>。</td></tr>
+      <tr><td>固定ページ本文（DB）</td><td>各ページの文章。トップ（ホーム）は専用HTML部品を本文に保持。テーマCSSと組み合わせて表示。</td></tr>
+    </tbody>
+  </table>
+  <div class="callout tip"><span class="ttl">💡 設計思想</span><p>「2014年製のクラシックHTMLで作られた既存ページ」を、子テーマCSS（<code>.post_content</code> への一括スタイル）でまとめて今のデザインに寄せる方式を取っています。本文HTMLは極力書き換えず、見た目はCSSで制御しています。</p></div>
+</section>
+
+<!-- B-1 ファイル構成 -->
+<section>
+  <h2>Part B ｜ 1. ファイル構成 <span class="pt">B-1</span></h2>
+  <p>子テーマ <code>swell_child/</code> の構成は次の通りです（サーバー上のパス：<code>/wp-content/themes/swell_child/</code>）。</p>
+<pre><span class="c"># /wp-content/themes/swell_child/</span>
+swell_child/
+├── style.css            <span class="c">… 全デザイン（トークン定義＋セクション §1〜§H）。テーマ情報ヘッダも兼ねる</span>
+├── functions.php        <span class="c">… 機能（CSS読込・favicon・GA4・CF7計測・1カラム化・フッター/ヘッダー注入）</span>
+├── parts/
+│   └── ots-footer.html  <span class="c">… フッターのHTML（pre-CTA帯＋会社情報＋探偵業届出番号＋リンク）</span>
+└── assets/
+    ├── ots-logo.png       <span class="c">… ヘッダーの会社ロゴ（探偵犬マスコット＋社名）</span>
+    ├── fv-bg-city.jpg     <span class="c">… ファーストビュー背景（熊本市街・現行）</span>
+    ├── fv-bg-dark.jpg     <span class="c">… 旧FV背景（和室・未使用）</span>
+    ├── fv-a.jpg / fv-bg.jpg<span class="c"> … 旧FV背景候補（未使用）</span>
+    ├── favicon-32.png     <span class="c">… ファビコン（32px）</span>
+    ├── favicon-180.png    <span class="c">… Apple touch icon（180px）</span>
+    └── favicon-192.png    <span class="c">… ファビコン（192px）</span></pre>
+  <p>編集の中心は <code>style.css</code> と <code>functions.php</code> の2ファイル、必要に応じて <code>parts/ots-footer.html</code> です。</p>
+</section>
+
+<!-- B-2 style.css -->
+<section>
+  <h2>Part B ｜ 2. style.css の構造 <span class="pt">B-2</span></h2>
+  <h3>(1) デザイントークン（:root のCSS変数）</h3>
+  <p>配色と書体は <code>style.css</code> 冒頭の <code>:root</code> に CSS変数で集約しています。<b>ここを変えるとサイト全体に反映</b>されます。</p>
+<pre>:root {
+  <span class="k">--ots-primary:</span> <span class="s">#E87309;</span> <span class="c">/* メインのオレンジ（ボタン/見出し罫/帯/アクセント） */</span>
+  <span class="k">--ots-deep:</span>    <span class="s">#972C00;</span> <span class="c">/* 締めの濃いオレンジ（大見出し文字色など） */</span>
+  <span class="k">--ots-cream:</span>   <span class="s">#FFFBF0;</span> <span class="c">/* 背景の生成り */</span>
+  <span class="k">--ots-cream-2:</span> <span class="s">#F5EFE2;</span> <span class="c">/* セクション交互の背景 */</span>
+  <span class="k">--ots-gold:</span>    <span class="s">#DEA57D;</span> <span class="c">/* 見出し下線などの細い金茶罫 */</span>
+  <span class="k">--ots-body:</span>    <span class="s">#1A1A1A;</span> <span class="c">/* 本文テキスト色 */</span>
+  <span class="k">--ots-font:</span>    <span class="s">"Klee One", ...;</span> <span class="c">/* 確定書体（教科書体＝Klee One） */</span>
+}</pre>
+
+  <h3>(2) セクション地図</h3>
+  <p><code>style.css</code> は番号付きセクションで構成されています。改修の履歴上、後半（§A〜§H）は前半セクションを <code>!important</code> で上書きして最新仕様を反映しています。<b>同じ要素を編集する時は、後ろのセクションほど優先される</b>点に注意してください。</p>
+  <table>
+    <thead><tr><th style="width:14%">セクション</th><th>担当</th></tr></thead>
+    <tbody>
+      <tr><td>:root</td><td>配色・書体トークン</td></tr>
+      <tr><td>§1 / §1b</td><td>ヘッダー帯、ヘッダー右CTA（電話＋無料相談 <code>.ots-hcta</code>）</td></tr>
+      <tr><td>§2</td><td>ページタイトル・パンくず</td></tr>
+      <tr><td>§3</td><td><b>本文 <code>.post_content</code> 一括スタイル</b>（見出し/段落/リスト/画像/表）＝全下層ページの見た目はここ</td></tr>
+      <tr><td>§4</td><td>ボタン（WP/SWELLボタンブロック）</td></tr>
+      <tr><td>§5</td><td>フッター＋pre-CTA帯＋探偵業届出番号枠（<code>.ots-footer</code> 系）</td></tr>
+      <tr><td>§6</td><td>ファーストビュー（FV）基本（<code>.ots-fv</code> 系・縦書き）</td></tr>
+      <tr><td>§7</td><td>フロントページのSWELL既定UI抑止＋FVフルブリード</td></tr>
+      <tr><td>§8</td><td>トップページ各セクション（<code>.ots-sec</code> / カード / 流れ / 料金 / CTA帯）</td></tr>
+      <tr><td>§9</td><td>長文ページの可読化オプション（既定OFF・<code>body.ots-readable</code>）</td></tr>
+      <tr><td>§A</td><td>ヘッダー白化＋公式ロゴ画像化（移管時）</td></tr>
+      <tr><td>§B</td><td>FV縦書きの自然フロー化＋モバイルは横書きへ</td></tr>
+      <tr><td>§C</td><td>調査メニューカードの中央揃え</td></tr>
+      <tr><td>§D</td><td>モバイル不具合修正（SPヘッダーCTA非表示・カードアイコン視認化・料金表横スクロール・理由カード）</td></tr>
+      <tr><td>§E</td><td>FVのCTAボタン＋モバイルFV調整</td></tr>
+      <tr><td>§F</td><td>（旧）短見出しFV＋濃い背景。<b>現在は §H で上書き</b></td></tr>
+      <tr><td>§G</td><td>（旧）代表挨拶のPC縦書き。<b>現在はFVに統合済</b></td></tr>
+      <tr><td>§H</td><td><b>最新：クライアント修正反映</b>（FV背景=市街写真＋暗スクリム×白文字／梅木縦書き＋3バッジ／明るいオレンジ／ヘッダー隙間詰め／CTA横並び）</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn"><span class="ttl">⚠️ 上書き構造に注意</span><p>FVや配色は §6/§F/§H のように複数セクションで触れています。挙動を変えたい時は、まず<b>最後（§H）に該当ルールがないか</b>を確認し、無ければ §H の末尾に追記するのが安全です（後勝ち）。</p></div>
+</section>
+
+<!-- B-3 配色書体 -->
+<section>
+  <h2>Part B ｜ 3. 配色・書体の変更方法 <span class="pt">B-3</span></h2>
+  <h3>色を変える</h3>
+  <p>基本は <code>:root</code> のトークンを書き換えるだけで全体に反映されます。例：メインオレンジをさらに変えるなら <code>--ots-primary</code> の値を変更します。</p>
+  <p>ただし一部のボタン等は、過去の上書き（§D・§H）で <code>--ots-primary</code> を <code>!important</code> 直書きしている箇所があります（例：ヘッダー無料相談ボタン <code>.ots-hcta__form</code>）。トークンを変えても変わらない要素があれば、§H 付近の該当ルールを確認してください。</p>
+  <h3>書体を変える</h3>
+  <p>本文書体「Klee One（教科書体）」は <code>functions.php</code> の <code>wp_enqueue_style</code> で Google Fonts から読み込み、<code>:root --ots-font</code> で適用しています。書体変更は両方（読み込みURLとトークン）の修正が必要です。</p>
+<pre><span class="c">// functions.php（抜粋）</span>
+wp_enqueue_style(
+  <span class="s">'ots-klee-one'</span>,
+  <span class="s">'https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&amp;display=swap'</span>,
+  array(), null
+);</pre>
+</section>
+
+<!-- B-4 functions.php -->
+<section>
+  <h2>Part B ｜ 4. functions.php のフック一覧 <span class="pt">B-4</span></h2>
+  <p>子テーマの機能はすべて <code>functions.php</code> のフックで実装しています。SWELLのヘッダー内にHTMLを差し込むPHPフックが無いため、ヘッダーのロゴ・CTAは <b>JavaScriptでDOMに注入</b>しています（後述 B-7）。</p>
+  <table>
+    <thead><tr><th style="width:34%">フック / 関数</th><th>役割</th></tr></thead>
+    <tbody>
+      <tr><td><code>wp_enqueue_scripts</code></td><td>Klee One フォント＋子テーマ <code>style.css</code> の読み込み（親テーマの後）</td></tr>
+      <tr><td><code>wp_head</code>（preconnect）</td><td>Google Fonts への事前接続（初期表示高速化）</td></tr>
+      <tr><td><code>wp_head</code>（favicon）</td><td>ファビコン（32/192）＋Apple touch icon（180）の <code>&lt;link&gt;</code> 出力</td></tr>
+      <tr><td><code>wp_head</code>（GA4）</td><td>GA4 計測タグ <code>gtag.js</code>（測定ID <code>G-R4QNT2LK2X</code>）</td></tr>
+      <tr><td><code>filter: swell_is_show_sidebar</code></td><td>全ページ1カラム化（サイドバー非表示）。SWELL公式フィルタ</td></tr>
+      <tr><td><code>wp_footer</code>（フッター出力）</td><td><code>parts/ots-footer.html</code> を読み込んで出力（B-8）</td></tr>
+      <tr><td><code>wp_footer</code>（CF7→GA4）</td><td>フォーム送信完了 <code>wpcf7mailsent</code> を捕捉し GA4 イベント <code>generate_lead</code> を送信（B-10）</td></tr>
+      <tr><td><code>wp_footer</code>（ヘッダー注入JS）</td><td>ヘッダーへ <code>.ots-hcta</code>（電話＋無料相談）を挿入＋ロゴを公式画像に置換（B-7）</td></tr>
+    </tbody>
+  </table>
+  <div class="callout tip"><span class="ttl">💡 補足：なぜ wp_footer でヘッダーを操作するのか</span><p>SWELLのヘッダーバー内に直接HTMLを差し込むPHPフックが提供されていないため、<code>wp_footer</code> で出力したJSが <code>.l-header__inner</code> を見つけて要素を追加する方式を採っています。読み込み直後に一瞬要素が無い状態（FOUC）が起こり得ますが、機能上の問題はありません。</p></div>
+</section>
+
+<!-- B-5 トップ -->
+<section>
+  <h2>Part B ｜ 5. トップページの仕組み <span class="pt">B-5</span></h2>
+  <p>トップページは「固定ページ『ホーム』の本文」＋「子テーマCSS（§6〜§8・§H）」の2つで成り立っています。</p>
+  <ul class="plain">
+    <li><b>マークアップ</b>：固定ページ「ホーム」の本文に、<code>.ots-fv</code>（FV）／<code>.ots-sec</code>（各セクション）／<code>.ots-card</code>（調査メニュー）／<code>.ots-reason</code>（選ばれる理由）／<code>.ots-flow</code>（流れ）／<code>.ots-price</code>（料金）/<code>.ots-cta</code>（CTA帯）などの専用クラスHTMLを保持。</li>
+    <li><b>スタイル</b>：これらの <code>.ots-*</code> は子テーマ <code>style.css</code> の §8（と §6/§H）でデザイン。<code>.post_content</code> 配下に入るため、§3 の本文一括スタイルに負けないよう <code>.post_content .ots-*</code> と詳細度を上げています。</li>
+    <li><b>リポジトリ上のソース</b>：トップ本文の元データは制作側リポジトリの <code>site/local-staging/home-content.html</code> に保管。サーバー反映時はこの内容を固定ページ「ホーム」の本文（カスタムHTML）に貼り付けています。</li>
+  </ul>
+  <p>トップの構成順：<b>FV（梅木代表メッセージ・縦書き）→ 調査メニュー6種 → 選ばれる理由4 → ご相談の流れ4 → 料金（一例）→ CTA帯</b>。各セクションは <code>left:50%; margin-left:-50vw; width:100vw</code> で画面全幅（フルブリード）に広げています。</p>
+  <div class="callout warn"><span class="ttl">⚠️ 編集時</span><p>トップの文章を変える場合、<b>固定ページ「ホーム」をHTMLとして編集</b>します（クラスやタグ構造を壊さないこと）。クラス名を消すとそのセクションのデザインが外れます。構造ごと変えたい場合は <code>home-content.html</code> 側で編集してから貼り直すと安全です。</p></div>
+</section>
+
+<!-- B-6 FV -->
+<section>
+  <h2>Part B ｜ 6. ファーストビュー（FV）の構造 <span class="pt">B-6</span></h2>
+  <p>FVは「3バッジ＋梅木代表メッセージの縦書き」を、客提供の熊本市街写真に暗いスクリム（覆い）を重ねた背景の上に白文字で表示しています。</p>
+  <h4>マークアップ（固定ページ「ホーム」本文内）</h4>
+<pre>&lt;section class="ots-fv"&gt;
+  &lt;div class="ots-fv__inner"&gt;
+    &lt;div class="ots-fv__badges"&gt;
+      &lt;span class="ots-fv__badge"&gt;熊本県弁護士協同組合特約店&lt;/span&gt;
+      &lt;span class="ots-fv__badge"&gt;熊本県公安委員会届出　第93090018号&lt;/span&gt;
+      &lt;span class="ots-fv__badge"&gt;創業20年以上&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="ots-fv__vertical"&gt;       <span class="c">&lt;!-- writing-mode: vertical-rl（右→左） --&gt;</span>
+      &lt;p class="ots-fv__block ots-fv__lead"&gt; … &lt;/p&gt;
+      &lt;p class="ots-fv__block ots-fv__call"&gt; … &lt;/p&gt;
+      &lt;p class="ots-fv__block ots-fv__close"&gt; … &lt;/p&gt;
+      &lt;p class="ots-fv__block ots-fv__sign"&gt;…&lt;span class="ots-fv__sign-name"&gt;代表　梅木　栄二&lt;/span&gt;&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</pre>
+  <h4>スタイルの要点（§6・§B・§H）</h4>
+  <ul class="plain">
+    <li><b>背景</b>：<code>--ots-fv-bg-city</code>（<code>assets/fv-bg-city.jpg</code>）＋暗いグラデーションのスクリムを重ね、白文字を読めるようにしている（§H）。背景を変える時はこの変数と画像を差し替え。</li>
+    <li><b>縦書き</b>：<code>writing-mode: vertical-rl</code>。HTMLの先頭ブロックが画面の<b>右</b>に来る（右→左の読み順）。PCは縦書き、<b>モバイル（≤880px）は横書きに自動切替</b>（§B/§H・狭い画面で縦書きが見切れるのを防ぐため）。</li>
+    <li><b>文字色</b>：写真の上に乗るため §H で白文字＋影に上書き（§6の濃色指定を打ち消し）。</li>
+    <li><b>バッジ</b>：半透明の地＋オレンジ枠の白文字ピル（<code>.ots-fv__badge</code>）。</li>
+  </ul>
+  <div class="callout warn"><span class="ttl">⚠️ 探偵業届出番号</span><p>バッジ中の「第93090018号」は探偵業法に基づく表示です。文言変更は必ず確認のうえ行ってください（B-8も参照）。</p></div>
+</section>
+
+<!-- B-7 ヘッダー -->
+<section>
+  <h2>Part B ｜ 7. ヘッダーの仕組み <span class="pt">B-7</span></h2>
+  <p>ヘッダーは SWELL 標準のヘッダーバーをベースに、子テーマで次の3点をカスタムしています。</p>
+  <ul class="plain">
+    <li><b>白化</b>：§A で <code>.l-header__inner</code> 等の背景を白に上書き（SWELLは <code>.l-header__inner</code> に色を当てるため、ここを白に）。ナビ文字は濃色に。</li>
+    <li><b>ロゴ画像化</b>：<code>functions.php</code> のJSで <code>.c-headLogo__link</code> の中身を公式ロゴ画像（<code>assets/ots-logo.png</code>）に置換。</li>
+    <li><b>右CTAクラスタ</b>：同JSで <code>.ots-hcta</code>（電話 <code>0120-556-624</code>＋無料相談ボタン）を <code>.l-header__inner</code> 末尾に挿入。配色・横並びは §1b/§H。<b>モバイル（≤880px）は §D で非表示</b>（ハンバーガーメニュー＋本文内CTAで代替）。</li>
+  </ul>
+  <p>注入JSの該当部（<code>functions.php</code>・<code>wp_footer</code>）：</p>
+<pre>var html = <span class="s">'&lt;div class="ots-hcta"&gt;&lt;a class="ots-hcta__tel" href="tel:0120556624"&gt;0120-556-624&lt;/a&gt;'</span>
+  + <span class="s">'&lt;a class="ots-hcta__form" href="/contact"&gt;無料相談&lt;/a&gt;&lt;/div&gt;'</span>;
+document.querySelectorAll(<span class="s">'.l-header__inner, .l-fixHeader__inner'</span>).forEach(...inject...);
+<span class="c">// ロゴ置換</span>
+document.querySelectorAll(<span class="s">'.c-headLogo__link'</span>).forEach(... img.ots-logo-img ...);</pre>
+  <div class="callout tip"><span class="ttl">💡 SWELLカスタマイザー併用</span><p>ヘッダーの色やロゴは本来 SWELL の「カスタマイズ」でも設定可能ですが、本サイトは確定デザインを忠実に再現するため子テーマ側（CSS＋JS）で固定しています。カスタマイザーで設定すると競合する場合があるため、ヘッダー変更は子テーマ側で行ってください。</p></div>
+</section>
+
+<!-- B-8 フッター -->
+<section>
+  <h2>Part B ｜ 8. フッターの仕組み <span class="pt">B-8</span></h2>
+  <p>フッターは <b>SWELL既定フッターを非表示（§5の <code>#footer.l-footer{display:none}</code>）にし、子テーマの専用フッターで置換</b>しています。HTMLは <code>parts/ots-footer.html</code>、出力は <code>functions.php</code> の <code>wp_footer</code>、配色は §5。</p>
+  <p>構成：<b>pre-CTA帯</b>（<code>.ots-precta</code>・全幅オレンジの相談誘導）＋<b>本体フッター</b>（<code>.ots-footer</code>・会社情報／探偵業届出番号／サイトメニュー／法務リンク）。</p>
+  <div class="callout stop">
+    <span class="ttl">🚫 探偵業届出証明書番号（法令必須表示）</span>
+    <p><code>parts/ots-footer.html</code> 内 <code>.ots-footer__license</code> の「<b>第93090018号（熊本県公安委員会）</b>」は、探偵業法 第10条に基づく標識（表示）義務に該当します。<b>削除・改変しないでください</b>。会社情報（住所「法務ビル202号」／電話）も確定値です。変更が必要な場合は必ず制作と確認のうえ行ってください。</p>
+  </div>
+  <p>フッターのリンクは本番の pretty URL（末尾スラッシュ無し）前提です。スラッグ変更時はここのリンクも要修正。</p>
+</section>
+
+<!-- B-9 レスポンシブ -->
+<section>
+  <h2>Part B ｜ 9. レスポンシブ方針 <span class="pt">B-9</span></h2>
+  <ul class="plain">
+    <li>主要ブレークポイントは <code>@media (max-width: 880px)</code>（モバイル）。一部 <code>768px</code>（表の横スクロール）も使用。</li>
+    <li>FVの縦書きメッセージは PC=縦書き、モバイル=横書きに自動切替（§B/§H）。長文縦書きが狭い画面で見切れるのを防ぐ標準的な対応です。</li>
+    <li>調査メニュー（3列）・選ばれる理由（2列）はモバイルで1列、流れ（4列）は2列に（§8末尾の <code>@media</code>）。</li>
+    <li>ヘッダー右CTA（<code>.ots-hcta</code>）はモバイルで非表示（§D）。</li>
+    <li>料金表はモバイルで横スクロール可能（§D）。</li>
+  </ul>
+</section>
+
+<!-- B-10 GA4 -->
+<section>
+  <h2>Part B ｜ 10. GA4・お問い合わせ計測の連携 <span class="pt">B-10</span></h2>
+  <p>アクセス解析は GA4（測定ID <code>G-R4QNT2LK2X</code>）。<code>functions.php</code> の <code>wp_head</code> で <code>gtag.js</code> を読み込み、全ページのPVを計測します。</p>
+  <p>お問い合わせフォーム（Contact Form 7）の送信完了は、CF7が発火する <code>wpcf7mailsent</code> イベントを捕捉し、GA4イベント <code>generate_lead</code> として送信＝<b>問い合わせ完了をコンバージョン（CV）計測</b>しています。</p>
+<pre>document.addEventListener(<span class="s">'wpcf7mailsent'</span>, function(e){
+  gtag(<span class="s">'event'</span>, <span class="s">'generate_lead'</span>, { event_category:<span class="s">'contact'</span>, ... });
+});</pre>
+  <div class="callout tip"><span class="ttl">💡 GA4側の設定</span><p>GA4管理画面で <code>generate_lead</code> を「キーイベント（旧コンバージョン）」に指定すると、問い合わせ完了数が計測されます。フォーム項目を大きく変える場合は計測条件の見直しが必要です。</p></div>
+</section>
+
+<!-- B-11 反映 -->
+<section>
+  <h2>Part B ｜ 11. 本番サーバーへの反映方法（FTP） <span class="pt">B-11</span></h2>
+  <p>テーマファイル（<code>style.css</code> / <code>functions.php</code> / <code>parts/</code> / <code>assets/</code>）を変更したら、FTPでサーバーの該当パスへアップロードします。</p>
+  <table class="kv">
+    <tbody>
+      <tr><th>サーバー</th><td>さくらのレンタルサーバ スタンダード</td></tr>
+      <tr><th>テーマのパス</th><td><code>~/www/ots/wp-content/themes/swell_child/</code></td></tr>
+      <tr><th>FTP接続情報</th><td>別途お渡し（FTPホスト／アカウント／パスワード）</td></tr>
+      <tr><th>反映確認</th><td>アップロード後、ブラウザをスーパーリロード（キャッシュ回避）して確認</td></tr>
+    </tbody>
+  </table>
+  <ul class="plain">
+    <li><code>style.css</code> はファイル更新時刻でキャッシュバスティングしているため（<code>functions.php</code> の <code>filemtime</code>）、上書きすれば自動で新CSSが読み込まれます。</li>
+    <li>固定ページ本文（トップHTML等）は<b>FTPではなく管理画面</b>で編集します（DB保存のため）。</li>
+  </ul>
+  <div class="callout warn"><span class="ttl">⚠️ 反映前にバックアップ</span><p>本番ファイルを差し替える前に、必ず現行ファイルを控える／サーバーのバックアップ（さくらのバックアップ＆ステージング、または管理画面の BackWPup）を取得してください。</p></div>
+</section>
+
+<!-- B-12 レシピ -->
+<section>
+  <h2>Part B ｜ 12. よくある変更レシピ <span class="pt">B-12</span></h2>
+
+  <h3>① メインの色を変える</h3>
+  <p><code>style.css</code> の <code>:root --ots-primary</code> を変更 → FTPで <code>style.css</code> をアップ。変わらない要素は §H 付近の <code>!important</code> 直書きを確認。</p>
+
+  <h3>② FVのキャッチ（梅木メッセージ）を変える</h3>
+  <p>管理画面で固定ページ「ホーム」をHTML編集 →<code>.ots-fv__block</code> 内のテキストを変更（クラス・タグは残す）。または <code>home-content.html</code> を編集して本文へ貼り直し。</p>
+
+  <h3>③ FVの背景写真を変える</h3>
+  <p>新しい画像を <code>assets/</code> に置き、§H の <code>--ots-fv-bg-city</code> のファイル名を差し替え → FTPで <code>style.css</code> と画像をアップ。スクリムの濃さは §H の <code>linear-gradient(...)</code> の不透明度で調整。</p>
+
+  <h3>④ フッターの会社情報・リンクを変える</h3>
+  <p><code>parts/ots-footer.html</code> を編集 → FTPでアップ。<b>探偵業届出番号は確認のうえ</b>。</p>
+
+  <h3>⑤ 調査メニューのアイコンを変える</h3>
+  <p>現在は <code>.ots-card__icon</code> 内のインラインSVG。画像に変える場合はSVGを <code>&lt;img&gt;</code> に置換し、<code>.ots-card__icon</code> のサイズ指定を調整。</p>
+</section>
+
+<!-- B-13 注意点 -->
+<section>
+  <h2>Part B ｜ 13. 編集時の注意点 <span class="pt">B-13</span></h2>
+  <ul class="plain">
+    <li><b>後勝ち・<code>!important</code> の積層</b>：style.css は改修履歴が積み重なっており、同じ要素を複数セクションで上書きしています。狙い通り効かない時は、より後ろ（§Hなど）の同名ルールを確認。新規上書きは末尾追記が安全。</li>
+    <li><b>本文HTMLは極力書き換えない</b>：下層20ページは既存のクラシックHTML。見た目は <code>.post_content</code> 一括CSS（§3）で制御しています。本文構造を変えると個別調整が必要になります。</li>
+    <li><b>パーマリンク（URL）は不変</b>：SEO維持のためスラッグ・URL構造は変更しないでください。</li>
+    <li><b>探偵業届出番号・会社情報</b>：法令表示・確定情報のため改変前に確認を。</li>
+    <li><b>変更前にバックアップ</b>：FTP上書き・DB編集の前に必ず控えを取得。</li>
+    <li><b>SWELLライセンス</b>：SWELLは購入者アカウントに紐づく有料テーマです。アップデートやサポートには購入アカウントが必要です。</li>
+  </ul>
+  <div class="callout warn"><span class="ttl">⚠️ 引き継ぎにあたって</span><p>本マニュアルは、テーマ・コード構造を編集できる方への引き継ぎを想定しています。FTP上書き・DB編集・パーマリンクなど影響範囲の大きい操作は、<b>必ずバックアップを取得してから</b>実施してください。</p></div>
+</section>
+
+</body>
+</html>

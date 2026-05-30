@@ -20,8 +20,8 @@
      よって本文は .post_content への一括CSSで確定Plan Aトンマナへ寄せる方式が成立する。
    ========================================================= */
 :root {
-  --ots-primary:  #D06112; /* Primary Orange（ヘッダー帯/CTA/アクセント） */
-  --ots-deep:     #972C00; /* Deep Orange（大見出し） */
+  --ots-primary:  #E87309; /* Primary Orange（2026-05-23 客指定の明るいオレンジ #e87309。旧 #D06112） */
+  --ots-deep:     #972C00; /* Deep Orange（大見出しの締め色。本文見出しの可読性のため濃色維持） */
   --ots-cream:    #FFFBF0; /* Cream（背景） */
   --ots-cream-2:  #F5EFE2; /* Cream-2（セクション区切り） */
   --ots-gold:     #DEA57D; /* Gold（細罫・装飾） */
@@ -790,3 +790,106 @@ body.ots-quiet-strong .post_content strong {
   .post_content .ots-message__sign { margin: 0 0 0 44px !important; text-align: start; }
   .post_content .ots-msg .ots-sec__head { margin-bottom: 40px; }
 }
+
+/* =========================================================
+   2026-05-23 §H クライアント修正依頼(Notion)対応
+   (1)FV背景=客提供の熊本市街写真(fv-bg-city)＋暗スクリム×白文字
+   (2)梅木縦書きメッセージをFVに復活(右→左)＋3バッジ
+   (3)明るいオレンジ #e87309 は :root --ots-primary で全体反映済
+   (4)ヘッダーとFVの隙間詰め (5)ヘッダーCTA横並び (6)無料相談=明るいオレンジ
+   ※ 5/23 §F(短見出しFV)/§G(挨拶縦書き)を上書き＝モック準拠へ。home-content も差替済。
+   ========================================================= */
+:root { --ots-fv-bg-city: url("./assets/fv-bg-city.jpg"); }
+
+/* (1) 背景＝市街写真＋暗いスクリム（白文字の可読性確保）。§F の dark和室背景を上書き */
+.post_content .ots-fv {
+  background: linear-gradient(180deg, rgba(16,24,38,.60) 0%, rgba(16,24,38,.46) 48%, rgba(16,24,38,.70) 100%), var(--ots-fv-bg-city) center/cover no-repeat !important;
+  padding: 56px 28px 76px !important;
+}
+.post_content .ots-fv__inner { align-items: center !important; text-align: center; gap: 30px; max-width: 1180px; }
+
+/* (2-a) 3バッジ（写真上に映える半透明地＋オレンジ枠の白文字ピル） */
+.post_content .ots-fv__badges { display: flex; gap: 10px 12px; justify-content: center; flex-wrap: wrap; }
+.post_content .ots-fv__badge {
+  display: inline-flex; align-items: center;
+  background: rgba(0,0,0,.34); color: #fff;
+  padding: 7px 16px; border-radius: 4px;
+  font-size: 13px; font-weight: 600; letter-spacing: .08em;
+  border: 1px solid rgba(232,115,9,.85);
+  text-shadow: 0 1px 4px rgba(0,0,0,.4);
+}
+
+/* (2-b) 縦書きメッセージ＝白文字化（§6 の濃色・薄グロー影を打ち消す） */
+.post_content .ots-fv__block,
+.post_content .ots-fv__lead,
+.post_content .ots-fv__call,
+.post_content .ots-fv__close,
+.post_content .ots-fv__sign,
+.post_content .ots-fv__sign-name {
+  color: #fff !important;
+  text-shadow: 0 2px 12px rgba(0,0,0,.6), 0 0 4px rgba(0,0,0,.4) !important;
+}
+.post_content .ots-fv__call  { color: rgba(255,255,255,.96) !important; }
+.post_content .ots-fv__close { color: rgba(255,255,255,.9)  !important; }
+.post_content .ots-fv__sign  { color: rgba(255,255,255,.82) !important; }
+
+@media (min-width: 881px) {
+  /* デスクトップ：縦書き右→左を確実に有効化（§6/§B を踏襲しつつ高さ再指定） */
+  .post_content .ots-fv__vertical {
+    writing-mode: vertical-rl !important; text-orientation: mixed;
+    display: block !important; height: clamp(440px, 56vh, 560px) !important;
+    width: max-content; max-width: 100%; margin: 0 auto; padding: 4px 4px;
+    /* (7) 頭揃え（客5/27依頼・IMG_0233準拠）：縦書きでは text-align がインライン軸＝縦方向に
+       効くため、§H .ots-fv__inner の text-align:center を打ち消して start＝各列の文字を天揃えに。
+       既定centerだと短い列（結び・署名）が縦中央に沈む現象を解消。バッジ/縦書きブロックの
+       水平センタリング（inner text-align / margin:auto）には影響しない。 */
+    text-align: start !important;
+  }
+  .post_content .ots-fv__block { margin: 0 0 0 42px !important; }
+}
+
+@media (max-width: 880px) {
+  /* モバイル：写真背景の padding を上書き（§F mobile の和室背景指定を打ち消す） */
+  .post_content .ots-fv {
+    background: linear-gradient(180deg, rgba(16,24,38,.58) 0%, rgba(16,24,38,.5) 50%, rgba(16,24,38,.72) 100%), var(--ots-fv-bg-city) center/cover no-repeat !important;
+    padding: 40px 20px 48px !important;
+  }
+  /* 長い縦書きは狭幅で見切れるため横書き（§B-mobile2 を踏襲）＝白文字は上の base が適用 */
+  .post_content .ots-fv__badge { font-size: 11.5px; padding: 6px 12px; }
+}
+
+/* (4) ヘッダーとFVの隙間を詰める（トップのメインコンテンツ上余白を除去） */
+.home #main, .home .l-mainContent, .home .l-mainContent__inner,
+.home .l-container, .home .l-article { margin-top: 0 !important; padding-top: 0 !important; }
+.home .post_content > .ots-fv:first-child { margin-top: 0 !important; }
+
+/* (5) ヘッダー右CTA（電話＋無料相談）：横並び＋文字折返し防止＋クラスタを縮小させない
+   （狭い幅でボタンが圧縮され「0120-556-/624」「無料相/談」と折返して巨大な卵形になる現象を修正） */
+.ots-hcta { flex-wrap: nowrap !important; flex-shrink: 0; gap: 10px; }
+.ots-hcta__tel, .ots-hcta__form {
+  white-space: nowrap !important;   /* 電話番号・「無料相談」を1行固定 */
+  flex-shrink: 0;                   /* flexで縮められて折返すのを防ぐ */
+  line-height: 1.2;
+}
+.ots-hcta__tel  { font-size: 15px; padding: 8px 16px; }   /* やや小さめで横幅を抑える */
+.ots-hcta__form { font-size: 14px; padding: 9px 18px; }
+.ots-hcta__tel::before { content: "\260E"; font-size: 13px; }
+
+/* (6) 無料相談ボタン＝客指定の明るいオレンジ（旧 deep #972C00 → primary #E87309） */
+.ots-hcta__form { background: var(--ots-primary) !important; color: #fff !important; }
+.ots-hcta__form:hover { background: #cf6207 !important; }
+
+/* (7) #8 調査メニューのアイコンを客提供画像（共有用ロゴ・オレンジ透過PNG）へ差替。
+   .ots-card__icon の円（薄オレンジ地）内に画像を中央配置。SVG指定は img に上書き。 */
+.post_content .ots-card__icon img {
+  width: 40px; height: 40px; object-fit: contain; display: block;
+}
+
+/* (8) 調査メニュー下の「空の白ボックス」除去（客5/28指摘）。
+   原因＝カードの <a class="ots-card"> 内に <h3>/<p> のブロック要素があるため、描画時の
+   the_content フィルタ（wpautop）が各カード直後に空の重複リンク <p><a class="ots-card"></a></p>
+   を生成していた（ページ1929の保存本文はカード6個で正常＝描画時の人工物のみ）。
+   li 直下の <a> が本物・li 直下の <p> が人工物なので、後者と <a> 内のwpautop痕跡を非表示にする。 */
+.post_content .ots-grid3 > li > p { display: none !important; }
+.post_content .ots-card > br { display: none !important; }
+.post_content .ots-card > p:empty { display: none !important; }

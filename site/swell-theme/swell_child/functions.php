@@ -36,6 +36,15 @@ add_action( 'wp_head', function () {
 	echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
 }, 1 );
 
+// ファビコン（会社ロゴの探偵犬マスコットから生成・2026-05-23 客依頼「ファビコンをロゴに設定」）。
+// ※WPサイトアイコン(site_icon)は512px必須＋Customizer経由のため、子テーマから直接 <link> を出力する。
+add_action( 'wp_head', function () {
+	$base = get_stylesheet_directory_uri() . '/assets';
+	echo '<link rel="icon" type="image/png" sizes="32x32" href="' . esc_url( $base . '/favicon-32.png' ) . '">' . "\n";
+	echo '<link rel="icon" type="image/png" sizes="192x192" href="' . esc_url( $base . '/favicon-192.png' ) . '">' . "\n";
+	echo '<link rel="apple-touch-icon" href="' . esc_url( $base . '/favicon-180.png' ) . '">' . "\n";
+}, 1 );
+
 /**
  * 2026-05-22 本番移管時に追加（OTS探偵社）
  */
